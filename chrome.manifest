@@ -1,0 +1,4 @@
+resource react modules/
+content react content/
+overlay chrome://messenger/content/messenger.xul chrome://react/content/messager-overlay.xul
+overlay chrome://messenger/content/specialTabs.xul chrome://react/content/tab-overlay.xul

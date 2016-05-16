@@ -1,0 +1,4 @@
+*.xpi
+.DS_Store
+modules/react
+node_modules

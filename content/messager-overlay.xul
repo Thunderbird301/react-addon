@@ -1,0 +1,19 @@
+<?xml version="1.0"?>
+<overlay id="sample" 
+    xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">
+
+    <script type="application/javascript" src="chrome://react/content/overlay.js"/>
+    <script type="application/javascript" src="chrome://react/content/tab-overlay.js"/>
+
+    <toolbar id="MailToolbarPalette">
+        <toolbarbutton 
+         class="toolbarbutton-1"
+         id="AddressBookTab-button"
+         label="React"
+         tooltiptext="React"
+         oncommand="reactTabType.open();"
+         removable="true"
+
+      />
+    </toolbar>
+</overlay>

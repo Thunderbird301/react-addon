@@ -1,0 +1,28 @@
+<!DOCTYPE html [
+  <!ENTITY % htmlDTD PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "DTD/xhtml1-strict.dtd"> %htmlDTD;
+]>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <!-- This meta charset tag has to be above the license block, or
+       window.arguments is undefined.  See bug 617339.  -->
+  <meta charset="utf-8" />
+    <script type="text/javascript"
+            src="resource://react/lib/react-15.0.2.min.js">
+    </script>
+    <script type="text/javascript"
+            src="resource://react/lib/react-dom-15.0.2.min.js">
+    </script>
+</head>
+  <body>
+    <h1>React</h1>
+    <div id="test"></div>
+    <div id="test-inline"></div>
+    <script>
+        var child1 = React.createElement('li', null, 'First Text Content');
+        var child2 = React.createElement('li', null, 'Second Text Content');
+        var root = React.createElement('ul', { className: 'my-list' }, child1, child2);
+        ReactDOM.render(root, document.getElementById('test-inline'));
+    </script>
+    <script type="text/javascript" src="resource://react/react/test.js"></script>
+  </body>
+</html>

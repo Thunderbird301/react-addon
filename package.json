@@ -1,0 +1,23 @@
+{
+  "name": "tb-addon-react",
+  "version": "1.0.0",
+  "description": "This is a basic example of how to make a Thunderbird add-on. This repo is the result of [tutorial](https://developer.mozilla.org/en-US/Add-ons/Thunderbird/Building_a_Thunderbird_extension).",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Thunderbird301/addon-example.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Thunderbird301/addon-example/issues"
+  },
+  "homepage": "https://github.com/Thunderbird301/addon-example#readme",
+  "dependencies": {
+    "babel-cli": "^6.8.0",
+    "babel-preset-react": "^6.5.0"
+  }
+}
