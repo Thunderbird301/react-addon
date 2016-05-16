@@ -8,6 +8,8 @@ Ensure you have `npm` and `nodejs` installed
 
 Run: 
 
-* `make`
+* For Unix-like systems: `make`
+
+* For Windows: `build.ps1` in powershell
 
 And install the XPI into Thunderbird
