@@ -5,7 +5,7 @@ if(test-path("react.zip")) {
     remove-Item react.zip
 }
 
-npm install
+#npm install
 
 function Add-Zip
 {
