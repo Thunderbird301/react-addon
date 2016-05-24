@@ -1,3 +1,9 @@
+var styles = StyleSheet.create({
+  circle: {
+      borderRadius: 4,
+  },
+});
+
 var HelloWorld = React.createClass({
   render: function() {
     return (
