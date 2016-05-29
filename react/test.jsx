@@ -1,9 +1,3 @@
-var styles = StyleSheet.create({
-  circle: {
-      borderRadius: 4,
-  },
-});
-
 var HelloWorld = React.createClass({
   render: function() {
     return (
@@ -22,17 +16,16 @@ setInterval(function() {
   );
 }, 500);
 
-
-var CommentBox = React.createClass({
-  render: function() {
-    return (
-      <div className="commentBox">
-        <img src="images/1.jpg"/>
-      </div>
-    );
-  }
-});
-ReactDOM.render(
-  <CommentBox />,
-  document.getElementById('sidebar')
-);
+// var CommentBox = React.createClass({
+//   render: function() {
+//     return (
+//       <div className="commentBox">
+//         <img src="images/1.jpg"/>
+//       </div>
+//     );
+//   }
+// });
+// ReactDOM.render(
+//   <CommentBox />,
+//   document.getElementById('sidebar')
+// );
