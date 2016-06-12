@@ -4,6 +4,17 @@
   min-height: 100px;
   min-width: 100px;
   background-color: #0f0;
+  float: left;
+}
+
+#main {
+	background-color: #0000FF;
+	position: relative;
+	width: 70%;
+	height: 100%;
+  	min-height: 100px;
+  	min-width: 100px;
+	left: 30%;
 }
 
 #buttons{
