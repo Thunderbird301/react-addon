@@ -1,6 +1,8 @@
 var Application = Components.classes["@mozilla.org/steel/application;1"].getService(Components.interfaces.steelIApplication);
 
-var details = ["Name","Work Phone", "Home Phone", "Mobile", "Email"];
+var PersonalDetails = ["Name","Home Phone", "Mobile", "Email", "Address"];
+
+var WorkDetails = ["Work Phone", "Work Mobile", "Email", "Address"]
 
 var ContactField = React.createClass({
     getInitialState: function() {
@@ -71,6 +73,7 @@ var ContactSection = React.createClass({
     render: function() {
         return (
           <div className="contact-section">
+            <h1>{this.props.sectionName}</h1>
             {this.state.fields.map(this.eachField)}
           </div>
         );
@@ -78,4 +81,6 @@ var ContactSection = React.createClass({
 });
 
 ReactDOM.render(
-    <ContactSection fieldNames={details}/>, document.getElementById('contact'));
+    <ContactSection sectionName={"Home"} fieldNames={PersonalDetails}/>, document.getElementById('personal'));
+ReactDOM.render(
+    <ContactSection sectionName={"Work"} fieldNames={WorkDetails}/>, document.getElementById('work'));
