@@ -1,4 +1,7 @@
 <?xml version="1.0"?>
+
+<?xml-stylesheet href="chrome://react/content/messenger-overlay.css" type="text/css"?>
+
 <overlay id="sample" 
     xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">
 
