@@ -15,3 +15,17 @@ setInterval(function() {
     document.getElementById('test')
   );
 }, 500);
+
+// var CommentBox = React.createClass({
+//   render: function() {
+//     return (
+//       <div className="commentBox">
+//         <img src="images/1.jpg"/>
+//       </div>
+//     );
+//   }
+// });
+// ReactDOM.render(
+//   <CommentBox />,
+//   document.getElementById('sidebar')
+// );
