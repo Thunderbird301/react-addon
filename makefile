@@ -8,7 +8,11 @@ all: npm react xpi
 
 modules/react/%.js: react/%.jsx
 	mkdir -p $(@D)
-	node_modules/.bin/babel $< -o $@ --presets react 
+ifeq (, $(shell which node )) 
+	nodejs node_modules/.bin/babel $< -o $@ --presets react 
+else
+	node node_modules/.bin/babel $< -o $@ --presets react 
+endif
 
 react: $(LIB)
 xpi: $(NAME_XPI)
