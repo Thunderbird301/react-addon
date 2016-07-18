@@ -1,9 +1,6 @@
-#AddressBookTab-buttonX {
-  list-style-image: url("chrome://messenger/skin/icons/mail-toolbar.svg#address-flat");
-}
-#AddressBookTab-buttonXX {
-  list-style-image: url("chrome://react/content/skin/mail-toolbar.svg#address-flat");
-}
+
+@namespace url("http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul");
+
 #AddressBookTab-button {
-  list-style-image: url("chrome://react/content/skin/glyphicons_071_book.png");
+  list-style-image: url("chrome://messenger/skin/icons/mail-toolbar.svg#address-flat");
 }
