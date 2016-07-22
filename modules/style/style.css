@@ -1,8 +1,9 @@
 #sidebar {
-  width: 30%;
-  height: 100%;
+  width: 30vw;
+  height: 100vh;
   min-height: 100px;
   min-width: 100px;
+  overflow-y: scroll;
   background-color: #0f0;
   float: left;
 }
@@ -10,11 +11,11 @@
 #main {
 	background-color: #0000FF;
 	position: relative;
-	width: 70%;
-	height: 100%;
-  	min-height: 100px;
-  	min-width: 100px;
-	left: 30%;
+	width: auto;
+	height: 100vh;
+  min-height: 100px;
+  min-width: 100px;
+  overflow-y: scroll;
 }
 
 #buttons{
@@ -24,6 +25,7 @@
 body {
   background-color: #f0f0f0;
   color: #0f0f0f;
+  margin: 0;
 }
 
 .circle{
