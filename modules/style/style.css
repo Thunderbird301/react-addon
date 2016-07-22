@@ -1,11 +1,20 @@
 #sidebar {
-  width: 30vw;
+  width: 20vw;
   height: 100vh;
   min-height: 100px;
   min-width: 100px;
-  overflow-y: scroll;
+  overflow-x: hidden;
   background-color: #0f0;
   float: left;
+}
+
+#sidebar-header {
+  height: 10%;
+}
+
+#contacts-list {
+  overflow-y: scroll;
+  height: 90%;
 }
 
 #main {
@@ -16,6 +25,12 @@
   min-height: 100px;
   min-width: 100px;
   overflow-y: scroll;
+  overflow-x: hidden;
+}
+
+#search-bar {
+  margin: 5%;
+  width: 90%;
 }
 
 #buttons{
