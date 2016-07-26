@@ -5,36 +5,31 @@ var PersonalDetails = ["Name","Home Phone", "Mobile", "Email", "Address"];
 var WorkDetails = ["Work Phone", "Work Mobile", "Email", "Address"]
 
 var ContactField = React.createClass({
-    getInitialState: function() {
-        return {editing: false}
-    },
     save: function() {
-        this.props.onChange(ReactDOM.findDOMNode(this.refs.newText).value, this.props.index);
-        this.setState({editing: false});
-    },
-    edit: function() {
-        this.setState({editing: true});
+        Application.console.log("Saving");
+        Application.console.log(this.refs.newText);
+        // this.props.onChange(ReactDOM.findDOMNode(this.refs.newText).value, this.props.index);
     },
     renderDisplay: function() {
+      Application.console.log("display");
         return (
             <div className="field">
                 <p>{this.props.fieldName}
                     : {this.props.content}</p>
-                <button onClick={this.edit}>Edit</button>
             </div>
         );
     },
     renderForm: function() {
+      Application.console.log("form");
         return (
             <div className="field">
                 <p>{this.props.fieldName}: </p>
                 <input type="text" ref="newText" defaultValue={this.props.content} className="form-control"></input>
-                <button onClick={this.save}>Save</button>
             </div>
         )
     },
     render: function() {
-        if (this.state.editing) {
+        if (this.props.editing) {
             return this.renderForm();
         } else {
             return this.renderDisplay();
@@ -49,11 +44,13 @@ var ContactSection = React.createClass({
           fields.push({
               id: this.nextId(),
               fieldName: this.props.fieldNames[i],
-              content: undefined
+              content: undefined,
+              editing: false
           });
         }
         return {
-          fields: fields
+          fields: fields,
+          editing: false
         };
     },
     nextId: function() {
@@ -65,19 +62,50 @@ var ContactSection = React.createClass({
         fields[i].content = newText;
         this.setState({fields: fields});
     },
-    eachField: function(field, i) {
+    save: function() {
+        Application.console.log("Saving");
+        var fields = this.state.fields;
+        this.setState({fields: fields}, function() {
+          for (var ref in this.refs) {
+             Application.console.log(this.refs[ref]);
+             var field = ReactDOM.findDOMNode(this.refs[ref]);
+             field.onChange();
+          }
+        }.bind(this));
+        this.setState({editing: false});
+    },
+    edit: function() {
+        this.setState({editing: true});
+    },
+    renderDisplay: function(field, i) {
         return (
-            <ContactField key={field.id} index={i} content={field.content} fieldName = {field.fieldName} onChange={this.update}></ContactField>
+            <ContactField key={field.id} index={i} content={field.content} fieldName = {field.fieldName} editing = {false} onChange={this.update} ref={"field" + i}></ContactField>
+        );
+    },
+    renderForm: function(field, i) {
+        return (
+            <ContactField key={field.id} index={i} content={field.content} fieldName = {field.fieldName} editing = {true} onChange={this.update} ref={"field" + i}></ContactField>
         );
     },
     render: function() {
+      if(this.state.editing) {
         return (
           <div className="contact-section">
             <h1>{this.props.sectionName}</h1>
-            {this.state.fields.map(this.eachField)}
+            <button onClick={this.save}>Save</button>
+            {this.state.fields.map(this.renderForm)}
           </div>
-        );
+        )
+      } else {
+        return (
+          <div className="contact-section">
+            <h1>{this.props.sectionName}</h1>
+            <button onClick={this.edit}>Edit</button>
+            {this.state.fields.map(this.renderDisplay)}
+          </div>
+        )
     }
+  }
 });
 
 ReactDOM.render(

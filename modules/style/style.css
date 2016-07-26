@@ -18,7 +18,7 @@
 }
 
 #main {
-	background-color: #0000FF;
+	background-color: white;
 	position: relative;
 	width: auto;
 	height: 100vh;
@@ -38,7 +38,7 @@
 }
 
 body {
-  background-color: #f0f0f0;
+  background-color: white;
   color: #0f0f0f;
   margin: 0;
 }
