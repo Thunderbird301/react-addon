@@ -6,12 +6,11 @@ var WorkDetails = ["Work Phone", "Work Mobile", "Email", "Address"]
 
 var ContactField = React.createClass({
     save: function() {
-        Application.console.log("Saving");
-        Application.console.log(this.refs.newText);
-        // this.props.onChange(ReactDOM.findDOMNode(this.refs.newText).value, this.props.index);
+        this.props.onUserInput(
+          this.refs.newText.value, this.props.index
+        );
     },
     renderDisplay: function() {
-      Application.console.log("display");
         return (
             <div className="field">
                 <p>{this.props.fieldName}
@@ -20,11 +19,10 @@ var ContactField = React.createClass({
         );
     },
     renderForm: function() {
-      Application.console.log("form");
         return (
             <div className="field">
                 <p>{this.props.fieldName}: </p>
-                <input type="text" ref="newText" defaultValue={this.props.content} className="form-control"></input>
+                <input type="text" ref="newText" defaultValue={this.props.content} className="form-control" onChange={this.save}></input>
             </div>
         )
     },
@@ -63,11 +61,9 @@ var ContactSection = React.createClass({
         this.setState({fields: fields});
     },
     save: function() {
-        Application.console.log("Saving");
         var fields = this.state.fields;
         this.setState({fields: fields}, function() {
           for (var ref in this.refs) {
-             Application.console.log(this.refs[ref]);
              var field = ReactDOM.findDOMNode(this.refs[ref]);
              field.onChange();
           }
@@ -79,12 +75,12 @@ var ContactSection = React.createClass({
     },
     renderDisplay: function(field, i) {
         return (
-            <ContactField key={field.id} index={i} content={field.content} fieldName = {field.fieldName} editing = {false} onChange={this.update} ref={"field" + i}></ContactField>
+            <ContactField key={field.id} index={i} content={field.content} fieldName = {field.fieldName} editing = {false} ref={"field" + i}></ContactField>
         );
     },
     renderForm: function(field, i) {
         return (
-            <ContactField key={field.id} index={i} content={field.content} fieldName = {field.fieldName} editing = {true} onChange={this.update} ref={"field" + i}></ContactField>
+            <ContactField key={field.id} index={i} content={field.content} fieldName = {field.fieldName} editing = {true} onUserInput={this.update} ref={"field" + i}></ContactField>
         );
     },
     render: function() {
