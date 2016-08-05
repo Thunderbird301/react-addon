@@ -114,6 +114,7 @@ var ContactSection = React.createClass({
           <div className="contact-section">
             <h1>{this.props.sectionName}</h1>
             <button id="buttons" onClick={this.edit}>Edit</button>
+            <hr></hr>
             {this.state.fields.map(this.renderDisplay)}
           </div>
         )
