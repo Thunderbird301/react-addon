@@ -5,7 +5,6 @@ class Layout extends React.Component {
     };
     return (
       <div>
-        <h1>It's working!</h1>
         <img src={'images/1.jpg'} style={imageStyle}/>
       </div>
 

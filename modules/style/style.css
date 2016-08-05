@@ -26,6 +26,22 @@
   min-width: 100px;
   overflow-y: scroll;
   overflow-x: hidden;
+  padding: 5%;
+}
+#header {
+  display: flex;
+}
+
+#profile-img {
+  width: 20vw;
+  height: 100%;
+  float: left;
+}
+
+#header-text {
+  position: relative;
+	width: auto;
+  height: 100%;
 }
 
 #search-bar {
