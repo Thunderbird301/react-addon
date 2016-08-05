@@ -13,7 +13,7 @@ class Layout extends React.Component {
   }
 }
 
-const app = document.getElementById('app');
+const app = document.getElementById('profile-img');
 ReactDOM.render(<Layout/>,app);
 
 
