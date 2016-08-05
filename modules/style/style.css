@@ -26,8 +26,10 @@
   min-width: 100px;
   overflow-y: scroll;
   overflow-x: hidden;
-  padding: 5%;
+  padding-left: 3%;
+  padding-right: 3%;
 }
+
 #header {
   display: flex;
 }
@@ -51,6 +53,11 @@
 
 #buttons{
 	border-radius: 8px;
+}
+
+#field {
+  display: flex;
+  line-height: 1em;
 }
 
 body {

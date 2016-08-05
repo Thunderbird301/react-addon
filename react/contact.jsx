@@ -12,7 +12,7 @@ var ContactField = React.createClass({
     },
     renderDisplay: function() {
         return (
-            <div className="field">
+            <div id="field">
                 <p>{this.props.fieldName}
                     : {this.props.fieldContent}</p>
             </div>
@@ -20,7 +20,7 @@ var ContactField = React.createClass({
     },
     renderForm: function() {
         return (
-            <div className="field">
+            <div id="field">
                 <p>{this.props.fieldName}: </p>
                 <input type="text" ref="newText" defaultValue={this.props.fieldContent} className="form-control" onChange={this.save}></input>
             </div>
@@ -104,8 +104,9 @@ var ContactSection = React.createClass({
         return (
           <div className="contact-section">
             <h1>{this.props.sectionName}</h1>
-            <button onClick={this.save}>Save</button>
-            <button onClick={this.cancel}>Cancel</button>
+            <button id="buttons" onClick={this.save}>Save</button>
+            <button id="buttons" onClick={this.cancel}>Cancel</button>
+            <hr></hr>
             {this.state.tempFields.map(this.renderForm)}
           </div>
         )
