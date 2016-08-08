@@ -12,6 +12,9 @@
     <script type="text/javascript"
             src="resource://react/lib/react-dom-15.0.2.min.js">
     </script>
+    <script type="text/javascript"
+            src="resource://react/lib/mabAddressbook.js">
+    </script>
     <link rel="stylesheet" type="text/css" href="resource://react/style/style.css"></link>
 </head>
   <body>
@@ -42,6 +45,12 @@
         </div>
       </div>
     </div>
+    <script>
+        Addressbook.open(indexedDB).then(function(addrbook) {
+            console.log("Got addressbook");
+            console.log(addrbook);
+        });
+    </script>
 
     <script type="text/javascript" src="resource://react/react/test.js"></script>
     <script type="text/javascript" src="resource://react/react/contact.js"></script>
