@@ -57,7 +57,9 @@
 
 #field {
   display: flex;
-  line-height: 1em;
+  flex-direction: row;
+  justify-content: start;
+  align-items: center;
 }
 
 body {
