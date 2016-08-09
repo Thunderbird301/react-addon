@@ -13,7 +13,7 @@
 }
 
 #contacts-list {
-  overflow-y: scroll;
+  overflow-y: auto;
   height: 90%;
 }
 
