@@ -12,6 +12,12 @@
   height: 10%;
 }
 
+#sidebar-buttons{
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-around;
+}
+
 #contacts-list {
   overflow-y: auto;
   height: 90%;
@@ -53,7 +59,10 @@
 
 #buttons{
 	border-radius: 8px;
+  flex-grow: 1;
+  max-width: 25%;
 }
+
 
 #field {
   display: flex;

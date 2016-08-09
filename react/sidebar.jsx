@@ -28,10 +28,10 @@ var ContactSidebar = React.createClass({
               <div>
                 <input id="search-bar" type="text" name ="search" placeholder="Search"></input>
               </div>
-              <span id="buttons">
-                <input type="button" value="Export" onClick={this.export}></input>
-                <input type="button" value="Import" onClick={this.import}></input>
-                <input type="button" value="+" onClick={this.add}></input>
+              <span id="sidebar-buttons">
+                <input id="buttons" type="button" value="Export" onClick={this.export}></input>
+                <input id="buttons" type="button" value="Import" onClick={this.import}></input>
+                <input id="buttons" type="button" value="+" onClick={this.add}></input>
               </span>
             </div>
             <div id="contacts-list">
