@@ -102,8 +102,11 @@ var ContactSection = React.createClass({
         var fields = [];
         for(var i = 0; i < tempFields.length; i++) {
           fields.push({
+            id: tempFields[i].id,
+            options: tempFields[i].options,
+            currentOption: tempFields[i].currentOption,
             fieldContent: tempFields[i].fieldContent,
-            currentOption: tempFields[i].currentOption
+            editing: false
           });
         }
         this.setState({fields: fields});
@@ -114,8 +117,11 @@ var ContactSection = React.createClass({
       var fields = this.state.fields;
       for(var i = 0; i < fields.length; i++) {
         tempFields.push({
+          id: fields[i].id,
+          options: fields[i].options,
+          currentOption: fields[i].currentOption,
           fieldContent: fields[i].fieldContent,
-          currentOption: fields[i].currentOption
+          editing: false
         });
       }
       this.setState({tempFields: tempFields});
@@ -126,7 +132,7 @@ var ContactSection = React.createClass({
     },
     renderDisplay: function(field, i) {
         return (
-            <ContactField key={field.id} index={i} fieldContent={field.fieldContent} currentOption={field.currentOption} editing = {false} ref={"field" + i}></ContactField>
+            <ContactField key={field.id} index={i} fieldContent={field.fieldContent} currentOption={field.currentOption} options={field.options} editing = {false} ref={"field" + i}></ContactField>
         );
     },
     renderForm: function(field, i) {
