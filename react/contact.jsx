@@ -1,19 +1,34 @@
 var Application = Components.classes["@mozilla.org/steel/application;1"].getService(Components.interfaces.steelIApplication);
 
-var PersonalDetails = ["Name","Home Phone", "Mobile", "Email", "Address"];
+var Email = ["Work","Home"];
 
-var WorkDetails = ["Work Phone", "Work Mobile", "Email", "Address"]
+var Phone = ["Work Phone", "Work Mobile"];
 
 var ContactField = React.createClass({
-    save: function() {
+    saveContent: function() {
         this.props.onUserInput(
           this.refs.newText.value, this.props.index
+        );
+    },
+    saveOption: function(event){
+      this.props.onUserSelect(
+        event.target.value, this.props.index
+      );
+    },
+    remove: function() {
+      this.props.onUserDelete(
+        this.props.index
+      );
+    },
+    renderOption: function(option) {
+        return (
+              <option value={option}>{option}</option>
         );
     },
     renderDisplay: function() {
         return (
             <div id="field">
-                <p>{this.props.fieldName}
+                <p>{this.props.currentOption}
                     : {this.props.fieldContent}</p>
             </div>
         );
@@ -21,8 +36,11 @@ var ContactField = React.createClass({
     renderForm: function() {
         return (
             <div id="field">
-                <p>{this.props.fieldName}: </p>
-                <input type="text" ref="newText" defaultValue={this.props.fieldContent} className="form-control" onChange={this.save}></input>
+                <select onChange={this.saveOption} value={this.props.currentOption}>
+                  {this.props.options.map(this.renderOption)}
+               </select>
+                <input type="text" ref="newText" defaultValue={this.props.fieldContent} className="form-control" onChange={this.saveContent}></input>
+                <button id="buttons" onClick={this.remove}>-</button>
             </div>
         )
     },
@@ -39,20 +57,21 @@ var ContactSection = React.createClass({
     getInitialState: function() {
         var fields = [];
         var tempFields = [];
-        for(var i = 0; i < this.props.fieldNames.length; i++){
-          fields.push({
-              id: this.nextId(),
-              fieldName: this.props.fieldNames[i],
-              fieldContent: "",
-              editing: false
-          });
-          tempFields.push({
-              id: this.nextId(),
-              fieldName: this.props.fieldNames[i],
-              fieldContent: "",
-              editing: false
-          });
-        }
+        fields.push({
+            id: this.nextId(),
+            options: this.props.options,
+            currentOption: this.props.options[0],
+            fieldContent: "",
+            editing: false
+        });
+        tempFields.push({
+            id: this.nextId(),
+            options: this.props.options,
+            currentOption: this.props.options[0],
+            fieldContent: "",
+            editing: false
+        });
+
         return {
           fields: fields,
           editing: false,
@@ -63,25 +82,41 @@ var ContactSection = React.createClass({
         this.uniqueId = this.uniqueId || 0;
         return this.uniqueId++;
     },
-    update: function(newText, i) {
+    updateContent: function(newText, i) {
         var fields = this.state.tempFields;
         fields[i].fieldContent = newText;
         this.setState({tempFields: fields});
     },
+    updateOption: function(option, i) {
+        var fields = this.state.tempFields;
+        fields[i].currentOption = option;
+        this.setState({tempFields: fields});
+    },
+    removeField: function(i) {
+      var fields = this.state.tempFields;
+      fields.splice(i, 1);
+      this.setState({tempFields: fields});
+    },
     save: function() {
         var tempFields = this.state.tempFields;
-        var fields = this.state.fields;
-        for(var i = 0; i < fields.length; i++) {
-          fields[i].fieldContent = tempFields[i].fieldContent;
+        var fields = [];
+        for(var i = 0; i < tempFields.length; i++) {
+          fields.push({
+            fieldContent: tempFields[i].fieldContent,
+            currentOption: tempFields[i].currentOption
+          });
         }
         this.setState({fields: fields});
         this.setState({editing: false});
     },
     cancel: function() {
-      var tempFields = this.state.tempFields;
+      var tempFields = [];
       var fields = this.state.fields;
       for(var i = 0; i < fields.length; i++) {
-        tempFields[i].fieldContent = fields[i].fieldContent;
+        tempFields.push({
+          fieldContent: fields[i].fieldContent,
+          currentOption: fields[i].currentOption
+        });
       }
       this.setState({tempFields: tempFields});
       this.setState({editing: false});
@@ -91,12 +126,12 @@ var ContactSection = React.createClass({
     },
     renderDisplay: function(field, i) {
         return (
-            <ContactField key={field.id} index={i} fieldContent={field.fieldContent} fieldName = {field.fieldName} editing = {false} ref={"field" + i}></ContactField>
+            <ContactField key={field.id} index={i} fieldContent={field.fieldContent} currentOption={field.currentOption} editing = {false} ref={"field" + i}></ContactField>
         );
     },
     renderForm: function(field, i) {
         return (
-            <ContactField key={field.id} index={i} fieldContent={field.fieldContent} fieldName = {field.fieldName} editing = {true} onUserInput={this.update} ref={"field" + i}></ContactField>
+            <ContactField key={field.id} index={i} fieldContent={field.fieldContent} currentOption={field.currentOption} options={field.options} editing = {true} onUserInput={this.updateContent} onUserSelect={this.updateOption} onUserDelete={this.removeField} ref={"field" + i}></ContactField>
         );
     },
     render: function() {
@@ -124,6 +159,6 @@ var ContactSection = React.createClass({
 });
 
 ReactDOM.render(
-    <ContactSection sectionName={"Home"} fieldNames={PersonalDetails} />, document.getElementById('personal'));
+    <ContactSection sectionName={"Email"} options={Email} />, document.getElementById('personal'));
 ReactDOM.render(
-    <ContactSection sectionName={"Work"} fieldNames={WorkDetails} />, document.getElementById('work'));
+    <ContactSection sectionName={"Phone"} options={Phone} />, document.getElementById('work'));
