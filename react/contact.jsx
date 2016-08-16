@@ -78,6 +78,17 @@ var ContactSection = React.createClass({
           tempFields: tempFields
         };
     },
+    add: function() {
+      var tempFields = this.state.tempFields;
+      tempFields.push({
+        id: this.nextId(),
+        options: this.props.options,
+        currentOption: this.props.options[0],
+        fieldContent: "",
+        editing: false
+      });
+      this.setState({tempFields: tempFields});
+    },
     nextId: function() {
         this.uniqueId = this.uniqueId || 0;
         return this.uniqueId++;
@@ -149,6 +160,7 @@ var ContactSection = React.createClass({
             <button id="buttons" onClick={this.cancel}>Cancel</button>
             <hr></hr>
             {this.state.tempFields.map(this.renderForm)}
+            <button id="buttons" onClick={this.add}>Add</button>
           </div>
         )
       } else {
