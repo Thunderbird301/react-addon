@@ -1,8 +1,22 @@
 var Application = Components.classes["@mozilla.org/steel/application;1"].getService(Components.interfaces.steelIApplication);
-var contacts = ["sam","Bob"];
+
 var ContactSidebar = React.createClass({
   getInitialState: function(){
-    return{contactNames:contacts}
+    return{contactNames: [] };
+    },
+  componentDidMount: function() {
+    this.setState({
+      contactNames: Addressbook.open(indexedDB).then(function(addrbook) {
+        return addrbook.getNameAndId().then((contacts) => {
+          var contactNames = [];
+          for(var i = 0; i < contacts.length; i++) {
+            contactNames.push(contacts[i].name);
+            Application.console.log(contacts[i].name);
+          }
+          return contactNames;
+        });
+      })
+    });
   },
   add: function(){
     Application.console.log("added");
@@ -43,4 +57,4 @@ var ContactSidebar = React.createClass({
 });
 
 ReactDOM.render(
-    <ContactSidebar contactNames={contacts}/>, document.getElementById('sidebar'));
+    <ContactSidebar/>, document.getElementById('sidebar'));
