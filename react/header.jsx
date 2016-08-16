@@ -2,10 +2,10 @@ var Header = React.createClass({
   render() {
     return (
       <div>
-        <h1>Firstname Lastname</h1>
-        <h2>Nickname</h2>
-        <h3>Displayname</h3>
-        <h3>BIRTHDAY</h3>
+        <h2>Firstname Lastname</h2>
+        <h3>Nickname</h3>
+        <h4>Displayname</h4>
+        <h4>BIRTHDAY</h4>
       </div>
     );
   }

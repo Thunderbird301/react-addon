@@ -2,9 +2,13 @@ var Application = Components.classes["@mozilla.org/steel/application;1"].getServ
 
 var Email = ["Work", "Home"];
 
-var Phone = ["Work Phone", "Work Mobile"];
+var Phone = ["Mobile", "Home", "Work", "Fax", "Pager"];
 
-var Address = ["Home", "Work"]
+var Address = ["Home", "Work"];
+
+var Webpage = ["Home", "Work"];
+
+var Chat = ["Google Talk", "AIM (R)", "Yahoo", "Skype", "QQ", "MSN", "ICQ", "Jabber ID", "IRC Nick"];
 
 var ContactField = React.createClass({
     saveContent: function() {
@@ -206,7 +210,7 @@ var ContactSection = React.createClass({
         if (this.state.editing) {
             return (
                 <div className="contact-section">
-                    <h1>{this.props.type}</h1>
+                    <h3>{this.props.type}</h3>
                     <button id="buttons" onClick={this.save}>Save</button>
                     <button id="buttons" onClick={this.cancel}>Cancel</button>
                     <hr></hr>
@@ -217,7 +221,7 @@ var ContactSection = React.createClass({
         } else {
             return (
                 <div className="contact-section">
-                    <h1>{this.props.type}</h1>
+                    <h3>{this.props.type}</h3>
                     <button id="buttons" onClick={this.edit}>Edit</button>
                     <hr></hr>
                     {this.state.fields.map(this.renderDisplay)}
@@ -233,3 +237,7 @@ ReactDOM.render(
     <ContactSection type={"Phone"} options={Phone}/>, document.getElementById('work'));
 ReactDOM.render(
     <ContactSection type={"Address"} options={Address}/>, document.getElementById('address'));
+ReactDOM.render(
+    <ContactSection type={"Webpage"} options={Webpage}/>, document.getElementById('web-pages'));
+ReactDOM.render(
+    <ContactSection type={"Chat"} options={Chat}/>, document.getElementById('chat'));
