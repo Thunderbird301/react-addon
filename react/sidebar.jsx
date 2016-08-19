@@ -5,17 +5,15 @@ var ContactSidebar = React.createClass({
     return{contactNames: [] };
     },
   componentDidMount: function() {
-    this.setState({
-      contactNames: Addressbook.open(indexedDB).then(function(addrbook) {
-        return addrbook.getNameAndId().then((contacts) => {
-          var contactNames = [];
-          for(var i = 0; i < contacts.length; i++) {
-            contactNames.push(contacts[i].name);
-            Application.console.log(contacts[i].name);
-          }
-          return contactNames;
-        });
-      })
+    var cSide = this;
+    Addressbook.open(indexedDB).then(function(addrbook) {
+      addrbook.getNameAndId().then((contacts) => {
+        var contactNames = [];
+        for(var i = 0; i < contacts.length; i++) {
+          contactNames.push(contacts[i].name);
+        }
+        cSide.setState({contactNames: contactNames});
+      });
     });
   },
   add: function(){
