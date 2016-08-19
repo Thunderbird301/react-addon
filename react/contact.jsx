@@ -1,13 +1,70 @@
 var Application = Components.classes["@mozilla.org/steel/application;1"].getService(Components.interfaces.steelIApplication);
 
+/** -------------- SIDEBAR -------------------------*/
+var ContactSidebar = React.createClass({
+  getInitialState: function(){
+    return{contactNames: [] };
+    },
+  componentDidMount: function() {
+    var cSide = this;
+    Addressbook.open(indexedDB).then(function(addrbook) {
+      addrbook.getNameAndId().then((contacts) => {
+        var contactNames = [];
+        for(var i = 0; i < contacts.length; i++) {
+          contactNames.push(contacts[i].name);
+        }
+        cSide.setState({contactNames: contactNames});
+      });
+    });
+  },
+  add: function(){
+    Application.console.log("added");
+  },
+  delete: function(){
+    Application.console.log("delete");
+  },
+  import: function(){
+    Application.console.log("import");
+  },
+  export: function(){
+    Application.console.log("export");
+  },
+  displayContact: function() {
+    Application.console.log("displayContact");
+  },
+  renderName: function(name){
+    return (
+      <input type="button" value={name} onClick={this.displayContact}></input>
+    );
+  },
+  render: function() {
+      return (
+          <div>
+            <div id="sidebar-header">
+              <div>
+                <input id="search-bar" type="text" name ="search" placeholder="Search"></input>
+              </div>
+              <span id="sidebar-buttons">
+                <input id="buttons" type="button" value="Export" onClick={this.export}></input>
+                <input id="buttons" type="button" value="Import" onClick={this.import}></input>
+                <input id="buttons" type="button" value="+" onClick={this.add}></input>
+              </span>
+            </div>
+            <div id="contacts-list">
+              {this.state.contactNames.map(this.renderName)}
+            </div>
+          </div>
+      );
+  },
+});
+
+/** -------------- CONTACT FIELDS -------------------------*/
+
+// Fields options
 var Email = ["Work", "Home"];
-
 var Phone = ["Mobile", "Home", "Work", "Fax", "Pager"];
-
 var Address = ["Home", "Work"];
-
 var Webpage = ["Home", "Work"];
-
 var Chat = ["Google Talk", "AIM (R)", "Yahoo", "Skype", "QQ", "MSN", "ICQ", "Jabber ID", "IRC Nick"];
 
 var ContactField = React.createClass({
@@ -92,6 +149,7 @@ var ContactField = React.createClass({
     }
 });
 
+/** -------------- CONTACT SECTION -------------------------*/
 var ContactSection = React.createClass({
     getInitialState: function() {
         var fields = [];
@@ -231,6 +289,23 @@ var ContactSection = React.createClass({
     }
 });
 
+var AddressBook = React.createClass({
+  getInitialState: function() {
+    // set up sidebar here - just list of names
+    // current person - null
+    // set up contact sections here - array of fields names -> array of fields
+  },
+  renderContactSection: function() {
+    // render individual contact section
+  },
+  render: function() {
+    // render sidebar
+    // render each section
+  }
+});
+
+ReactDOM.render(
+    <ContactSidebar/>, document.getElementById('sidebar'));
 ReactDOM.render(
     <ContactSection type={"Email"} options={Email}/>, document.getElementById('personal'));
 ReactDOM.render(
