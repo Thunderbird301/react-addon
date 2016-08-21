@@ -61,11 +61,13 @@ var ContactSidebar = React.createClass({
 /** -------------- CONTACT FIELDS -------------------------*/
 
 // Fields options
-var Email = ["Work", "Home"];
-var Phone = ["Mobile", "Home", "Work", "Fax", "Pager"];
-var Address = ["Home", "Work"];
-var Webpage = ["Home", "Work"];
-var Chat = ["Google Talk", "AIM (R)", "Yahoo", "Skype", "QQ", "MSN", "ICQ", "Jabber ID", "IRC Nick"];
+var Email = {name: "Email", options: ["Work", "Home"]};
+var Phone = {name: "Phone", options: ["Mobile", "Home", "Work", "Fax", "Pager"]};
+var Address = {name: "Address", options: ["Home", "Work"]};
+var Webpage = {name: "Webpage", options: ["Home", "Work"]};
+var Chat = {name: "Chat", options: ["Google Talk", "AIM (R)", "Yahoo", "Skype", "QQ", "MSN", "ICQ", "Jabber ID", "IRC Nick"]};
+
+var ContactSections = [Email, Phone, Address, Webpage, Chat];
 
 var ContactField = React.createClass({
     saveContent: function() {
@@ -291,28 +293,71 @@ var ContactSection = React.createClass({
 
 var AddressBook = React.createClass({
   getInitialState: function() {
-    // set up sidebar here - just list of names
-    // current person - null
-    // set up contact sections here - array of fields names -> array of fields
+    var contactSections = [];
+    for (var i = 0; i < this.props.contactSections; i++) {
+        contactSections.push({
+          name: this.props.contactSections[i].name,
+          options: this.props.contactSections[i].options,
+          fields: []
+        });
+    }
+    return {
+      contactNames: [],
+      currentPersonID: -1,
+      editing: false,
+      contactSections: contactSections
+    }
   },
-  renderContactSection: function() {
-    // render individual contact section
+  componentDidMount: function() {
+    var cSide = this;
+    Addressbook.open(indexedDB).then(function(addrbook) {
+      addrbook.getNameAndId().then((contacts) => {
+        var contactNames = [];
+        for(var i = 0; i < contacts.length; i++) {
+          contactNames.push(contacts[i].name);
+        }
+        cSide.setState({contactNames: contactNames});
+      });
+    });
+  },
+  renderContactSection: function(contactSection) {
+    return(<ContactSection type={contactSection.name} options={contactSection.option} editing={this.editing}/>);// render individual contact section
+  },
+  renderNoContact: function() {
+    return (<div id="sidebar">
+      <ContactSidebar />
+    </div>);
+  },
+  renderContactDisplay: function() {
+    return (<div>
+      <ContactSidebar id="sidebar" />
+      <div id="main">
+        {this.state.contactSections.map(this.renderContactSection)}
+      </div>
+    </div>);
   },
   render: function() {
-    // render sidebar
-    // render each section
+    if (this.state.currentPersonID == -1) {
+      Application.console.log("NO CONTACT VIEW");
+      return this.renderNoContact();
+    } else {
+      Application.console.log("CONTACT VIEW");
+      return this.renderContactDisplay();
+    }
   }
 });
 
-ReactDOM.render(
-    <ContactSidebar/>, document.getElementById('sidebar'));
-ReactDOM.render(
-    <ContactSection type={"Email"} options={Email}/>, document.getElementById('personal'));
-ReactDOM.render(
-    <ContactSection type={"Phone"} options={Phone}/>, document.getElementById('work'));
-ReactDOM.render(
-    <ContactSection type={"Address"} options={Address}/>, document.getElementById('address'));
-ReactDOM.render(
-    <ContactSection type={"Webpage"} options={Webpage}/>, document.getElementById('web-pages'));
-ReactDOM.render(
-    <ContactSection type={"Chat"} options={Chat}/>, document.getElementById('chat'));
+ReactDOM.render(<AddressBook contactSections = {ContactSections}/>, document.getElementById('addressBook'));
+
+// ReactDOM.render(
+//     <ContactSidebar/>, document.getElementById('sidebar'));
+// ReactDOM.render(
+//     <ContactSection type={"Email"} options={Email}/>, document.getElementById('personal'));
+// ReactDOM.render(
+//     <ContactSection type={"Phone"} options={Phone}/>, document.getElementById('work'));
+// ReactDOM.render(
+//     <ContactSection type={"Address"} options={Address}/>, document.getElementById('address'));
+// ReactDOM.render(
+//     <ContactSection type={"Webpage"} options={Webpage}/>, document.getElementById('web-pages'));
+// ReactDOM.render(
+//     <ContactSection type={"Chat"} options={Chat}/>, document.getElementById('chat'));
