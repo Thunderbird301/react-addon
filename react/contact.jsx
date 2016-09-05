@@ -2,21 +2,21 @@ var Application = Components.classes["@mozilla.org/steel/application;1"].getServ
 
 /** -------------- SIDEBAR -------------------------*/
 var ContactSidebar = React.createClass({
-  getInitialState: function(){
-    return{contactNames: [] };
-    },
-  componentDidMount: function() {
-    var cSide = this;
-    Addressbook.open(indexedDB).then(function(addrbook) {
-      addrbook.getNameAndId().then((contacts) => {
-        var contactNames = [];
-        for(var i = 0; i < contacts.length; i++) {
-          contactNames.push(contacts[i].name);
-        }
-        cSide.setState({contactNames: contactNames});
-      });
-    });
-  },
+  // getInitialState: function(){
+  //   return{contactNames: [] };
+  //   },
+  // componentDidMount: function() {
+  //   var cSide = this;
+  //   Addressbook.open(indexedDB).then(function(addrbook) {
+  //     addrbook.getNameAndId().then((contacts) => {
+  //       var contactNames = [];
+  //       for(var i = 0; i < contacts.length; i++) {
+  //         contactNames.push(contacts[i].name);
+  //       }
+  //       cSide.setState({contactNames: contactNames});
+  //     });
+  //   });
+  // },
   add: function(){
     Application.console.log("added");
   },
@@ -29,12 +29,12 @@ var ContactSidebar = React.createClass({
   export: function(){
     Application.console.log("export");
   },
-  displayContact: function() {
-    Application.console.log("displayContact");
+  displayContact: function(contact) {
+    this.props.viewContact(contact.id);
   },
-  renderName: function(name){
+  renderName: function(contact, i){
     return (
-      <input type="button" value={name} onClick={this.displayContact}></input>
+      <input type="button" value={contact.name} key={this.props.contactNames} onClick={this.displayContact}></input>
     );
   },
   render: function() {
@@ -51,7 +51,7 @@ var ContactSidebar = React.createClass({
               </span>
             </div>
             <div id="contacts-list">
-              {this.state.contactNames.map(this.renderName)}
+              {this.props.contactNames.map(this.renderName)}
             </div>
           </div>
       );
@@ -314,23 +314,29 @@ var AddressBook = React.createClass({
       addrbook.getNameAndId().then((contacts) => {
         var contactNames = [];
         for(var i = 0; i < contacts.length; i++) {
-          contactNames.push(contacts[i].name);
+          contactNames.push({name: contacts[i].name, id: contacts[i].uuid});
         }
         cSide.setState({contactNames: contactNames});
       });
     });
   },
+  setContactID: function(id) {
+    Application.console.log("SETTING ID TO " + id);
+    this.setState({currentPersonID: id});
+  },
   renderContactSection: function(contactSection) {
-    return(<ContactSection type={contactSection.name} options={contactSection.option} editing={this.editing}/>);// render individual contact section
+    return(<ContactSection type={contactSection.name} options={contactSection.option} editing={this.editing} fields={contactSection.fields}/>);// render individual contact section
   },
   renderNoContact: function() {
     return (<div id="sidebar">
-      <ContactSidebar />
+      <ContactSidebar contactNames={this.state.contactNames} viewContact={this.setContactID}/>
     </div>);
   },
   renderContactDisplay: function() {
     return (<div>
-      <ContactSidebar id="sidebar" />
+      <div id="sidebar">
+        <ContactSidebar contactNames={this.state.contactNames} viewContact={this.setContactID}/>
+      </div>
       <div id="main">
         {this.state.contactSections.map(this.renderContactSection)}
       </div>
