@@ -1,5 +1,3 @@
-var Application = Components.classes["@mozilla.org/steel/application;1"].getService(Components.interfaces.steelIApplication);
-
 /** -------------- SIDEBAR -------------------------*/
 var ContactSidebar = React.createClass({
   // getInitialState: function(){
@@ -71,7 +69,7 @@ var ContactSections = [Email, Phone, Address, Webpage, Chat];
 
 var ContactField = React.createClass({
     saveContent: function() {
-      if(type != "Address") {
+      if(this.props.type != "Address") {
         this.props.onUserInput(this.refs.newText.value, this.props.index);
       } else {
         var address = [this.refs.street.value, this.refs.city.value, this.refs.postalCode.value, this.refs.region.value, this.refs.country.value];
