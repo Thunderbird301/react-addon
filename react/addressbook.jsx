@@ -12,7 +12,7 @@ var ContactSections = [Email, Phone, Address, Webpage, Chat];
 var AddressBook = React.createClass({
   getInitialState: function() {
     var contactSections = [];
-    for (var i = 0; i < this.props.contactSections; i++) {
+    for (var i = 0; i < this.props.contactSections.length; i++) {
         contactSections.push({
           name: this.props.contactSections[i].name,
           options: this.props.contactSections[i].options,

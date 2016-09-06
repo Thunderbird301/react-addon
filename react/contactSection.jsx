@@ -1,34 +1,34 @@
 /** -------------- CONTACT SECTION -------------------------*/
 var ContactSection = React.createClass({
-    getInitialState: function() {
-        var fields = [];
-        var tempFields = [];
-        var content = "";
-        if(this.props.type == "Address"){
-          content = [];
-          for(var i = 0; i < 5; i++) {
-              content.push("");
-          }
-        }
-        fields.push({
-            id: this.nextId(),
-            options: this.props.options,
-            currentOption: this.props.options[0],
-            type: this.props.type,
-            fieldContent: content,
-            editing: false
-        });
-        tempFields.push({
-            id: this.nextId(),
-            options: this.props.options,
-            currentOption: this.props.options[0],
-            type: this.props.type,
-            fieldContent: content,
-            editing: false
-        });
+    // getInitialState: function() {
+    //     var fields = [];
+    //     var tempFields = [];
+    //     var content = "";
+    //     if(this.props.type == "Address"){
+    //       content = [];
+    //       for(var i = 0; i < 5; i++) {
+    //           content.push("");
+    //       }
+    //     }
+    //     fields.push({
+    //         id: this.nextId(),
+    //         options: this.props.options,
+    //         currentOption: this.props.options[0],
+    //         type: this.props.type,
+    //         fieldContent: content,
+    //         editing: false
+    //     });
+    //     tempFields.push({
+    //         id: this.nextId(),
+    //         options: this.props.options,
+    //         currentOption: this.props.options[0],
+    //         type: this.props.type,
+    //         fieldContent: content,
+    //         editing: false
+    //     });
 
-        return {fields: fields, editing: false, tempFields: tempFields};
-    },
+    //     return {fields: fields, editing: false, tempFields: tempFields};
+    // },
     add: function() {
         var tempFields = this.state.tempFields;
         var content = "";
@@ -114,7 +114,7 @@ var ContactSection = React.createClass({
         );
     },
     render: function() {
-        if (this.state.editing) {
+        if (this.props.editing) {
             return (
                 <div className="contact-section">
                     <h3>{this.props.type}</h3>
@@ -131,7 +131,7 @@ var ContactSection = React.createClass({
                     <h3>{this.props.type}</h3>
                     <button id="buttons" onClick={this.edit}>Edit</button>
                     <hr></hr>
-                    {this.state.fields.map(this.renderDisplay)}
+                    {this.state.fields.map(this.renderDisplay)}//fix this
                 </div>
             )
         }
