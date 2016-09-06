@@ -1,5 +1,3 @@
-var Application = Components.classes["@mozilla.org/steel/application;1"].getService(Components.interfaces.steelIApplication);
-
 var Email = ["Work", "Home"];
 
 var Phone = ["Mobile", "Home", "Work", "Fax", "Pager"];
@@ -12,7 +10,7 @@ var Chat = ["Google Talk", "AIM (R)", "Yahoo", "Skype", "QQ", "MSN", "ICQ", "Jab
 
 var ContactField = React.createClass({
     saveContent: function() {
-      if(type != "Address") {
+      if(this.props.type != "Address") {
         this.props.onUserInput(this.refs.newText.value, this.props.index);
       } else {
         var address = [this.refs.street.value, this.refs.city.value, this.refs.postalCode.value, this.refs.region.value, this.refs.country.value];
