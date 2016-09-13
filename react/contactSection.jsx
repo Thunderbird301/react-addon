@@ -3,16 +3,14 @@ var ContactSection = React.createClass({
     add: function() {
         this.props.add(this.props.index);
     },
+    removeField: function(fieldID) {
+      this.props.remove(this.props.index, fieldID);
+    },
     updateContent: function(newText, i) {
         this.props.updateContent(newText, this.props.index, i)
     },
     updateOption: function(option, i) {
         this.props.updateOption(option, this.props.index, i)
-    },
-    removeField: function(i) {
-        var tFields = this.state.tempFields;
-        tFields.splice(i, 1);
-        this.setState({tempFields: tFields});
     },
     renderDisplay: function(field, i) {
         return (
