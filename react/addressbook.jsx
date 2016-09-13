@@ -1,11 +1,9 @@
-// import {ContactSidebar} from "./contactSection.jsx";
-
 // Fields options
-var Email = {name: "Email", options: ["Work", "Home"]};
-var Phone = {name: "Phone", options: ["Mobile", "Home", "Work", "Fax", "Pager"]};
-var Address = {name: "Address", options: ["Home", "Work"]};
-var Webpage = {name: "Webpage", options: ["Home", "Work"]};
-var Chat = {name: "Chat", options: ["Google Talk", "AIM (R)", "Yahoo", "Skype", "QQ", "MSN", "ICQ", "Jabber ID", "IRC Nick"]};
+var Email = {name: "Email", options: ["Work", "Home"], key: "email"};
+var Phone = {name: "Phone", options: ["Mobile", "Home", "Work", "Fax", "Pager"], key: "tel"};
+var Address = {name: "Address", options: ["Home", "Work"], key: "adr"};
+var Webpage = {name: "Webpage", options: ["Home", "Work"], key: "url"};
+var Chat = {name: "Chat", options: ["Google Talk", "AIM (R)", "Yahoo", "Skype", "QQ", "MSN", "ICQ", "Jabber ID", "IRC Nick"], key: ""};
 
 var ContactSections = [Email, Phone, Address, Webpage, Chat];
 
@@ -47,10 +45,37 @@ var AddressBook = React.createClass({
       });
     });
   },
+  getContactDetails: function(id) {
+    var cSide = this;
+    Addressbook.open(indexedDB).then(function(addrbook) {
+      addrbook.getById(id).then((contact) => {
+        var contactSections = [];
+        var tempContactSections = [];
+        for (var i = 0; i < this.props.contactSections.length; i++) {
+            contactSections.push({
+              name: this.props.contactSections[i].name,
+              options: this.props.contactSections[i].options,
+              fields: [],
+              index: i
+            });
+            tempContactSections.push({
+              name: this.props.contactSections[i].name,
+              options: this.props.contactSections[i].options,
+              fields: [],
+              index: i
+            });
+        }
+        cSide.setState({
+          contactSections: contactSections,
+          tempContactSections: tempContactSections
+        });
+      });
+    });
+  },
   edit: function() {
     this.setState({editing: true});
   },
-  add: function(index) {
+  addField: function(index) {
       var tempSection = this.state.tempContactSections[index];
       var content = "";
       if(tempSection.name == "Address"){
@@ -126,9 +151,11 @@ var AddressBook = React.createClass({
       this.setState({tempContactSections: tSections});
   },
   setContactID: function(id) {
-    console.log("SETTING ID TO " + id);
-    console.trace();
-    this.setState({currentPersonID: id});
+    var contactSections = this.getContactDetails(id);
+    this.setState({
+      currentPersonID: id,
+      contactSections: contactSections
+    });
   },
   editingDisplay: function() {
     if (!this.state.editing) {
@@ -145,7 +172,7 @@ var AddressBook = React.createClass({
   renderContactSection: function(contactSection) {
     if (this.state.editing) {
     return(<ContactSection type={contactSection.name} options={contactSection.options} editing={this.state.editing} index={contactSection.index} fields={this.state.tempContactSections[contactSection.index].fields}
-      save={this.save} add={this.add} updateOption={this.updateOption} updateContent={this.updateContent}/>);// render individual contact section
+      save={this.save} add={this.addField} updateOption={this.updateOption} updateContent={this.updateContent}/>);// render individual contact section
     } else {
       return(<ContactSection type={contactSection.name} options={contactSection.options} editing={this.state.editing} index={contactSection.index} fields={contactSection.fields}
         save={this.save}/>);// render individual contact section

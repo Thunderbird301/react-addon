@@ -1,20 +1,5 @@
 /** -------------- SIDEBAR -------------------------*/
 var ContactSidebar = React.createClass({
-  // getInitialState: function(){
-  //   return{contactNames: [] };
-  //   },
-  // componentDidMount: function() {
-  //   var cSide = this;
-  //   Addressbook.open(indexedDB).then(function(addrbook) {
-  //     addrbook.getNameAndId().then((contacts) => {
-  //       var contactNames = [];
-  //       for(var i = 0; i < contacts.length; i++) {
-  //         contactNames.push(contacts[i].name);
-  //       }
-  //       cSide.setState({contactNames: contactNames});
-  //     });
-  //   });
-  // },
   add: function(){
   },
   delete: function(){
