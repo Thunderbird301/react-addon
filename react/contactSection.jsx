@@ -1,34 +1,19 @@
 /** -------------- CONTACT SECTION -------------------------*/
 var ContactSection = React.createClass({
-    // getInitialState: function() {
-    //     var fields = [];
-    //     var tempFields = [];
-    //     var content = "";
-    //     if(this.props.type == "Address"){
-    //       content = [];
-    //       for(var i = 0; i < 5; i++) {
-    //           content.push("");
-    //       }
-    //     }
-    //     fields.push({
-    //         id: this.nextId(),
-    //         options: this.props.options,
-    //         currentOption: this.props.options[0],
-    //         type: this.props.type,
-    //         fieldContent: content,
-    //         editing: false
-    //     });
-    //     tempFields.push({
-    //         id: this.nextId(),
-    //         options: this.props.options,
-    //         currentOption: this.props.options[0],
-    //         type: this.props.type,
-    //         fieldContent: content,
-    //         editing: false
-    //     });
+    getInitialState: function() {
+        var fields = this.props.fields;
+        var tempFields = [];
 
-    //     return {fields: fields, editing: false, tempFields: tempFields};
-    // },
+        for( var i = 0; i < fields.length; i++) {
+            tempFields.push({
+                id: this.nextId(),
+                currentOption: fields[i].currentOption,
+                fieldContent: fields[i].content
+            });
+        }
+
+        return {tempFields: tempFields};
+    },
     add: function() {
         var tempFields = this.state.tempFields;
         var content = "";
@@ -131,7 +116,7 @@ var ContactSection = React.createClass({
                     <h3>{this.props.type}</h3>
                     <button id="buttons" onClick={this.edit}>Edit</button>
                     <hr></hr>
-                    {this.state.fields.map(this.renderDisplay)}//fix this
+                    {this.props.fields.map(this.renderDisplay)}
                 </div>
             )
         }
