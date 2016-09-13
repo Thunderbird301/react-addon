@@ -12,18 +12,27 @@ var ContactSections = [Email, Phone, Address, Webpage, Chat];
 var AddressBook = React.createClass({
   getInitialState: function() {
     var contactSections = [];
+    var tempContactSections = [];
     for (var i = 0; i < this.props.contactSections.length; i++) {
         contactSections.push({
           name: this.props.contactSections[i].name,
           options: this.props.contactSections[i].options,
-          fields: []
+          fields: [],
+          index: i
+        });
+        tempContactSections.push({
+          name: this.props.contactSections[i].name,
+          options: this.props.contactSections[i].options,
+          fields: [],
+          index: i
         });
     }
     return {
       contactNames: [],
       currentPersonID: -1,
       editing: false,
-      contactSections: contactSections
+      contactSections: contactSections,
+      tempContactSections: tempContactSections
     }
   },
   componentDidMount: function() {
@@ -38,13 +47,95 @@ var AddressBook = React.createClass({
       });
     });
   },
+  edit: function() {
+    this.setState({editing: true});
+  },
+  add: function(index) {
+      var tempSection = this.state.tempContactSections[index];
+      var content = "";
+      if(tempSection.name == "Address"){
+        content = [];
+        for(var i = 0; i < 5; i++) {
+            content.push("");
+        }
+      }
+      var fieldID = tempSection.fields.length;
+      tempSection.fields.push({
+          currentOption: tempSection.options[0],
+          content: content,
+          fieldID: fieldID
+      });
+      var tempSections = this.state.tempContactSections;
+      tempSections[index] = tempSection;
+      this.setState({tempContactSections: tempSections});
+  },
+  save: function() {
+      var cSections = [];
+      var tSections = this.state.tempContactSections;
+      for (var i = 0; i < tSections.length; i++) {
+          cSections.push({
+            name: tSections[i].name,
+            options: tSections[i].options,
+            fields: tSections[i].fields,
+            index: i
+          });
+      }
+      this.setState({contactSections: cSections});
+      this.setState({editing: false});
+  },
+  cancel: function() {
+      var tSections = [];
+      var cSections = this.state.contactSections;
+      for (var i = 0; i < cSections.length; i++) {
+          tSections.push({
+            name: cSections[i].name,
+            options: cSections[i].options,
+            fields: cSections[i].fields,
+            index: i
+          });
+      }
+      this.setState({tempContactSections: tSections});
+      this.setState({editing: false});
+  },
+  updateContent: function(newText, index, fieldID) {
+    var tSection = this.state.tempContactSections[index];
+    tSection.fields[fieldID].content = newText;
+    var tSections = this.state.tempContactSections;
+    tSections[index] = tSection;
+    this.setState({tempContactSections: tSections});
+  },
+  updateOption: function(option, index, fieldID) {
+      var tSection = this.state.tempContactSections[index];
+      tSection.fields[fieldID].currentOption = option;
+      var tSections = this.state.tempContactSections;
+      tSections[index] = tSection;
+      this.setState({tempContactSections: tSections});
+  },
   setContactID: function(id) {
     console.log("SETTING ID TO " + id);
     console.trace();
     this.setState({currentPersonID: id});
   },
+  editingDisplay: function() {
+    if (!this.state.editing) {
+      return (<div>
+        <button id="buttons" onClick={this.edit}>Edit</button>
+      </div>);
+    } else {
+      return (<div>
+        <button id="buttons" onClick={this.save}>Save</button>
+        <button id="buttons" onClick={this.cancel}>Cancel</button>
+      </div>);
+    }
+  },
   renderContactSection: function(contactSection) {
-    return(<ContactSection type={contactSection.name} options={contactSection.option} editing={this.editing} fields={contactSection.fields}/>);// render individual contact section
+    if (this.state.editing) {
+    return(<ContactSection type={contactSection.name} options={contactSection.options} editing={this.state.editing} index={contactSection.index} fields={this.state.tempContactSections[contactSection.index].fields}
+      save={this.save} add={this.add} updateOption={this.updateOption} updateContent={this.updateContent}/>);// render individual contact section
+    } else {
+      return(<ContactSection type={contactSection.name} options={contactSection.options} editing={this.state.editing} index={contactSection.index} fields={contactSection.fields}
+        save={this.save}/>);// render individual contact section
+    }
   },
   renderNoContact: function() {
     return (<div id="sidebar">
@@ -57,6 +148,7 @@ var AddressBook = React.createClass({
         <ContactSidebar contactNames={this.state.contactNames} viewContact={this.setContactID}/>
       </div>
       <div id="main">
+        {this.editingDisplay()}
         {this.state.contactSections.map(this.renderContactSection)}
       </div>
     </div>);
