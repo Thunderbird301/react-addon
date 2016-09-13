@@ -1,36 +1,34 @@
-var Application = Components.classes["@mozilla.org/steel/application;1"].getService(Components.interfaces.steelIApplication);
-
+/** -------------- SIDEBAR -------------------------*/
 var ContactSidebar = React.createClass({
-  getInitialState: function(){
-    return{contactNames: [] };
-    },
-  componentDidMount: function() {
-    var cSide = this;
-    Addressbook.open(indexedDB).then(function(addrbook) {
-      addrbook.getNameAndId().then((contacts) => {
-        var contactNames = [];
-        for(var i = 0; i < contacts.length; i++) {
-          contactNames.push(contacts[i].name);
-        }
-        cSide.setState({contactNames: contactNames});
-      });
-    });
-  },
+  // getInitialState: function(){
+  //   return{contactNames: [] };
+  //   },
+  // componentDidMount: function() {
+  //   var cSide = this;
+  //   Addressbook.open(indexedDB).then(function(addrbook) {
+  //     addrbook.getNameAndId().then((contacts) => {
+  //       var contactNames = [];
+  //       for(var i = 0; i < contacts.length; i++) {
+  //         contactNames.push(contacts[i].name);
+  //       }
+  //       cSide.setState({contactNames: contactNames});
+  //     });
+  //   });
+  // },
   add: function(){
-    Application.console.log("added");
   },
   delete: function(){
-    Application.console.log("delete");
   },
   import: function(){
-    Application.console.log("import");
   },
   export: function(){
-    Application.console.log("export");
   },
-  renderName: function(name){
+  displayContact: function(contact) {
+    this.props.viewContact(contact.id);
+  },
+  renderName: function(contact, i){
     return (
-      <p>{name}</p>
+      <input type="button" value={contact.name} key={this.props.contactNames} onClick={this.displayContact.bind(null, contact)}></input>
     );
   },
   render: function() {
@@ -47,12 +45,9 @@ var ContactSidebar = React.createClass({
               </span>
             </div>
             <div id="contacts-list">
-              {this.state.contactNames.map(this.renderName)}
+              {this.props.contactNames.map(this.renderName)}
             </div>
           </div>
       );
   },
 });
-
-ReactDOM.render(
-    <ContactSidebar/>, document.getElementById('sidebar'));
