@@ -73,10 +73,17 @@ var AddressBook = React.createClass({
       var cSections = [];
       var tSections = this.state.tempContactSections;
       for (var i = 0; i < tSections.length; i++) {
+          var fields = [];
+          for (var j = 0; j < tSections[i].fields.length; j++) {
+            fields.push({
+              currentOption: tSections[i].fields[j].currentOption,
+              content: tSections[i].fields[j].content
+            });
+          }
           cSections.push({
             name: tSections[i].name,
             options: tSections[i].options,
-            fields: tSections[i].fields,
+            fields: fields,
             index: i
           });
       }
@@ -87,10 +94,17 @@ var AddressBook = React.createClass({
       var tSections = [];
       var cSections = this.state.contactSections;
       for (var i = 0; i < cSections.length; i++) {
+        var fields = [];
+        for (var j = 0; j < cSections[i].fields.length; j++) {
+          fields.push({
+            currentOption: cSections[i].fields[j].currentOption,
+            content: cSections[i].fields[j].content
+          });
+        }
           tSections.push({
             name: cSections[i].name,
             options: cSections[i].options,
-            fields: cSections[i].fields,
+            fields: fields,
             index: i
           });
       }
