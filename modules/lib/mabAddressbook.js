@@ -10,6 +10,8 @@ const DB_NAME = 'addrbook';
 const CONTACTS_STORE_NAME = 'contacts';
 const DB_VERSION = 2;
 
+const DB_ERR_NOT_CONN = "Connection to the database has not been opened, make sure you called Addressbook.open()";
+
 function Addressbook(idb) {
   // FIXME: passes in IndexedDB factory
   this.indexedDB = idb;
@@ -21,10 +23,10 @@ Addressbook.open = function(idb) {
 }
 
 Addressbook.prototype = {
-   // properties required for XPCOM registration:
-   classDescription: description,
-   classID:          Components.ID(UUID),
-   contractID:       contractID,
+  // properties required for XPCOM registration:
+  classDescription: description,
+  classID:          Components.ID(UUID),
+  contractID:       contractID,
 
   open: function() {
     let addrbook = this;
@@ -76,7 +78,7 @@ Addressbook.prototype = {
 
     // setup our object stores
     var contactsStore = db.createObjectStore(CONTACTS_STORE_NAME,
-      { keyPath: "uuid", autoIncrement: true });
+        { keyPath: "uuid", autoIncrement: true });
 
     // set up our indexes
     contactsStore.createIndex("name", "name", { unique: false });
@@ -140,114 +142,41 @@ Addressbook.prototype = {
           ["url", { "type": "home" }, "uri", "http://nomis80.org"]
         ]
       ]
-    ]});
+]});
   },
-  add: function(aName) {
-    // check to see if db exists
-    if (this._db === undefined) {
-      this.onerror("nice one m8");
-      return;
-    }
-    let db = this._db;
 
-    return new Promise(function(resolve, reject) {
-      // setup transaction
-      var transaction = db.transaction([CONTACTS_STORE_NAME], "readwrite")
-        .objectStore(CONTACTS_STORE_NAME);
-
-      // create request
-      var request = transaction.add(aName);
-
-      // setup response functions
-      request.onsuccess = function(event) {
-        resolve(event.target.result);
-      };
-      request.onerror = function(event) {
-        reject(event.target.error);
-      };
-    });
+  add: function(contactObj) {
+    return this._contactRequest("readwrite", function(transaction) { return transaction.add(contactObj); } );
   },
-  getById: function(id) {
-    if (this._db === undefined) {
-      this.onerror("nice one m8");
-      return;
-    }
-    let db = this._db;
 
-    return new Promise(function (resolve, reject) {
-      // setup transaction
-      var transaction = db.transaction([CONTACTS_STORE_NAME], "readonly")
-        .objectStore(CONTACTS_STORE_NAME);
-
-      var request = transaction.get(id);
-
-      request.onsuccess = function(event) {
-        resolve(event.target.result);
-      };
-
-      request.onerror = function(event) {
-        reject(event.target.error);
-      };
-    });
+  update: function(contactObj) {
+    return this._contactRequest("readwrite",function(transaction) { return  transaction.put(contactObj); } );
   },
+
   getAll: function() {
-    if (this._db === undefined) {
-      this.onerror("nice one m8");
-      return;
-    }
-    let db = this._db;
-
-    return new Promise(function(resolve, reject) {
-      // setup transaction
-      var transaction = db.transaction([CONTACTS_STORE_NAME], "readonly")
-        .objectStore(CONTACTS_STORE_NAME);
-
-      // create request
-      var request = transaction.getAll();
-
-      // setup response functions
-      request.onsuccess = function(event) {
-        resolve(event.target.result);
-      };
-
-      request.onerror = function(event) {
-        reject(event.target.error);
-      };
-    });
+    return this._contactRequest("readonly",function(transaction) { return  transaction.getAll(); } );
   },
+
+  getById: function(id) {
+    return this._contactRequest("readonly",function(transaction) { return  transaction.get(id); } );
+  },
+
   deleteById: function(id) {
-    if (this._db === undefined) {
-      this.onerror("nice one m8");
-      return;
-    }
-    let db = this._db;
-
-    return new Promise(function(resolve, reject) {
-      // setup transaction
-      var transaction = db.transaction([CONTACTS_STORE_NAME], "readwrite")
-        .objectStore(CONTACTS_STORE_NAME);
-
-      // create request
-      var request = transaction.delete(id);
-
-      // setup response functions
-      request.onsuccess = function(event) {
-        resolve(event.target.result);
-      };
-
-      request.onerror = function(event) {
-        reject(event.target.error);
-      };
-    });
+    return this._contactRequest("readwrite",function(transaction) { return  transaction.delete(id); } );
   },
+
   getNameAndId: function() {
-    if (this._db === undefined) {
-      this.onerror("nice one m8");
-      return;
-    }
+
     let db = this._db;
 
     return new Promise(function(resolve, reject) {
+
+      // check to see if db exists
+      if (db === undefined) {
+        reject(DB_ERR_NOT_CONN);
+        return;
+      }
+
       // setup transaction
       var transaction = db.transaction([CONTACTS_STORE_NAME], "readonly")
         .objectStore(CONTACTS_STORE_NAME)
@@ -274,5 +203,37 @@ Addressbook.prototype = {
         reject(event.target.error);
       };
     });
+  },
+
+  _contactRequest: function(access, request) {
+
+    let db = this._db;
+
+    return new Promise(function(resolve, reject) {
+
+      // check to see if db exists
+      if (db === undefined) {
+        reject(DB_ERR_NOT_CONN);
+        return;
+      }
+
+      // setup transaction
+      var transaction = db.transaction([CONTACTS_STORE_NAME], access)
+        .objectStore(CONTACTS_STORE_NAME);
+
+      // create request
+      var request = request(transaction);
+
+      // setup response functions
+      request.onerror = function(event) {
+        reject(event.target.error);
+      };
+      request.onsuccess = function(event) {
+        resolve(event.target.result);
+      };
+    });
   }
+
 };
+
+// vim: set sw=2 ts=2 expandtab ft=javascript:
