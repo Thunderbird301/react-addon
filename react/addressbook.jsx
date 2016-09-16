@@ -1,5 +1,3 @@
-// import {ContactSidebar} from "./contactSection.jsx";
-
 // Fields options
 var Email = {name: "Email", options: ["Work", "Home"]};
 var Phone = {name: "Phone", options: ["Mobile", "Home", "Work", "Fax", "Pager"]};
@@ -169,6 +167,7 @@ var AddressBook = React.createClass({
         <ContactSidebar contactNames={this.state.contactNames} viewContact={this.setContactID}/>
       </div>
       <div id="main">
+        <Header fn="John" ln="Doe" dn="jdoe" nn="JDog" bday="12/06/1996" image='images/1.jpg'/>
         {this.editingDisplay()}
         {this.state.contactSections.map(this.renderContactSection)}
       </div>
