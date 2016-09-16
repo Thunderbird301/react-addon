@@ -2,6 +2,10 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
 
+const Cu = Components.utils;
+
+Cu.import("resource://react/lib/ical.1.2.2.js");
+
 const description = "IndexedDB based Addressbook";
 const UUID = "{7FBFCC76-48B6-11E6-9353-C50CE7BF5E87}";
 const contractID = "@maddrbook/Addressbook;1";
@@ -154,11 +158,23 @@ Addressbook.prototype = {
   },
 
   getAll: function() {
-    return this._contactRequest("readonly",function(transaction) { return  transaction.getAll(); } );
+    let _this = this;
+
+    return this._contactRequest("readonly",
+        function(transaction) { return  transaction.getAll(); } )
+      .then(function(contacts) {
+        return contacts.map(function(contact) {
+          return _this._convertToICALComponent(contact);
+        })
+      });
   },
 
   getById: function(id) {
-    return this._contactRequest("readonly",function(transaction) { return  transaction.get(id); } );
+    let _this = this;
+
+    return this._contactRequest("readonly",
+        function(transaction) { return  transaction.get(id); } )
+      .then(function(contact) { return _this._convertToICALComponent(contact);  } );
   },
 
   deleteById: function(id) {
@@ -205,7 +221,16 @@ Addressbook.prototype = {
     });
   },
 
-  _contactRequest: function(access, request) {
+  _convertToICALComponent: function(contactObj) {
+    var result = contactObj;
+
+    result.jcard = result.jcard.map(function(jcard) {
+      return new ICAL.Component(jcard);
+    });
+    return result;
+  },
+
+  _contactRequest: function(access, requestFn) {
 
     let db = this._db;
 
@@ -222,7 +247,7 @@ Addressbook.prototype = {
         .objectStore(CONTACTS_STORE_NAME);
 
       // create request
-      var request = request(transaction);
+      var request = requestFn(transaction);
 
       // setup response functions
       request.onerror = function(event) {
