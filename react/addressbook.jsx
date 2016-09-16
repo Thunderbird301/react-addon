@@ -1,5 +1,6 @@
 // import {ContactSidebar} from "./contactSection.jsx";
 
+
 // Fields options
 var Email = {name: "Email", options: ["Work", "Home"]};
 var Phone = {name: "Phone", options: ["Mobile", "Home", "Work", "Fax", "Pager"]};
@@ -140,12 +141,12 @@ var AddressBook = React.createClass({
   editingDisplay: function() {
     if (!this.state.editing) {
       return (<div>
-        <button id="buttons" onClick={this.edit}>Edit</button>
+        <button onClick={this.edit}>Edit</button>
       </div>);
     } else {
       return (<div>
-        <button id="buttons" onClick={this.save}>Save</button>
-        <button id="buttons" onClick={this.cancel}>Cancel</button>
+        <button onClick={this.save}>Save</button>
+        <button onClick={this.cancel}>Cancel</button>
       </div>);
     }
   },
