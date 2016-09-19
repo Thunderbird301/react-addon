@@ -26,3 +26,5 @@ npm: package.json
 clean:
 	rm $(LIB)
 	rm $(NAME_XPI)
+
+rebuild: clean all
