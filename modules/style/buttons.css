@@ -13,7 +13,7 @@ button::-moz-focus-inner {
 button,
 a[role="button"],
 .button {
-  width: 100%;
+  width: 25%;
   height: 3.8rem;
   margin: 0 0 1rem;
   padding: 0 1.5rem;

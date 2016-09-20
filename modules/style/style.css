@@ -1,3 +1,5 @@
+@import url(resources/buttons.css);
+
 #sidebar {
   width: 20vw;
   height: 100vh;
@@ -15,12 +17,14 @@
 #sidebar-buttons{
   display: flex;
   flex-wrap: wrap;
-  justify-content: space-around;
+  /*justify-content: space-around;*/
+  margin-left:5%;
 }
 
 #contacts-list {
   overflow-y: auto;
   height: 90%;
+  margin-left:5%;
 }
 
 #main {
@@ -57,18 +61,19 @@
   width: 90%;
 }
 
-#buttons{
-	border-radius: 8px;
-  flex-grow: 1;
-  max-width: 25%;
-}
-
-
 #field {
   display: flex;
   flex-direction: row;
   justify-content: start;
   align-items: center;
+}
+
+#contact-item {        /* //XX added gN */
+    display: flex;
+    width: 90%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    text-align: left;
 }
 
 body {
