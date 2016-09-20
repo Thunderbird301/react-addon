@@ -48,29 +48,8 @@ var AddressBook = React.createClass({
   getContactDetails: function(id) {
     var cSide = this;
     Addressbook.open(indexedDB).then(function(addrbook) {
-      addrbook.getById(id).then((contact) => {
-        var contactSections = [];
-        var tempContactSections = [];
-        for (var i = 0; i < this.props.contactSections.length; i++) {
-            contactSections.push({
-              name: this.props.contactSections[i].name,
-              options: this.props.contactSections[i].options,
-              fields: [],
-              index: i
-            });
-            tempContactSections.push({
-              name: this.props.contactSections[i].name,
-              options: this.props.contactSections[i].options,
-              fields: [],
-              index: i
-            });
-        }
-        cSide.setState({
-          contactSections: contactSections,
-          tempContactSections: tempContactSections
-        });
-      });
-    });
+      
+    }
   },
   edit: function() {
     this.setState({editing: true});
