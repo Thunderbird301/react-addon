@@ -79,7 +79,22 @@ var AddressBook = React.createClass({
           currentOption: "Work",
           content: content,
           fieldID: fieldID
-        }); // this breaks everything
+        });
+        break;
+      case "adr":
+        var fieldID = cFields[2].fields.length;
+        cFields[2].fields.push({
+          content: content,
+          fieldID: fieldID
+        });
+        break;
+      case "url":
+        var fieldID = cFields[3].fields.length;
+        cFields[3].fields.push({
+          currentOption: "Work",
+          content: content,
+          fieldID: fieldID
+        });
         break;
       default:
         break;
