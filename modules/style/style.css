@@ -16,9 +16,15 @@
 
 #sidebar-buttons{
   display: flex;
+  border-radius: 4px;
   flex-wrap: wrap;
-  /*justify-content: space-around;*/
-  margin-left:5%;
+  justify-content: space-around;
+  /*margin-left:5%;*/
+  padding-top: 2%;
+}
+
+#buttons{
+  border-radius: 4px;
 }
 
 #contacts-list {
@@ -58,7 +64,8 @@
 
 #search-bar {
   margin: 5%;
-  width: 90%;
+  width: 90%;  
+  border-radius: 4px;
 }
 
 #field {
@@ -73,7 +80,9 @@
     width: 90%;
     overflow: hidden;
     text-overflow: ellipsis;
-    text-align: left;
+    text-align: left;    
+    border-radius: 4px;
+    padding-top: 5%
 }
 
 body {

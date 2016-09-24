@@ -13,9 +13,9 @@ var ContactSidebar = React.createClass({
   },
   renderName: function(contact){
     return (
-      <div>
-        <input type="button" value={contact.name} key={this.props.contactNames} onClick={this.displayContact.bind(null, contact)}></input>
-        </div>
+      <div id="contact-item">
+        <input id="buttons" type="button" value={contact.name} key={this.props.contactNames} onClick={this.displayContact.bind(null, contact)}></input>
+      </div>
     );
   },
   render: function() {
