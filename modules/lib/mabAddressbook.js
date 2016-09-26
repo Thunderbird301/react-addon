@@ -14,15 +14,21 @@ const DB_NAME = 'addrbook';
 const CONTACTS_STORE_NAME = 'contacts';
 const DB_VERSION = 2;
 
-const DB_ERR_NOT_CONN = "Connection to the database has not been opened, make sure you called Addressbook.open()";
+const DB_ERR_NOT_CONN = "Connection to the database has not been opened, please make sure you called Addressbook.open()";
 
+/**
+* @constructor
+* @param idb - IndexedDB Factory
+**/
 function Addressbook(idb) {
-  // FIXME: passes in IndexedDB factory
   this.indexedDB = idb;
 };
 
+/**
+* Creates and opens databse.
+* @param idb - IndexedDB Factory
+**/
 Addressbook.open = function(idb) {
-  // FIXME: passes in IndexedDB factory
   return new Addressbook(idb).open();
 }
 
@@ -32,9 +38,12 @@ Addressbook.prototype = {
   classID:          Components.ID(UUID),
   contractID:       contractID,
 
+/**	
+* Open connection with db.
+* @returns {Promise} - promise of open connection to db.
+**/	
   open: function() {
     let addrbook = this;
-    // FIXME: passes in IndexedDB factory
     let indexedDB = this.indexedDB;
 
     return new Promise(function(resolve, reject) {
@@ -57,10 +66,6 @@ Addressbook.prototype = {
   },
 
   _onsuccess: function(event) {
-    // FIXME: debug
-    // console.log("Success");
-    // console.log(event);
-
     this._db = event.target.result;
 
     if (this.onsuccess !== undefined) {
@@ -68,27 +73,25 @@ Addressbook.prototype = {
     }
   },
   _onerror: function(event) {
-    // FIXME: debug
-    // console.log("Error");
-    // console.log(event);
 
     if (this.onerror !== undefined) {
       this.onerror(event);
     }
   },
   _onupgradeneeded: function(event) {
-    // console.log("Upgrade Change");
-    // console.log(event);
     var db = event.target.result;
 
     // setup our object stores
     var contactsStore = db.createObjectStore(CONTACTS_STORE_NAME,
         { keyPath: "uuid", autoIncrement: true });
 
-    // set up our indexes
+  /**
+  * Set up indexes for db
+  **/
     contactsStore.createIndex("name", "name", { unique: false });
-
-    // seed data
+  /**
+  * Set up seed data for mock db
+  **/
     contactsStore.add({name: "Simon Perreault", email: "simon.perreault@viagenie.ca" , jcards: [
       ["vcard", [
         ["version", {}, "text", "4.0"],
@@ -134,6 +137,11 @@ Addressbook.prototype = {
     ]});
   },
 
+  /**
+  * Add contact to db.
+  * @param contactObj - contact object
+  * @returns {Promise} of ID of object in db.
+  **/
   add: function(contactObj) {
     let ab = this;
 
@@ -143,6 +151,11 @@ Addressbook.prototype = {
     });
   },
 
+  /**
+  * Update a contact in the db.
+  * @param contactObj - contact object
+  * @returns {Promise}
+  **/
   update: function(contactObj) {
     let ab = this;
 
@@ -152,6 +165,10 @@ Addressbook.prototype = {
     } );
   },
 
+  /**
+  * Return all contacts in db.
+  * @returns {Promise} of an array of all contact objects in the db.
+  **/
   getAll: function() {
     let ab = this;
 
@@ -166,6 +183,11 @@ Addressbook.prototype = {
     });
   },
 
+  /**
+  * Return a contact.
+  * @param id - id of contact required.
+  * @return {Promise} of a contact
+  **/
   getById: function(id) {
     let ab = this;
 
@@ -173,11 +195,18 @@ Addressbook.prototype = {
         function(transaction) { return  transaction.get(id); } )
       .then(function(contact) { return ab._convertToICALComponent(contact);  } );
   },
-
+  /**
+  * Delete contact by id
+  * @param {Integer} id - id of contact to be deleted.
+  * @returns {Promise} to delete contact of input id
+  **/
   deleteById: function(id) {
     return this._contactRequest("readwrite",function(transaction) { return  transaction.delete(id); } );
   },
-
+  /**
+  * Returns all names and IDs in the db.
+  * @returns {Promise} - of all names and IDs in db.
+  **/
   getNameAndId: function() {
 
     let db = this._db;
@@ -218,7 +247,12 @@ Addressbook.prototype = {
     });
   },
 
+  /**
+  * @param contactObj - object which describes a contact in the db.
+  * @returns ICAL equivalent to input
+  **/
   _convertToICALComponent: function(contactObj) {
+    // TODO: refactor contactObj as separate
     var result = contactObj;
 
     result.jcards = result.jcards.map(function(jcard) {
@@ -227,6 +261,10 @@ Addressbook.prototype = {
     return result;
   },
 
+  /**
+  * @param ICAL version of contact object
+  * @returns contactObj - object which describes a contact in the db. converted from input.
+  **/
   _convertFromICALComponent: function(contactObj) {
     var result = contactObj;
 
@@ -244,6 +282,11 @@ Addressbook.prototype = {
     return result;
   },
 
+  /**
+  * @param {string} access -  level of access to db needed.
+  * @param {function} requestFn - takes an IDB transaction
+  * @returns {Promise} - the result of the request function
+  **/
   _contactRequest: function(access, requestFn) {
 
     let db = this._db;
@@ -272,7 +315,4 @@ Addressbook.prototype = {
       };
     });
   }
-
 };
-
-// vim: set sw=2 ts=2 expandtab ft=javascript:
