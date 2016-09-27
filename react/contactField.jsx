@@ -17,22 +17,36 @@ var ContactField = React.createClass({
     },
     renderAddressForm: function() {
         return (
-            <div id="field">
-                <select onChange={this.saveOption} value={this.props.currentOption}>
-                    {this.props.options.map(this.renderOption)}
-                </select>
-                <input type="text" ref="street" placeholder="Street" defaultValue={this.props.fieldContent[0]} className="form-control"></input>
-                
-                <input type="text" ref="city" placeholder="City" defaultValue={this.props.fieldContent[1]} className="form-control"></input>
-                
-                <input type="text" ref="postalCode" placeholder="Postal Code" defaultValue={this.props.fieldContent[2]} className="form-control"></input>
-                
-                <input type="text" ref="region" placeholder="Region" defaultValue={this.props.fieldContent[3]} className="form-control"></input>
-                
-                <input type="text" ref="country" placeholder="Country" defaultValue={this.props.fieldContent[4]} className="form-control"></input>
-                
-                <button id="buttons" onClick={this.remove}>-</button>
-            </div>
+            <table id="field">
+                <tr>
+                    <td><select onChange={this.saveOption} value={this.props.currentOption}>
+                        {this.props.options.map(this.renderOption)}
+                        </select>
+                    </td>
+                    <td>
+                        <input type="text" ref="street" placeholder="Street" defaultValue={this.props.fieldContent[0]} className="form-control"></input>
+                    </td>
+                    <td>
+                        <button id="buttons" onClick={this.remove}>-</button>
+                    </td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td><input type="text" ref="city" placeholder="City" defaultValue={this.props.fieldContent[1]} className="form-control"></input></td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td><input type="text" ref="postalCode" placeholder="Postal Code" defaultValue={this.props.fieldContent[2]} className="form-control"></input></td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td><input type="text" ref="region" placeholder="Region" defaultValue={this.props.fieldContent[3]} className="form-control"></input></td>
+                </tr>
+                <tr>
+                    <td></td>                
+                    <td><input type="text" ref="country" placeholder="Country" defaultValue={this.props.fieldContent[4]} className="form-control"></input></td>
+                </tr>                
+            </table>
         );
     },
     renderAddressField: function(content) {
@@ -70,13 +84,15 @@ var ContactField = React.createClass({
             return this.renderAddressForm();
         }
         return (
-            <div id="field">
-                <select onChange={this.saveOption} value={this.props.currentOption}>
-                    {this.props.options.map(this.renderOption)}
-                </select>
-                <input type="text" ref="newText" defaultValue={this.props.fieldContent} className="form-control" onChange={this.saveContent}></input>
-                <button id="buttons" onClick={this.remove}>-</button>
-            </div>
+            <table id="field">
+                <tr>
+                    <td><select onChange={this.saveOption} value={this.props.currentOption}>
+                        {this.props.options.map(this.renderOption)}
+                    </select></td>
+                    <td><input type="text" ref="newText" defaultValue={this.props.fieldContent} className="form-control" onChange={this.saveContent}></input></td>
+                    <td><button id="buttons" onClick={this.remove}>-</button></td>
+                </tr>
+            </table>
         )
     }, render : function() {
         if (this.props.editing) {
