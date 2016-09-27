@@ -248,41 +248,6 @@ Addressbook.prototype = {
   },
 
   /**
-  * @param contactObj - object which describes a contact in the db.
-  * @returns ICAL equivalent to input
-  **/
-  _convertToICALComponent: function(contactObj) {
-    // TODO: refactor contactObj as separate
-    var result = contactObj;
-
-    result.jcards = result.jcards.map(function(jcard) {
-      return new ICAL.Component(jcard);
-    });
-    return result;
-  },
-
-  /**
-  * @param ICAL version of contact object
-  * @returns contactObj - object which describes a contact in the db. converted from input.
-  **/
-  _convertFromICALComponent: function(contactObj) {
-    var result = contactObj;
-
-    result.jcards = result.jcards.map(function(jcard) {
-      // check if the jcard is in the array format
-      if (Array.isArray(jcard)) {
-        // is presumably a in array jCard format
-        // validate it by parsing it as a Component then convert it back into jCard
-        return new ICAL.Component(jcard).toJSON();
-      } else {
-        // jcard is an ICAL.Component, so convert it to jCard
-        return jcard.toJSON();
-      }
-    });
-    return result;
-  },
-
-  /**
   * @param {string} access -  level of access to db needed.
   * @param {function} requestFn - takes an IDB transaction
   * @returns {Promise} - the result of the request function
@@ -316,3 +281,44 @@ Addressbook.prototype = {
     });
   }
 };
+
+
+/**
+ * @constructor
+ */
+function Contact(rawContact) {
+  this.uuid = rawContact.uuid; 
+  this.name = rawContact.name;
+  this.photo = rawContact.photo;
+  this.jcards = Contact._convertFromRawJCard(rawContact.jcards);
+  
+};
+
+
+Contact.prototype = {
+
+  _convertFromRawJCard: function(jcards) {
+    return jcards.map(function(jcard) {
+      return new ICAL.Component(jcard);
+    });
+  },
+
+  _convertToRawJCard: function() {
+
+    return this.jcards.map(function(jcard) {
+      return jcard.toJSON();
+    });
+  },
+
+  toJSON: function() {
+    return {
+      name : this.name,
+      uuid : this.uuid,
+      photo: this.photo,
+      jcards: Contact._convertToRawJCard()
+    };
+  }
+
+}
+
+// vim: set sw=2 ts=2 expandtab ft=javascript:
