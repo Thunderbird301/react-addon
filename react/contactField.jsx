@@ -21,11 +21,16 @@ var ContactField = React.createClass({
                 <select onChange={this.saveOption} value={this.props.currentOption}>
                     {this.props.options.map(this.renderOption)}
                 </select>
-                <input type="text" ref="street" defaultValue={this.props.fieldContent[0]} className="form-control"></input>
-                <input type="text" ref="city" defaultValue={this.props.fieldContent[1]} className="form-control"></input>
-                <input type="text" ref="postalCode" defaultValue={this.props.fieldContent[2]} className="form-control"></input>
-                <input type="text" ref="region" defaultValue={this.props.fieldContent[3]} className="form-control"></input>
-                <input type="text" ref="country" defaultValue={this.props.fieldContent[4]} className="form-control"></input>
+                <input type="text" ref="street" placeholder="Street" defaultValue={this.props.fieldContent[0]} className="form-control"></input>
+                
+                <input type="text" ref="city" placeholder="City" defaultValue={this.props.fieldContent[1]} className="form-control"></input>
+                
+                <input type="text" ref="postalCode" placeholder="Postal Code" defaultValue={this.props.fieldContent[2]} className="form-control"></input>
+                
+                <input type="text" ref="region" placeholder="Region" defaultValue={this.props.fieldContent[3]} className="form-control"></input>
+                
+                <input type="text" ref="country" placeholder="Country" defaultValue={this.props.fieldContent[4]} className="form-control"></input>
+                
                 <button id="buttons" onClick={this.remove}>-</button>
             </div>
         );

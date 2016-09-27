@@ -20,11 +20,12 @@
   flex-wrap: wrap;
   justify-content: space-around;
   /*margin-left:5%;*/
-  padding-top: 2%;
+  /*padding-top: 2%;*/
 }
 
 #buttons{
   border-radius: 4px;
+  width: 60px;
 }
 
 #contacts-list {
@@ -82,7 +83,6 @@
     text-overflow: ellipsis;
     text-align: left;    
     border-radius: 4px;
-    padding-top: 5%
 }
 
 body {

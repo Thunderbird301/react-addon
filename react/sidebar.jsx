@@ -13,9 +13,9 @@ var ContactSidebar = React.createClass({
   },
   renderName: function(contact){
     return (
-      <div id="contact-item">
-        <input id="buttons" type="button" value={contact.name} key={this.props.contactNames} onClick={this.displayContact.bind(null, contact)}></input>
-      </div>
+      <div>
+        <input id="contact-item" type="button" value={contact.name} key={this.props.contactNames} onClick={this.displayContact.bind(null, contact)}></input>
+      </div>      
     );
   },
   render: function() {
@@ -31,6 +31,7 @@ var ContactSidebar = React.createClass({
                 <input id="buttons" type="button" value="+" onClick={this.add}></input>
               </span>
             </div>
+            <br />
             <div id="contacts-list">
               {this.props.contactNames.map(this.renderName)}
             </div>

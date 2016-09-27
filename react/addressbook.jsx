@@ -138,12 +138,12 @@ var AddressBook = React.createClass({
   editingDisplay: function() {
     if (!this.state.editing) {
       return (<div>
-        <button onClick={this.edit}>Edit</button>
+        <button id="buttons" onClick={this.edit}>Edit</button>
       </div>);
     } else {
       return (<div>
-        <button onClick={this.save}>Save</button>
-        <button onClick={this.cancel}>Cancel</button>
+        <button id="buttons" onClick={this.save}>Save</button>
+        <button id="buttons" onClick={this.cancel}>Cancel</button>
       </div>);
     }
   },
