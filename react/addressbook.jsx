@@ -168,8 +168,16 @@ var AddressBook = React.createClass({
             index: i
           });
       }
-      this.setState({contactSections: cSections});
-      this.setState({editing: false});
+      var tpSection = this.state.tempPersonalSection;
+      var pSection = this.createEmptyPersonalSection();
+      for (var key in tpSection) {
+        pSection[key] = tpSection[key];
+      }
+      this.setState({
+        contactSections: cSections,
+        personalSection: pSection,
+        editing: false
+      });
   },
   cancel: function() {
       var tSections = [];
@@ -198,6 +206,11 @@ var AddressBook = React.createClass({
     var tSections = this.state.tempContactSections;
     tSections[index] = tSection;
     this.setState({tempContactSections: tSections});
+  },
+  updatePersonalDetail: function(detail, newText) {
+    var tDetails = this.state.tempPersonalSection;
+    tDetails[detail] = newText;
+    this.setState({tempPersonalSection: tDetails});
   },
   updateOption: function(option, index, fieldID) {
       var tSection = this.state.tempContactSections[index];
@@ -244,7 +257,7 @@ var AddressBook = React.createClass({
         <ContactSidebar contactNames={this.state.contactNames} viewContact={this.setContactID}/>
       </div>
       <div id="main">
-        <Header personalDetails={this.state.personalSection} image='images/1.jpg'/>
+        <Header personalDetails={this.state.personalSection} onUserInput={this.updatePersonalDetail} editing={this.state.editing} image='images/1.jpg'/>
         {this.editingDisplay()}
         {this.state.contactSections.map(this.renderContactSection)}
       </div>
