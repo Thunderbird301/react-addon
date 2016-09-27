@@ -137,32 +137,16 @@ Addressbook.prototype = {
     ]});
   },
 
-  /**
-  * Add contact to db.
-  * @param contactObj - contact object
-  * @returns {Promise} of ID of object in db.
-  **/
-  add: function(contactObj) {
-    let ab = this;
-
+  add: function(rawContact) {
     return this._contactRequest("readwrite", function(transaction) {
-      contactObj = ab._convertFromICALComponent(contactObj);
-      return transaction.add(contactObj);
+      return transaction.add(rawContact);
     });
   },
 
-  /**
-  * Update a contact in the db.
-  * @param contactObj - contact object
-  * @returns {Promise}
-  **/
-  update: function(contactObj) {
-    let ab = this;
-
+  update: function(contact) {
     return this._contactRequest("readwrite",function(transaction) {
-      contactObj = this._convertFromICALComponent(contactObj);
-      return  transaction.put(contactObj);
-    } );
+      return transaction.put(contact.toJSON());
+    });
   },
 
   /**
@@ -170,15 +154,13 @@ Addressbook.prototype = {
   * @returns {Promise} of an array of all contact objects in the db.
   **/
   getAll: function() {
-    let ab = this;
-
     return this._contactRequest("readonly",
         function(transaction) {
-          return  transaction.getAll();
+          return transaction.getAll();
         })
-    .then(function(contacts) {
-      return contacts.map(function(contact) {
-        return ab._convertToICALComponent(contact);
+    .then(function(rawContacts) {
+      return rawContacts.map(function(rawContact) {
+        return new Contact(rawContact);
       });
     });
   },
@@ -189,11 +171,13 @@ Addressbook.prototype = {
   * @return {Promise} of a contact
   **/
   getById: function(id) {
-    let ab = this;
-
     return this._contactRequest("readonly",
-        function(transaction) { return  transaction.get(id); } )
-      .then(function(contact) { return ab._convertToICALComponent(contact);  } );
+        function(transaction) { 
+          return  transaction.get(id); 
+        })
+    .then(function(rawContact) { 
+      return new Contact(rawContact);  
+    });
   },
   /**
   * Delete contact by id
@@ -290,8 +274,7 @@ function Contact(rawContact) {
   this.uuid = rawContact.uuid; 
   this.name = rawContact.name;
   this.photo = rawContact.photo;
-  this.jcards = Contact._convertFromRawJCard(rawContact.jcards);
-  
+  this.jcards = this._convertFromRawJCard(rawContact.jcards);
 };
 
 
@@ -312,13 +295,12 @@ Contact.prototype = {
 
   toJSON: function() {
     return {
-      name : this.name,
       uuid : this.uuid,
+      name : this.name,
       photo: this.photo,
-      jcards: Contact._convertToRawJCard()
+      jcards: this._convertToRawJCard()
     };
   }
-
-}
+};
 
 // vim: set sw=2 ts=2 expandtab ft=javascript:
