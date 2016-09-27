@@ -20,7 +20,7 @@ var AddressbookUtil = {
     fp.init(window, "Save contact to", ifp.modeSave);
     fp.appendFilters(ifp.filterAll | ifp.filterText);
     fp.filterIndex = 1;
-    fp.defaultString = "contact.vcard";
+    fp.defaultString = contact.name + ".vcf";
 
     try{
 
