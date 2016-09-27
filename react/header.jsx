@@ -6,10 +6,10 @@ var Header = React.createClass({
           <ProfileImage image={this.props.image}/>
         </div>
         <div id="header-text">
-          <h2>{this.props.fn} {this.props.ln}</h2>
-          <h3>{this.props.nn}</h3>
-          <h4>{this.props.dn}</h4>
-          <h4>{this.props.bday}</h4>
+          <h2>{this.props.personalDetails.name}</h2>
+          <h3>{this.props.personalDetails.nickName}</h3>
+          <h4>{this.props.personalDetails.displayName}</h4>
+          <h4>{this.props.personalDetails.birthday}</h4>
         </div>
     </div>
     );
