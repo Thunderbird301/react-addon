@@ -90,8 +90,8 @@ var AddressBook = React.createClass({
         this.addFieldProperty(2, "", content, tFields);
         break;
       case "url":
-        this.addFieldProperty(3, "", content, cFields);
-        this.addFieldProperty(3, "", content, tFields);
+        this.addFieldProperty(3, "Work", content, cFields);
+        this.addFieldProperty(3, "Work", content, tFields);
         break;
       case "fn":
         pField.name = content;
