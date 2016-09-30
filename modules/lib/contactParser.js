@@ -1,6 +1,5 @@
 function ContactParser() { };
 
-
 ContactParser.createEmptyContactSections = function(contactSections) {
   var sections = [];
   for (var i = 0; i < contactSections.length; i++) {
@@ -41,6 +40,17 @@ ContactParser.getContactDetails = function(id, ab) {
       });
     });
   });
+};
+
+ContactParser.prepareContactForUpdate = function(contact) {
+  for (var j = 0; j <contact.jcards.length; j++) {
+    var details = contact.jcards[j].getAllProperties();
+    for (var i = 0; i < details.length; i++) {
+      if(!details[i]) {
+        details.splice(i, 1);
+      }
+    }
+  }
 };
 
 ContactParser._parseProperty = function(property, cFields, tFields, pField, tpField, jCardIndex, jCardFieldIndex) {
