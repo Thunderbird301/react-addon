@@ -12,10 +12,16 @@ var ContactSidebar = React.createClass({
     this.props.viewContact(contact.id);
   },
   renderName: function(contact){
+    var style = {'background-color': ''};
+
+    if(contact.id==this.props.currentID){
+      style = {'background-color': '#ccc'};
+    }
+
     return (
-      <div>
-        <input type="button" value={contact.name} key={this.props.contactNames} onClick={this.displayContact.bind(null, contact)}></input>
-        </div>
+      <div id="contact-item" style={style} >
+        <li key={this.props.contactNames} onClick={this.displayContact.bind(null, contact)}>{contact.name}</li>
+      </div>
     );
   },
   render: function() {
@@ -26,13 +32,16 @@ var ContactSidebar = React.createClass({
                 <input id="search-bar" type="text" name ="search" placeholder="Search"></input>
               </div>
               <span id="sidebar-buttons">
-                <input id="buttons" type="button" value="Export" onClick={this.export}></input>
-                <input id="buttons" type="button" value="Import" onClick={this.import}></input>
-                <input id="buttons" type="button" value="+" onClick={this.add}></input>
+                <input type="button" value="Export" onClick={this.export}></input>
+                <input type="button" value="Import" onClick={this.import}></input>
+                <input type="button" value="+" onClick={this.add}></input>
               </span>
             </div>
+            <br />
             <div id="contacts-list">
-              {this.props.contactNames.map(this.renderName)}
+              <ul>
+                {this.props.contactNames.map(this.renderName)}
+              </ul>
             </div>
           </div>
       );

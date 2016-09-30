@@ -1,10 +1,13 @@
+@import url(resources/buttons.css);
+
 #sidebar {
   width: 20vw;
   height: 100vh;
   min-height: 100px;
   min-width: 100px;
   overflow-x: hidden;
-  background-color: #0f0;
+ /* background-color: #0f0;*/
+  background-color: #f3f4f4;
   float: left;
 }
 
@@ -14,13 +17,30 @@
 
 #sidebar-buttons{
   display: flex;
+  border-radius: 4px;
   flex-wrap: wrap;
-  justify-content: space-around;
+  justify-content: space-around;  
+  /*margin-left:5%;*/
+  /*padding-top: 2%;*/  
+}
+
+#sidebar-buttons input[type="button"]{
+  background-color: white;
+  border-radius: 4px;
+  width: 60px;
+  border: 1px solid #ccc;
+}
+
+#buttons{
+  border-radius: 4px;
+  width: 60px;
+  border: 1px solid #ccc;
 }
 
 #contacts-list {
   overflow-y: auto;
   height: 90%;
+  margin-left:5%;
 }
 
 #main {
@@ -54,21 +74,37 @@
 
 #search-bar {
   margin: 5%;
-  width: 90%;
+  width: 90%;  
+  border-radius: 4px;
+  border: 1px solid #ccc;
 }
-
-#buttons{
-	border-radius: 8px;
-  flex-grow: 1;
-  max-width: 25%;
-}
-
 
 #field {
   display: flex;
   flex-direction: row;
   justify-content: start;
   align-items: center;
+}
+
+#field input[type="text"]{
+  border-radius: 4px;
+  border: 1px solid #ccc;
+}
+
+#field select{
+  border-radius: 4px;
+  border: 1px solid #ccc;
+}
+
+#contact-item {        /* //XX added gN */
+    display: flex;
+    width: 90%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    text-align: left;    
+    border-radius: 4px;
+    border: 1px solid #ccc;
+    background-color: white;
 }
 
 body {
@@ -80,3 +116,5 @@ body {
 .circle{
   border-radius: 50%;
 }
+
+

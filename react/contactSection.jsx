@@ -29,7 +29,11 @@ var ContactSection = React.createClass({
                     <h3>{this.props.type}</h3>
                     <hr></hr>
                     {this.props.fields.map(this.renderForm)}
-                    <button id="buttons" onClick={this.add}>Add</button>
+                    <table id="field">
+                        <tr>
+                            <td><button id="buttons" onClick={this.add}>Add</button></td>
+                        </tr>
+                    </table>
                 </div>
             )
         } else {
