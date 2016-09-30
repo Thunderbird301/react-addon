@@ -6,7 +6,8 @@
   min-height: 100px;
   min-width: 100px;
   overflow-x: hidden;
-  background-color: #0f0;
+ /* background-color: #0f0;*/
+  background-color: #f3f4f4;
   float: left;
 }
 
@@ -18,14 +19,22 @@
   display: flex;
   border-radius: 4px;
   flex-wrap: wrap;
-  justify-content: space-around;
+  justify-content: space-around;  
   /*margin-left:5%;*/
-  /*padding-top: 2%;*/
+  /*padding-top: 2%;*/  
+}
+
+#sidebar-buttons input[type="button"]{
+  background-color: white;
+  border-radius: 4px;
+  width: 60px;
+  border: 1px solid #ccc;
 }
 
 #buttons{
   border-radius: 4px;
   width: 60px;
+  border: 1px solid #ccc;
 }
 
 #contacts-list {
@@ -67,6 +76,7 @@
   margin: 5%;
   width: 90%;  
   border-radius: 4px;
+  border: 1px solid #ccc;
 }
 
 #field {
@@ -76,6 +86,16 @@
   align-items: center;
 }
 
+#field input[type="text"]{
+  border-radius: 4px;
+  border: 1px solid #ccc;
+}
+
+#field select{
+  border-radius: 4px;
+  border: 1px solid #ccc;
+}
+
 #contact-item {        /* //XX added gN */
     display: flex;
     width: 90%;
@@ -83,6 +103,8 @@
     text-overflow: ellipsis;
     text-align: left;    
     border-radius: 4px;
+    border: 1px solid #ccc;
+    background-color: white;
 }
 
 body {
@@ -94,3 +116,5 @@ body {
 .circle{
   border-radius: 50%;
 }
+
+
