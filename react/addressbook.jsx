@@ -74,24 +74,32 @@ var AddressBook = React.createClass({
     });
   },
   parseProperty: function(property, cFields, tFields, pField, tpField) {
-    var name = property.jCal[0];
-    var content = property.jCal[3];
+    var name = property.name;
+    var type = property.getParameter("type");
+    var content = property.getFirstValue();
+    if (Array.isArray(type)) {
+      type = type[0];
+    }
+    if (type) {
+      type = type.charAt(0).toUpperCase() + type.slice(1);
+    }
+
     switch (name) {
       case "email":
-        this.addFieldProperty(0, "Work", content, cFields);
-        this.addFieldProperty(0, "Work", content, tFields);
+        this.addFieldProperty(0, type, content, cFields);
+        this.addFieldProperty(0, type, content, tFields);
         break;
       case "tel":
-        this.addFieldProperty(1, "Work", content, cFields);
-        this.addFieldProperty(1, "Work", content, tFields);
+        this.addFieldProperty(1, type, content, cFields);
+        this.addFieldProperty(1, type, content, tFields);
         break;
       case "adr":
-        this.addFieldProperty(2, "", content, cFields);
-        this.addFieldProperty(2, "", content, tFields);
+        this.addFieldProperty(2, type, content, cFields);
+        this.addFieldProperty(2, type, content, tFields);
         break;
       case "url":
-        this.addFieldProperty(3, "Work", content, cFields);
-        this.addFieldProperty(3, "Work", content, tFields);
+        this.addFieldProperty(3, type, content, cFields);
+        this.addFieldProperty(3, type, content, tFields);
         break;
       case "fn":
         pField.name = content;
@@ -106,8 +114,8 @@ var AddressBook = React.createClass({
         tpField.displayName = content;
         break;
       case "bday":
-        pField.birthday = content;
-        tpField.birthday = content;
+        pField.birthday = content.toString();
+        tpField.birthday = content.toJSDate().toISOString();
         break;
       default:
         break;

@@ -43,9 +43,9 @@ var ContactField = React.createClass({
                     <td><input type="text" ref="region" placeholder="Region" defaultValue={this.props.fieldContent[3]} className="form-control"></input></td>
                 </tr>
                 <tr>
-                    <td></td>                
+                    <td></td>
                     <td><input type="text" ref="country" placeholder="Country" defaultValue={this.props.fieldContent[4]} className="form-control"></input></td>
-                </tr>                
+                </tr>
             </table>
         );
     },
@@ -59,8 +59,7 @@ var ContactField = React.createClass({
     renderAddressDisplay: function() {
       return (
         <div id = "field">
-           <p>{this.props.currentOption}</p>
-          {this.props.fieldContent.map(this.renderAddressField)}
+           <p>{this.props.currentOption} : {this.props.fieldContent.map(this.renderAddressField)} </p>
         </div>
       );
     },
