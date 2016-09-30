@@ -12,10 +12,16 @@ var ContactSidebar = React.createClass({
     this.props.viewContact(contact.id);
   },
   renderName: function(contact){
+    var style = {'background-color': ''};
+
+    if(contact.id==this.props.currentID){
+      style = {'background-color': '#ccc'};
+    }
+
     return (
-      <div>
-        <input id="contact-item" type="button" value={contact.name} key={this.props.contactNames} onClick={this.displayContact.bind(null, contact)}></input>
-      </div>      
+      <div id="contact-item" style={style} >
+        <li key={this.props.contactNames} onClick={this.displayContact.bind(null, contact)}>{contact.name}</li>
+      </div>
     );
   },
   render: function() {
@@ -33,7 +39,9 @@ var ContactSidebar = React.createClass({
             </div>
             <br />
             <div id="contacts-list">
-              {this.props.contactNames.map(this.renderName)}
+              <ul>
+                {this.props.contactNames.map(this.renderName)}
+              </ul>
             </div>
           </div>
       );
