@@ -3,47 +3,58 @@ const Ci = Components.interfaces;
 
 const EXPORTED_SYMBOLS = ['AddressbookUtil'];
 
-function ohplz() {
-  return AddressbookUtil;
-}
-
 var AddressbookUtil = {
 
-  exportContact: function(contact) {
+  /**
+   * exports contacts to a file choosen by the user.
+   * Shows a file picker to the user to choose where the file is exported to.
+   *
+   * @param {Contact|Contact[]} the contact(s) to export to the
+   */
+  exportContact: function(contacts) {
 
-    var ifp = Components.interfaces.nsIFilePicker;
-    var fp = Components.classes["@mozilla.org/filepicker;1"].createInstance(ifp);
-    var wm = Cc["@mozilla.org/appshell/window-mediator;1"].
-      getService(Ci.nsIWindowMediator);
-    var window = wm.getMostRecentWindow(null);
+    var filePickerInterface = Components.interfaces.nsIFilePicker;
+    var filePicker = Components.classes["@mozilla.org/filepicker;1"].createInstance(filePickerInterface);
+    var windowMediator = Cc["@mozilla.org/appshell/window-mediator;1"].getService(Ci.nsIWindowMediator);
+    var window = windowMediator.getMostRecentWindow(null);
 
-    fp.init(window, "Save contact to", ifp.modeSave);
-    fp.appendFilters(ifp.filterAll | ifp.filterText);
-    fp.filterIndex = 1;
-    fp.defaultString = contact.name + ".vcf";
+    filePicker.init(window, "Save contacts to", filePickerInterface.modeSave);
+    filePicker.appendFilters(filePickerInterface.filterAll | filePickerInterface.filterText);
+    filePicker.filterIndex = 1;
 
-    try{
+    // check if the contacts to export is an array or a single contact
+    if (Array.isArray(contacts)) {
+      filePicker.defaultString = "contacts.vcf";
+    } else {
+      filePicker.defaultString = contacts.name + ".vcf";
+      contacts = [contacts];
+    }
 
-      var rv = fp.show();
+    var returnValue = filePicker.show();
 
-      if (rv == ifp.returnOK || rv == ifp.returnReplace) {
+    if (returnValue == filePickerInterface.returnOK || returnValue == filePickerInterface.returnReplace) {
 
-        var foStream = Components.classes["@mozilla.org/network/file-output-stream;1"]
-          .createInstance(Components.interfaces.nsIFileOutputStream);
+      var foStream = Components.classes["@mozilla.org/network/file-output-stream;1"]
+        .createInstance(Components.interfaces.nsIFileOutputStream);
 
-        foStream.init(fp.file, 0x02 | 0x08 | 0x20, 0666, 0); // write, create, truncate
+      foStream.init(filePicker.file, 0x02 | 0x08 | 0x20, 0666, 0); // write, create, truncate
 
+
+      // iterate through all the contacts to be exported
+      contacts.forEach(function(contact) {
         // iterate through the jCards (assuming they are in Component form)
         contact.jcards.map(function(jcard) {
           var vcard = jcard.toString();
 
+          // write vcard to file
           foStream.write(vcard, vcard.length);
-        });
 
-        foStream.close();
-      }
-    } catch(err) {
-      alert(err.toString()); 
+          // insert a new line between contacts
+          foStream.write("\r\n\r\n", 4);
+        });
+      });
+
+      foStream.close();
     }
   }
 }
