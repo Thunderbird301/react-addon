@@ -102,6 +102,7 @@ var AddressBook = React.createClass({
       ContactParser.prepareContactForUpdate(tempContact);
       this.setState({
         contact: new Contact(tempContact.toJSON()),
+        tempContact: new Contact(tempContact.toJSON()),
         contactSections: cSections,
         personalSection: pSection,
         editing: false
