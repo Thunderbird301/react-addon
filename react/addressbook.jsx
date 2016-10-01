@@ -20,6 +20,7 @@ var AddressBook = React.createClass({
       contact: null,
       tempContact: null,
       editing: false,
+      photoUrl: "images/1.jpg",
       contactSections: contactSections,
       tempContactSections: tempContactSections,
       personalSection: personalSection,
@@ -92,14 +93,14 @@ var AddressBook = React.createClass({
       for (var key in tpSection) {
         pSection[key] = tpSection[key];
       }
+      var tempContact = this.state.tempContact;
+      ContactParser.prepareContactForUpdate(tempContact);
+      ContactParser.updateContact(tempContact);
       this.setState({
+        contact: new Contact(tempContact),
         contactSections: cSections,
         personalSection: pSection,
         editing: false
-      });
-
-      Addressbook.open(indexedDB).then(function(addrbook) {
-        addrbook.update(tempContact);
       });
   },
   cancel: function() {
@@ -180,7 +181,7 @@ var AddressBook = React.createClass({
         <ContactSidebar contactNames={this.state.contactNames} viewContact={this.setContactID} currentID={this.state.currentPersonID}/>
       </div>
       <div id="main">
-        <Header personalDetails={this.state.personalSection} onUserInput={this.updatePersonalDetail} editing={this.state.editing} image='images/1.jpg'/>
+        <Header personalDetails={this.state.personalSection} onUserInput={this.updatePersonalDetail} editing={this.state.editing} image={this.state.photoUrl}/>
         {this.editingDisplay()}
         {this.state.contactSections.map(this.renderContactSection)}
       </div>

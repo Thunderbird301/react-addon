@@ -137,32 +137,16 @@ Addressbook.prototype = {
     ]});
   },
 
-  /**
-  * Add contact to db.
-  * @param contactObj - contact object
-  * @returns {Promise} of ID of object in db.
-  **/
-  add: function(contactObj) {
-    let ab = this;
-
+  add: function(rawContact) {
     return this._contactRequest("readwrite", function(transaction) {
-      contactObj = ab._convertFromICALComponent(contactObj);
-      return transaction.add(contactObj);
+      return transaction.add(rawContact);
     });
   },
 
-  /**
-  * Update a contact in the db.
-  * @param contactObj - contact object
-  * @returns {Promise}
-  **/
-  update: function(contactObj) {
-    let ab = this;
-
+  update: function(contact) {
     return this._contactRequest("readwrite",function(transaction) {
-      contactObj = this._convertFromICALComponent(contactObj);
-      return  transaction.put(contactObj);
-    } );
+      return transaction.put(contact.toJSON());
+    });
   },
 
   /**
@@ -170,15 +154,13 @@ Addressbook.prototype = {
   * @returns {Promise} of an array of all contact objects in the db.
   **/
   getAll: function() {
-    let ab = this;
-
     return this._contactRequest("readonly",
         function(transaction) {
-          return  transaction.getAll();
+          return transaction.getAll();
         })
-    .then(function(contacts) {
-      return contacts.map(function(contact) {
-        return ab._convertToICALComponent(contact);
+    .then(function(rawContacts) {
+      return rawContacts.map(function(rawContact) {
+        return new Contact(rawContact);
       });
     });
   },
@@ -189,11 +171,13 @@ Addressbook.prototype = {
   * @return {Promise} of a contact
   **/
   getById: function(id) {
-    let ab = this;
-
     return this._contactRequest("readonly",
-        function(transaction) { return  transaction.get(id); } )
-      .then(function(contact) { return ab._convertToICALComponent(contact);  } );
+        function(transaction) { 
+          return  transaction.get(id); 
+        })
+    .then(function(rawContact) { 
+      return new Contact(rawContact);  
+    });
   },
   /**
   * Delete contact by id
@@ -248,41 +232,6 @@ Addressbook.prototype = {
   },
 
   /**
-  * @param contactObj - object which describes a contact in the db.
-  * @returns ICAL equivalent to input
-  **/
-  _convertToICALComponent: function(contactObj) {
-    // TODO: refactor contactObj as separate
-    var result = contactObj;
-
-    result.jcards = result.jcards.map(function(jcard) {
-      return new ICAL.Component(jcard);
-    });
-    return result;
-  },
-
-  /**
-  * @param ICAL version of contact object
-  * @returns contactObj - object which describes a contact in the db. converted from input.
-  **/
-  _convertFromICALComponent: function(contactObj) {
-    var result = contactObj;
-
-    result.jcards = result.jcards.map(function(jcard) {
-      // check if the jcard is in the array format
-      if (Array.isArray(jcard)) {
-        // is presumably a in array jCard format
-        // validate it by parsing it as a Component then convert it back into jCard
-        return new ICAL.Component(jcard).toJSON();
-      } else {
-        // jcard is an ICAL.Component, so convert it to jCard
-        return jcard.toJSON();
-      }
-    });
-    return result;
-  },
-
-  /**
   * @param {string} access -  level of access to db needed.
   * @param {function} requestFn - takes an IDB transaction
   * @returns {Promise} - the result of the request function
@@ -316,3 +265,42 @@ Addressbook.prototype = {
     });
   }
 };
+
+
+/**
+ * @constructor
+ */
+function Contact(rawContact) {
+  this.uuid = rawContact.uuid; 
+  this.name = rawContact.name;
+  this.photo = rawContact.photo;
+  this.jcards = this._convertFromRawJCard(rawContact.jcards);
+};
+
+
+Contact.prototype = {
+
+  _convertFromRawJCard: function(jcards) {
+    return jcards.map(function(jcard) {
+      return new ICAL.Component(jcard);
+    });
+  },
+
+  _convertToRawJCard: function() {
+
+    return this.jcards.map(function(jcard) {
+      return jcard.toJSON();
+    });
+  },
+
+  toJSON: function() {
+    return {
+      uuid : this.uuid,
+      name : this.name,
+      photo: this.photo,
+      jcards: this._convertToRawJCard()
+    };
+  }
+};
+
+// vim: set sw=2 ts=2 expandtab ft=javascript:

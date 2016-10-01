@@ -26,21 +26,37 @@ ContactParser.getContactDetails = function(id, ab) {
 
   Addressbook.open(indexedDB).then(function(addrbook) {
     addrbook.getById(id).then(function(contact) {
+      // Gets contact details
       for (var j = 0; j <contact.jcards.length; j++) {
         var details = contact.jcards[j].getAllProperties();
         for (var i = 0; i < details.length; i++) {
           self._parseProperty(details[i], contactSections, tempContactSections, personalSection, tempPersonalSection, j, i);
         }
       }
+      // Gets contact profile image
+      var photoUrl = "images/1.jpg";
+      if (contact.photo) {
+        photoUrl = URL.createObjectURL(contact.photo);
+      }
+      // Stores contact information in UI
       ab.setState({
+        contact: new Contact(contact.toJSON()),
+        tempContact: new Contact(contact.toJSON()),
         contactSections: contactSections,
         tempContactSections: tempContactSections,
         personalSection: personalSection,
-        tempPersonalSection: tempPersonalSection
+        tempPersonalSection: tempPersonalSection,
+        photoUrl: photoUrl
       });
     });
   });
 };
+
+ContactParser.updateContact = function(contact) {
+    Addressbook.open(indexedDB).then(function(addrbook) {
+      addrbook.update(contact); // maybe check success here?
+    });
+}
 
 ContactParser.prepareContactForUpdate = function(contact) {
   for (var j = 0; j <contact.jcards.length; j++) {
