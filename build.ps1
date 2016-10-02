@@ -1,8 +1,8 @@
-if(test-path("react.xpi")) {
-    remove-Item react.xpi
+if(test-path("newTBAB.xpi")) {
+    remove-Item newTBAB.xpi
 }
-if(test-path("react.zip")) {
-    remove-Item react.zip
+if(test-path("newTBAB.zip")) {
+    remove-Item newTBAB.zip
 }
 
 #npm install
@@ -41,12 +41,12 @@ foreach ($file in Get-ChildItem "react") {
 Write-Host
 Write-Host "Building xpi"
 foreach($file in "content", "defaults", "modules", "install.rdf", "chrome.manifest") {
-    Get-Item $file | add-Zip react.zip
+    Get-Item $file | add-Zip newTBAB.zip
     Write-Host -NoNewLine "."
 }
 
 
-Rename-Item react.zip react.xpi
+Rename-Item newTBAB.zip newTBAB.xpi
 
 Write-Host
 Write-Host "Done"

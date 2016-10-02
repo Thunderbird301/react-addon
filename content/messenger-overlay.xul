@@ -16,8 +16,8 @@
     <toolbarbutton 
          class="toolbarbutton-1 chromeclass-toolbar-additional"
          id="AddressBookTab-button"
-         label="React"
-         tooltiptext="React"
+         label="New Thunderbird Addressbook"
+         tooltiptext="New Thunderbird Addressbook"
          oncommand="reactTabType.open();"
          removable="true"
 
