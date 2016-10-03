@@ -21,8 +21,9 @@ var AddressbookUtil = {
     var window = windowMediator.getMostRecentWindow(null);
 
     filePicker.init(window, "Save contacts to", filePickerInterface.modeSave);
-    filePicker.appendFilters(filePickerInterface.filterAll | filePickerInterface.filterText);
-    filePicker.filterIndex = 1;
+    filePicker.appendFilter("vCard", "*.vcf; *.vcard");
+    filePicker.appendFilters(filePickerInterface.filterAll);
+    filePicker.filterIndex = 0;
 
     // check if the contacts to export is an array or a single contact
     if (Array.isArray(contacts)) {
@@ -72,9 +73,10 @@ var AddressbookUtil = {
     var window = windowMediator.getMostRecentWindow(null);
 
     filePicker.init(window, "Load contacts from", filePickerInterface.modeOpen);
-    filePicker.appendFilters(filePickerInterface.filterAll | filePickerInterface.filterText);
-    filePicker.filterIndex = 1;
-    filePicker.defaultString = "*.vcf";
+    filePicker.appendFilter("vCard", "*.vcf; *.vcard");
+    filePicker.appendFilters(filePickerInterface.filterAll);
+    filePicker.filterIndex = 0;
+    filePicker.defaultString = "contacts.vcf";
 
     var returnValue = filePicker.show();
 
