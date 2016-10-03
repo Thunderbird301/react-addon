@@ -271,7 +271,7 @@ Addressbook.prototype = {
  * @constructor
  */
 function Contact(rawContact) {
-  this.uuid = rawContact.uuid; 
+  this.uuid = rawContact.uuid;
   this.name = rawContact.name;
   this.photo = rawContact.photo;
   this.jcards = this._convertFromRawJCard(rawContact.jcards);
