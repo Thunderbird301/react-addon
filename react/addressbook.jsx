@@ -256,7 +256,7 @@ var AddressBook = React.createClass({
   renderContactSection: function(contactSection) {
     if (this.state.editing) {
     return(<ContactSection type={contactSection.name} options={contactSection.options} editing={this.state.editing} index={contactSection.index} fields={this.state.tempContactSections[contactSection.index].fields}
-      save={this.save} add={this.add} remove={this.removeField} updateOption={this.updateOption} updateContent={this.updateContent}/>);// render individual contact section
+      save={this.save} add={this.addField} remove={this.removeField} updateOption={this.updateOption} updateContent={this.updateContent}/>);// render individual contact section
     } else {
       return(<ContactSection type={contactSection.name} options={contactSection.options} editing={this.state.editing} index={contactSection.index} fields={contactSection.fields}
         save={this.save}/>);// render individual contact section
