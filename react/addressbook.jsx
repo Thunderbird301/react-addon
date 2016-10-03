@@ -149,6 +149,9 @@ var AddressBook = React.createClass({
       tSections[index] = tSection;
       this.setState({tempContactSections: tSections});
   },
+  updateProfileImage: function(image) {
+    // change stored imagee???
+  },
   setContactID: function(id) {
     ContactParser.getContactDetails(id, this);
     this.setState({
@@ -187,7 +190,7 @@ var AddressBook = React.createClass({
         <ContactSidebar contactNames={this.state.contactNames} viewContact={this.setContactID} currentID={this.state.currentPersonID}/>
       </div>
       <div id="main">
-        <Header personalDetails={this.state.personalSection} onUserInput={this.updatePersonalDetail} editing={this.state.editing} image={this.state.photoUrl}/>
+        <Header personalDetails={this.state.personalSection} onUserInput={this.updatePersonalDetail} onNewImage={this.updateProfileImage} editing={this.state.editing} image={this.state.photoUrl}/>
         {this.editingDisplay()}
         {this.state.contactSections.map(this.renderContactSection)}
       </div>
