@@ -12,14 +12,15 @@ var ContactSidebar = React.createClass({
     this.props.viewContact(contact.id);
   },
   renderName: function(contact){
-    var style = {'background-color': ''};
-
-    if(contact.id==this.props.currentID){
-      style = {'background-color': '#ccc'};
+    var className;
+    if (contact.id == this.props.currentID) {
+      className = "contact-detail-true";
+    } else {
+      className = "contact-detail";
     }
 
     return (
-      <div id="contact-item" style={style} >
+      <div id="contact-item" className={className} >
         <li key={this.props.contactNames} onClick={this.displayContact.bind(null, contact)}>{contact.name}</li>
       </div>
     );

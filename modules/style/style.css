@@ -111,17 +111,22 @@
   border: 1px solid #ccc;
 }
 
-#contact-item {        /* //XX added gN */
-    display: flex;
+.contact-detail {
     width: 90%;
-    margin:auto;
-    white-space: nowrap;
+    overflow: hidden;
     text-overflow: ellipsis;
     text-align: left;
-    border-radius: 4px;
-    border: 1px solid #ccc;
-    background-color: white;    
+    white-space: nowrap;
+    background-color: white;
+}
+
+.contact-detail-true {
+    width: 90%;
     overflow: hidden;
+    text-overflow: ellipsis;
+    text-align: left;
+    white-space: nowrap;
+    background-color: rgb(204, 204, 204);
 }
 
 body {
