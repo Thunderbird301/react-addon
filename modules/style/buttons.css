@@ -44,7 +44,15 @@ a.recommend[role="button"]:active  {
   border-color: #008aaa;
   background: #008aaa;
   background-size: auto 100%;
-  color: #333;
+  color: #555;
+}
+
+/* Hover */
+button:hover,
+a[role="button"]:hover,
+button.recommend:hover,
+a.recommend[role="button"]:hover  {
+  color: #444;
 }
 
 /* Recommend */

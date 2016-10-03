@@ -1385,12 +1385,14 @@ ICAL.stringify = (function() {
       result += stringify.property(props[propIdx], designSet) + LINE_ENDING;
     }
 
-    var comps = component[2];
-    var compIdx = 0;
-    var compLen = comps.length;
+    if (component.length > 2) {
+      var comps = component[2];
+      var compIdx = 0;
+      var compLen = comps.length;
 
-    for (; compIdx < compLen; compIdx++) {
-      result += stringify.component(comps[compIdx], designSet) + LINE_ENDING;
+      for (; compIdx < compLen; compIdx++) {
+        result += stringify.component(comps[compIdx], designSet) + LINE_ENDING;
+      }
     }
 
     result += 'END:' + name;

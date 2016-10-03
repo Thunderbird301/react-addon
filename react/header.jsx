@@ -24,12 +24,24 @@ var Header = React.createClass({
           <ProfileImage image={this.props.image}/>
         </div>
         <div id="header-text">
-          <div id="field">
-            <input type="text" ref="name" defaultValue={this.props.personalDetails.name} className="form-control" onChange={this.saveContent.bind(null, "name")}></input>
-            <input type="text" ref="nickName" defaultValue={this.props.personalDetails.nickName} className="form-control" onChange={this.saveContent.bind(null, "nickName")}></input>
-            <input type="text" ref="displayName" defaultValue={this.props.personalDetails.displayName} className="form-control" onChange={this.saveContent.bind(null, "displayName")}></input>
-            <input type="text" ref="birthday" defaultValue={this.props.personalDetails.birthday} className="form-control" onChange={this.saveContent.bind(null, "birthday")}></input>
-          </div>
+          <table id="field">
+            <tr>
+              <td><input type="text" ref="name" defaultValue={this.props.personalDetails.name} placeholder="Name" className="form-control" onChange={this.saveContent.bind(null, "name")}></input>
+              </td>
+            </tr>
+            <tr>
+              <td><input type="text" ref="nickName" defaultValue={this.props.personalDetails.nickName} placeholder="Nickname" className="form-control" onChange={this.saveContent.bind(null, "nickName")}></input>
+              </td>
+            </tr>
+            <tr>
+              <td><input type="text" ref="displayName" defaultValue={this.props.personalDetails.displayName} placeholder="Display name" className="form-control" onChange={this.saveContent.bind(null, "displayName")}></input>
+              </td>
+            </tr>
+            <tr>
+              <td><input type="text" ref="birthday" defaultValue={this.props.personalDetails.birthday} placeholder="Birthday" className="form-control" onChange={this.saveContent.bind(null, "birthday")}></input>
+              </td>
+            </tr>
+          </table>
         </div>
     </div>
     );

@@ -70,24 +70,32 @@ ContactParser.prepareContactForUpdate = function(contact) {
 };
 
 ContactParser._parseProperty = function(property, cFields, tFields, pField, tpField, jCardIndex, jCardFieldIndex) {
-  var name = property.jCal[0];
-  var content = property.jCal[3];
+  var name = property.name;
+  var type = property.getParameter("type");
+  var content = property.getFirstValue();
+  if (Array.isArray(type)) {
+    type = type[0];
+  }
+  if (type) {
+    type = type.charAt(0).toUpperCase() + type.slice(1);
+  }
+
   switch (name) {
     case "email":
-      this._addFieldProperty(0, "Work", content, cFields, jCardIndex, jCardFieldIndex);
-      this._addFieldProperty(0, "Work", content, tFields, jCardIndex, jCardFieldIndex);
+      this._addFieldProperty(0, type, content, cFields, jCardIndex, jCardFieldIndex);
+      this._addFieldProperty(0, type, content, tFields, jCardIndex, jCardFieldIndex);
       break;
     case "tel":
-      this._addFieldProperty(1, "Work", content, cFields, jCardIndex, jCardFieldIndex);
-      this._addFieldProperty(1, "Work", content, tFields, jCardIndex, jCardFieldIndex);
+      this._addFieldProperty(1, type, content, cFields, jCardIndex, jCardFieldIndex);
+      this._addFieldProperty(1, type, content, tFields, jCardIndex, jCardFieldIndex);
       break;
     case "adr":
-      this._addFieldProperty(2, "", content, cFields, jCardIndex, jCardFieldIndex);
-      this._addFieldProperty(2, "", content, tFields, jCardIndex, jCardFieldIndex);
+      this._addFieldProperty(2, type, content, cFields, jCardIndex, jCardFieldIndex);
+      this._addFieldProperty(2, type, content, tFields, jCardIndex, jCardFieldIndex);
       break;
     case "url":
-      this._addFieldProperty(3, "Work", content, cFields, jCardIndex, jCardFieldIndex);
-      this._addFieldProperty(3, "Work", content, tFields, jCardIndex, jCardFieldIndex);
+      this._addFieldProperty(3, type, content, cFields, jCardIndex, jCardFieldIndex);
+      this._addFieldProperty(3, type, content, tFields, jCardIndex, jCardFieldIndex);
       break;
     case "fn":
       pField.name = content;
@@ -102,8 +110,8 @@ ContactParser._parseProperty = function(property, cFields, tFields, pField, tpFi
       tpField.displayName = content;
       break;
     case "bday":
-      pField.birthday = content;
-      tpField.birthday = content;
+      pField.birthday = content.toString();
+      tpField.birthday = content.toJSDate().toISOString();
       break;
     default:
       break;
@@ -122,6 +130,6 @@ ContactParser._addFieldProperty = function(index, currentOption, content, fields
 };
 
 ContactParser.removeContactDetail = function(tempContact, jCardIndex, jCardFieldIndex) {
-  var details = tempContact.jcards[jCardIndex].getAllProperties();
-  details[jCardFieldIndex] = null;
+  var detail = tempContact.jcards[jCardIndex].getAllProperties()[jCardFieldIndex];
+  tempContact.jcards[jCardIndex].removeProperty(detail);
 };
