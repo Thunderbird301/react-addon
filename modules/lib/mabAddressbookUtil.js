@@ -1,6 +1,8 @@
 const Cc = Components.classes;
 const Ci = Components.interfaces;
 
+Components.utils.import("resource://gre/modules/NetUtil.jsm");
+
 const EXPORTED_SYMBOLS = ['AddressbookUtil'];
 
 var AddressbookUtil = {
@@ -55,6 +57,41 @@ var AddressbookUtil = {
       });
 
       foStream.close();
+    }
+  },
+
+  /**
+   *
+   * @returns {Contact[]}
+   */
+  importContacts: function() {
+
+    var filePickerInterface = Components.interfaces.nsIFilePicker;
+    var filePicker = Components.classes["@mozilla.org/filepicker;1"].createInstance(filePickerInterface);
+    var windowMediator = Cc["@mozilla.org/appshell/window-mediator;1"].getService(Ci.nsIWindowMediator);
+    var window = windowMediator.getMostRecentWindow(null);
+
+    filePicker.init(window, "Load contacts from", filePickerInterface.modeOpen);
+    filePicker.appendFilters(filePickerInterface.filterAll | filePickerInterface.filterText);
+    filePicker.filterIndex = 1;
+    filePicker.defaultString = "*.vcf";
+
+    var returnValue = filePicker.show();
+
+    if (returnValue == filePickerInterface.returnOK) {
+
+      var inputStream = Components.classes["@mozilla.org/network/file-input-stream;1"]
+        .createInstance(Components.interfaces.nsIFileInputStream);
+
+      inputStream.init(filePicker.file, 0x01, 0444, 0); // readonly
+
+      var fileContents = NetUtil.readInputStreamToString(
+          inputStream,
+          inputStream.available(),
+          {});
+
+      inputStream.close();
+
     }
   }
 }
