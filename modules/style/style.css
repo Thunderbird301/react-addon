@@ -32,10 +32,18 @@
   border: 1px solid #ccc;
 }
 
+#sidebar-buttons input[type="button"]:hover{
+  background-color: #ccc;
+}
+
 #buttons{
   border-radius: 4px;
   width: 60px;
   border: 1px solid #ccc;
+}
+
+#buttons:hover{
+  background-color: #ccc;
 }
 
 #contacts-list {
@@ -122,6 +130,10 @@
     border: 1px solid #ccc;
     background-color: white;    
     overflow: hidden;
+}
+
+#contact-item:hover{
+  background-color: #ccc;
 }
 
 body {
