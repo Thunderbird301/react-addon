@@ -107,7 +107,6 @@ var AddressBook = React.createClass({
         pSection[key] = tpSection[key];
       }
       var tempContact = this.state.tempContact;
-      ContactParser.prepareContactForUpdate(tempContact);
       this.setState({
         contact: new Contact(tempContact.toJSON()),
         tempContact: new Contact(tempContact.toJSON()),
@@ -140,10 +139,16 @@ var AddressBook = React.createClass({
   },
   updateContent: function(newText, index, fieldID) {
     var tSection = this.state.tempContactSections[index];
-    tSection.fields[fieldID].content = newText;
+    var field = tSection.fields[fieldID];
+    field.content = newText;
     var tSections = this.state.tempContactSections;
     tSections[index] = tSection;
-    this.setState({tempContactSections: tSections});
+    var tempContact = this.state.tempContact;
+    ContactParser.updateValue(tempContact, field.property, field.jCardIndex, newText);
+    this.setState({
+      tempContactSections: tSections,
+      tempContact: tempContact
+    });
   },
   updatePersonalDetail: function(detail, newText) {
     var tDetails = this.state.tempPersonalSection;

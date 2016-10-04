@@ -24,7 +24,7 @@ var ContactField = React.createClass({
                         </select>
                     </td>
                     <td>
-                        <input type="text" ref="street" placeholder="Street" defaultValue={this.props.fieldContent[0]} className="form-control"></input>
+                        <input type="text" ref="street" placeholder="Street" defaultValue={this.props.fieldContent[0]} onChange={this.saveContent} className="form-control"></input>
                     </td>
                     <td>
                         <button id="buttons" onClick={this.remove}>-</button>
@@ -32,19 +32,19 @@ var ContactField = React.createClass({
                 </tr>
                 <tr>
                     <td></td>
-                    <td><input type="text" ref="city" placeholder="City" defaultValue={this.props.fieldContent[1]} className="form-control"></input></td>
+                    <td><input type="text" ref="city" placeholder="City" defaultValue={this.props.fieldContent[1]} onChange={this.saveContent} className="form-control"></input></td>
                 </tr>
                 <tr>
                     <td></td>
-                    <td><input type="text" ref="postalCode" placeholder="Postal Code" defaultValue={this.props.fieldContent[2]} className="form-control"></input></td>
+                    <td><input type="text" ref="postalCode" placeholder="Postal Code" defaultValue={this.props.fieldContent[2]} onChange={this.saveContent} className="form-control"></input></td>
                 </tr>
                 <tr>
                     <td></td>
-                    <td><input type="text" ref="region" placeholder="Region" defaultValue={this.props.fieldContent[3]} className="form-control"></input></td>
+                    <td><input type="text" ref="region" placeholder="Region" defaultValue={this.props.fieldContent[3]} onChange={this.saveContent} className="form-control"></input></td>
                 </tr>
                 <tr>
                     <td></td>
-                    <td><input type="text" ref="country" placeholder="Country" defaultValue={this.props.fieldContent[4]} className="form-control"></input></td>
+                    <td><input type="text" ref="country" placeholder="Country" defaultValue={this.props.fieldContent[4]} onChange={this.saveContent} className="form-control"></input></td>
                 </tr>
             </table>
         );

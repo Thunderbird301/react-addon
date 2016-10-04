@@ -59,17 +59,6 @@ ContactParser.updateContact = function(contact) {
     });
 }
 
-ContactParser.prepareContactForUpdate = function(contact) {
-  for (var j = 0; j <contact.jcards.length; j++) {
-    var details = contact.jcards[j].getAllProperties();
-    for (var i = 0; i < details.length; i++) {
-      if(!details[i]) {
-        details.splice(i, 1);
-      }
-    }
-  }
-};
-
 ContactParser._parseProperty = function(property, cFields, tFields, pField, tpField, jCardIndex, jCardFieldIndex) {
   var name = property.name;
   var type = property.getParameter("type");
@@ -130,11 +119,15 @@ ContactParser._addFieldProperty = function(index, currentOption, content, fields
   });
 };
 
+ContactParser.updateValue = function(tempContact, property, jCardIndex, content) {
+    property.setValue(content);
+};
+
 ContactParser.removeContactDetail = function(tempContact, property, jCardIndex) {
   tempContact.jcards[jCardIndex].removeProperty(property);
 };
 
 ContactParser.addContactDetail = function(tempContact, name, content, type) {
   var property = tempContact.jcards[0].addPropertyWithValue(name, content);
-  property.setParameter("type", type);
+  return property.setParameter("type", type);
 };
