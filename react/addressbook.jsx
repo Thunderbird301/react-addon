@@ -105,7 +105,8 @@ var AddressBook = React.createClass({
             name: tSections[i].name,
             options: tSections[i].options,
             fields: fields,
-            index: i
+            index: i,
+            key: cSections.key
           });
       }
       var tpSection = this.state.tempPersonalSection;
@@ -152,7 +153,8 @@ var AddressBook = React.createClass({
             name: cSections[i].name,
             options: cSections[i].options,
             fields: fields,
-            index: i
+            index: i,
+            key: cSections.key
           });
       }
       this.setState({
