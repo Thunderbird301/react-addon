@@ -132,6 +132,10 @@
     overflow: hidden;
 }
 
+.contact-detail {
+  
+}
+
 #contact-item:hover{
   background-color: #ccc;
 }

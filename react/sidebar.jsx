@@ -19,8 +19,8 @@ var ContactSidebar = React.createClass({
     }
 
     return (
-      <div id="contact-item" style={style} >
-        <li key={this.props.contactNames} onClick={this.displayContact.bind(null, contact)}>{contact.name}</li>
+      <div id="contact-item" style={style} onClick={this.displayContact.bind(null, contact)}>
+        <li class="contact-detail" key={this.props.contactNames}>{contact.name}</li>
       </div>
     );
   },
