@@ -236,7 +236,9 @@ var AddressBook = React.createClass({
       this.setState({tempContactSections: tSections});
   },
   updateProfileImage: function(image) {
-    // change stored imagee???
+    var imageFile = image.files[0];
+    var tempContact = this.state.tempContact;
+    this.setState({tempContact: tempContact});
   },
   setContactID: function(id) {
     this.getContactDetails(id);
