@@ -73,12 +73,12 @@ var AddressBook = React.createClass({
   },
   removeField: function(index, fieldID) {
       var tSection = this.state.tempContactSections[index];
-      field = tSection.fields.splice(fieldID, 1)[0];
+      var field = tSection.fields.splice(fieldID, 1)[0];
       var tempSections = this.state.tempContactSections;
       tempSections[index] = tSection;
 
       var tempContact = this.state.tempContact;
-      ContactParser.removeContactDetail(tempContact, field.jCardIndex, field.property);
+      ContactParser.removeContactDetail(tempContact, field.property, field.jCardIndex);
 
       this.setState({
         tempContactSections: tempSections,
