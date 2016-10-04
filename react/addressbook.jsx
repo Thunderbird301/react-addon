@@ -7,13 +7,14 @@ var Chat = {name: "Chat", options: ["Google Talk", "AIM (R)", "Yahoo", "Skype", 
 
 
 var ContactSections = [Email, Phone, Address, Webpage, Chat];
+var PersonalDetails = ["name", "nickName", "displayName", "birthday"];
 
 var AddressBook = React.createClass({
   getInitialState: function() {
     var contactSections = ContactParser.createEmptyContactSections(this.props.contactSections);
     var tempContactSections = ContactParser.createEmptyContactSections(this.props.contactSections);
-    var personalSection = ContactParser.createEmptyPersonalSection();
-    var tempPersonalSection = ContactParser.createEmptyPersonalSection();
+    var personalSection = ContactParser.createEmptyPersonalSection(this.props.personalDetails);
+    var tempPersonalSection = ContactParser.createEmptyPersonalSection(this.props.personalDetails);
     return {
       contactNames: [],
       currentPersonID: -1,
@@ -102,7 +103,7 @@ var AddressBook = React.createClass({
           });
       }
       var tpSection = this.state.tempPersonalSection;
-      var pSection = ContactParser.createEmptyPersonalSection();
+      var pSection = ContactParser.createEmptyPersonalSection(this.props.personalDetails);
       for (var key in tpSection) {
         pSection[key] = tpSection[key];
       }
@@ -152,8 +153,13 @@ var AddressBook = React.createClass({
   },
   updatePersonalDetail: function(detail, newText) {
     var tDetails = this.state.tempPersonalSection;
-    tDetails[detail] = newText;
-    this.setState({tempPersonalSection: tDetails});
+    tDetails[detail].content = newText;
+    var tempContact = this.state.tempContact;
+    ContactParser.updateValue(tempContact, tDetails[detail].property, tDetails[detail].jCardIndex, newText);
+    this.setState({
+      tempPersonalSection: tDetails,
+      tempContact: tempContact
+    });
   },
   updateOption: function(option, index, fieldID) {
       var tSection = this.state.tempContactSections[index];
@@ -219,4 +225,4 @@ var AddressBook = React.createClass({
    }
 });
 
-ReactDOM.render(<AddressBook contactSections = {ContactSections}/>, document.getElementById('addressBook'));
+ReactDOM.render(<AddressBook contactSections = {ContactSections} personalDetails = {PersonalDetails}/>, document.getElementById('addressBook'));

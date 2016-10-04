@@ -14,16 +14,20 @@ ContactParser.createEmptyContactSections = function(contactSections) {
   return sections;
 };
 
-ContactParser.createEmptyPersonalSection = function() {
-  return {name: "", nickname: "", displayName: "", birthday: ""};
+ContactParser.createEmptyPersonalSection = function(details) {
+  var pDetails = {};
+  for(var i = 0; i < details.length; i++) {
+    pDetails[details[i]] = {content: "", property: null, jCardIndex: null};
+  }
+  return pDetails;
 };
 
 ContactParser.getContactDetails = function(id, ab) {
   var self = this;
   var contactSections = this.createEmptyContactSections(ab.props.contactSections);
   var tempContactSections = this.createEmptyContactSections(ab.props.contactSections);
-  var personalSection = this.createEmptyPersonalSection();
-  var tempPersonalSection = this.createEmptyPersonalSection();
+  var personalSection = this.createEmptyPersonalSection(ab.props.personalDetails);
+  var tempPersonalSection = this.createEmptyPersonalSection(ab.props.personalDetails);
 
   Addressbook.open(indexedDB).then(function(addrbook) {
     addrbook.getById(id).then(function(contact) {
@@ -31,7 +35,7 @@ ContactParser.getContactDetails = function(id, ab) {
       for (var j = 0; j <contact.jcards.length; j++) {
         var details = contact.jcards[j].getAllProperties();
         for (var i = 0; i < details.length; i++) {
-          self._parseProperty(details[i], contactSections, tempContactSections, personalSection, tempPersonalSection, j, i);
+          self._parseProperty(details[i], contactSections, tempContactSections, personalSection, tempPersonalSection, j);
         }
       }
       // Gets contact profile image
@@ -59,7 +63,7 @@ ContactParser.updateContact = function(contact) {
     });
 }
 
-ContactParser._parseProperty = function(property, cFields, tFields, pField, tpField, jCardIndex, jCardFieldIndex) {
+ContactParser._parseProperty = function(property, cFields, tFields, pField, tpField, jCardIndex) {
   var name = property.name;
   var type = property.getParameter("type");
   var content = property.getFirstValue();
@@ -88,25 +92,30 @@ ContactParser._parseProperty = function(property, cFields, tFields, pField, tpFi
       this._addFieldProperty(3, type, content, tFields, jCardIndex, property);
       break;
     case "fn":
-      pField.name = content;
-      tpField.name = content;
+      this._addPersonalDetail(pField, tpField, "name", jCardIndex, property, content);
       break;
     case "nn":
-      pField.nickName = content;
-      tpField.nickName = content;
+      this._addPersonalDetail(pField, tpField, "nickName", jCardIndex, property, content);
       break;
     case "dn":
-      pField.displayName = content;
-      tpField.displayName = content;
+      this._addPersonalDetail(pField, tpField, "displayName", jCardIndex, property, content);
       break;
     case "bday":
-      pField.birthday = content.toString();
-      tpField.birthday = content.toJSDate().toISOString();
+      this._addPersonalDetail(pField, tpField, "birthday", jCardIndex, property, content.toString());
       break;
     default:
       break;
   }
 };
+
+ContactParser._addPersonalDetail = function(pField, tField, type, jCardIndex, property, content) {
+  pField[type].content = content;
+  pField[type].property = property;
+  pField[type].jCardIndex = jCardIndex;
+  tField[type].content = content;
+  tField[type].property = property;
+  tField[type].jCardIndex = jCardIndex;
+}
 
 ContactParser._addFieldProperty = function(index, currentOption, content, fields, jCardIndex, property) {
   var fieldID = fields[index].fields.length;
