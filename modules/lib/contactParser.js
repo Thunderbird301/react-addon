@@ -140,3 +140,12 @@ ContactParser.addContactDetail = function(tempContact, name, content, type) {
   var property = tempContact.jcards[0].addPropertyWithValue(name, content);
   return property.setParameter("type", type);
 };
+
+ContactParser.rename = function(id, name, contactsList) {
+  for (var i = 0; i < contactsList.length; i++) {
+    if (contactsList[i].id == id) {
+      contactsList[i].name = name;
+      return;
+    }
+  }
+};

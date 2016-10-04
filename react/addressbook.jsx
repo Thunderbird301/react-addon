@@ -16,9 +16,10 @@ var AddressBook = React.createClass({
     var personalSection = ContactParser.createEmptyPersonalSection(this.props.personalDetails);
     var tempPersonalSection = ContactParser.createEmptyPersonalSection(this.props.personalDetails);
     return {
-      contactNames: [],
+      contactsList: [],
       currentPersonID: -1,
       contact: null,
+      name: null,
       tempContact: null,
       editing: false,
       photoUrl: "images/1.jpg",
@@ -32,11 +33,11 @@ var AddressBook = React.createClass({
     var cSide = this;
     Addressbook.open(indexedDB).then(function(addrbook) {
       addrbook.getNameAndId().then((contacts) => {
-        var contactNames = [];
+        var contactsList = [];
         for(var i = 0; i < contacts.length; i++) {
-          contactNames.push({name: contacts[i].name, id: contacts[i].uuid});
+          contactsList.push({name: contacts[i].name, id: contacts[i].uuid});
         }
-        cSide.setState({contactNames: contactNames});
+        cSide.setState({contactsList: contactsList});
       });
     });
   },
@@ -104,11 +105,20 @@ var AddressBook = React.createClass({
       }
       var tpSection = this.state.tempPersonalSection;
       var pSection = ContactParser.createEmptyPersonalSection(this.props.personalDetails);
+      var conList = this.state.contactsList;
+      var name = this.state.name;
+      var tempContact = this.state.tempContact;
       for (var key in tpSection) {
+        if(key == "name" && (name != tpSection[key].content)) {
+          name = tpSection[key].content;
+          tempContact.name = name;
+          ContactParser.rename(this.state.currentPersonID, name, conList);
+        }
         pSection[key] = tpSection[key];
       }
-      var tempContact = this.state.tempContact;
       this.setState({
+        name: name,
+        contactsList: conList,
         contact: new Contact(tempContact.toJSON()),
         tempContact: new Contact(tempContact.toJSON()),
         contactSections: cSections,
@@ -168,10 +178,11 @@ var AddressBook = React.createClass({
       tSections[index] = tSection;
       this.setState({tempContactSections: tSections});
   },
-  setContactID: function(id) {
+  setContactID: function(id, name) {
     ContactParser.getContactDetails(id, this);
     this.setState({
       currentPersonID: id,
+      name: name
     });
   },
   editingDisplay: function() {
@@ -197,13 +208,13 @@ var AddressBook = React.createClass({
   },
   renderNoContact: function() {
     return (<div id="sidebar">
-      <ContactSidebar contactNames={this.state.contactNames} viewContact={this.setContactID}/>
+      <ContactSidebar contactNames={this.state.contactsList} viewContact={this.setContactID}/>
     </div>);
   },
   renderContactDisplay: function() {
     return (<div>
       <div id="sidebar">
-        <ContactSidebar contactNames={this.state.contactNames} viewContact={this.setContactID} currentID={this.state.currentPersonID}/>
+        <ContactSidebar contactNames={this.state.contactsList} viewContact={this.setContactID} currentID={this.state.currentPersonID}/>
       </div>
       <div id="main">
         <Header personalDetails={this.state.personalSection} onUserInput={this.updatePersonalDetail} editing={this.state.editing} image={this.state.photoUrl}/>

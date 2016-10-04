@@ -9,10 +9,10 @@ var Header = React.createClass({
           <ProfileImage image={this.props.image}/>
         </div>
         <div id="header-text">
-          <h2>{this.props.personalDetails.name}</h2>
-          <h3>{this.props.personalDetails.nickName}</h3>
-          <h4>{this.props.personalDetails.displayName}</h4>
-          <h4>{this.props.personalDetails.birthday}</h4>
+          <h2>{this.props.personalDetails.name.content}</h2>
+          <h3>{this.props.personalDetails.nickName.content}</h3>
+          <h4>{this.props.personalDetails.displayName.content}</h4>
+          <h4>{this.props.personalDetails.birthday.content}</h4>
         </div>
     </div>
     );
@@ -26,19 +26,19 @@ var Header = React.createClass({
         <div id="header-text">
           <table id="field">
             <tr>
-              <td><input type="text" ref="name" defaultValue={this.props.personalDetails.name} placeholder="Name" className="form-control" onChange={this.saveContent.bind(null, "name")}></input>
+              <td><input type="text" ref="name" defaultValue={this.props.personalDetails.name.content} placeholder="Name" className="form-control" onChange={this.saveContent.bind(null, "name")}></input>
               </td>
             </tr>
             <tr>
-              <td><input type="text" ref="nickName" defaultValue={this.props.personalDetails.nickName} placeholder="Nickname" className="form-control" onChange={this.saveContent.bind(null, "nickName")}></input>
+              <td><input type="text" ref="nickName" defaultValue={this.props.personalDetails.nickName.content} placeholder="Nickname" className="form-control" onChange={this.saveContent.bind(null, "nickName")}></input>
               </td>
             </tr>
             <tr>
-              <td><input type="text" ref="displayName" defaultValue={this.props.personalDetails.displayName} placeholder="Display name" className="form-control" onChange={this.saveContent.bind(null, "displayName")}></input>
+              <td><input type="text" ref="displayName" defaultValue={this.props.personalDetails.displayName.content} placeholder="Display name" className="form-control" onChange={this.saveContent.bind(null, "displayName")}></input>
               </td>
             </tr>
             <tr>
-              <td><input type="text" ref="birthday" defaultValue={this.props.personalDetails.birthday} placeholder="Birthday" className="form-control" onChange={this.saveContent.bind(null, "birthday")}></input>
+              <td><input type="text" ref="birthday" defaultValue={this.props.personalDetails.birthday.content} placeholder="Birthday" className="form-control" onChange={this.saveContent.bind(null, "birthday")}></input>
               </td>
             </tr>
           </table>
