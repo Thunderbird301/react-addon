@@ -133,7 +133,25 @@
 }
 
 .contact-detail {
-  
+    width: 90%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    text-align: left;
+    white-space: nowrap;
+    background-color: white;
+}
+
+.contact-detail-true {
+    width: 90%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    text-align: left;
+    white-space: nowrap;
+    background-color: rgb(204, 204, 204);
+}
+
+.contact-detail:hover{
+  background-color: #ccc;
 }
 
 #contact-item:hover{
