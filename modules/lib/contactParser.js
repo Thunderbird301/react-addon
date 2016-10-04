@@ -7,7 +7,8 @@ ContactParser.createEmptyContactSections = function(contactSections) {
         name: contactSections[i].name,
         options: contactSections[i].options,
         fields: [],
-        index: i
+        index: i,
+        key: contactSections[i].key
       });
   }
   return sections;
@@ -82,20 +83,20 @@ ContactParser._parseProperty = function(property, cFields, tFields, pField, tpFi
 
   switch (name) {
     case "email":
-      this._addFieldProperty(0, type, content, cFields, jCardIndex, jCardFieldIndex);
-      this._addFieldProperty(0, type, content, tFields, jCardIndex, jCardFieldIndex);
+      this._addFieldProperty(0, type, content, cFields, jCardIndex, property);
+      this._addFieldProperty(0, type, content, tFields, jCardIndex, property);
       break;
     case "tel":
-      this._addFieldProperty(1, type, content, cFields, jCardIndex, jCardFieldIndex);
-      this._addFieldProperty(1, type, content, tFields, jCardIndex, jCardFieldIndex);
+      this._addFieldProperty(1, type, content, cFields, jCardIndex, property);
+      this._addFieldProperty(1, type, content, tFields, jCardIndex, property);
       break;
     case "adr":
-      this._addFieldProperty(2, type, content, cFields, jCardIndex, jCardFieldIndex);
-      this._addFieldProperty(2, type, content, tFields, jCardIndex, jCardFieldIndex);
+      this._addFieldProperty(2, type, content, cFields, jCardIndex, property);
+      this._addFieldProperty(2, type, content, tFields, jCardIndex, property);
       break;
     case "url":
-      this._addFieldProperty(3, type, content, cFields, jCardIndex, jCardFieldIndex);
-      this._addFieldProperty(3, type, content, tFields, jCardIndex, jCardFieldIndex);
+      this._addFieldProperty(3, type, content, cFields, jCardIndex, property);
+      this._addFieldProperty(3, type, content, tFields, jCardIndex, property);
       break;
     case "fn":
       pField.name = content;
@@ -118,18 +119,22 @@ ContactParser._parseProperty = function(property, cFields, tFields, pField, tpFi
   }
 };
 
-ContactParser._addFieldProperty = function(index, currentOption, content, fields, jCardIndex, jCardFieldIndex) {
+ContactParser._addFieldProperty = function(index, currentOption, content, fields, jCardIndex, property) {
   var fieldID = fields[index].fields.length;
   fields[index].fields.push({
     currentOption: currentOption,
     content: content,
     fieldID: fieldID,
     jCardIndex: jCardIndex,
-    jCardFieldIndex: jCardFieldIndex
+    property: property
   });
 };
 
-ContactParser.removeContactDetail = function(tempContact, jCardIndex, jCardFieldIndex) {
-  var detail = tempContact.jcards[jCardIndex].getAllProperties()[jCardFieldIndex];
-  tempContact.jcards[jCardIndex].removeProperty(detail);
+ContactParser.removeContactDetail = function(tempContact, property, jCardIndex) {
+  tempContact.jcards[jCardIndex].removeProperty(property);
+};
+
+ContactParser.addContactDetail = function(tempContact, name, content, type) {
+  var property = tempContact.jcards[0].addPropertyWithValue(name, content);
+  property.setParameter("type", type);
 };

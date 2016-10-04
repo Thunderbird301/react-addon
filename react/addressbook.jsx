@@ -52,14 +52,22 @@ var AddressBook = React.createClass({
         }
       }
       var fieldID = tempSection.fields.length;
+      var tempContact = this.state.tempContact;
+      var property = ContactParser.addContactDetail(tempContact, tempSection.key, content, tempSection.options[0]);
       tempSection.fields.push({
           currentOption: tempSection.options[0],
           content: content,
-          fieldID: fieldID
+          fieldID: fieldID,
+          jCardIndex: 0,
+          property: property
       });
       var tempSections = this.state.tempContactSections;
       tempSections[index] = tempSection;
-      this.setState({tempContactSections: tempSections});
+
+      this.setState({
+        tempContactSections: tempSections,
+        tempContact: tempContact
+      });
   },
   removeField: function(index, fieldID) {
       var tSection = this.state.tempContactSections[index];
@@ -68,7 +76,7 @@ var AddressBook = React.createClass({
       tempSections[index] = tSection;
 
       var tempContact = this.state.tempContact;
-      ContactParser.removeContactDetail(tempContact, field.jCardIndex, field.jCardFieldIndex);
+      ContactParser.removeContactDetail(tempContact, field.jCardIndex, field.property);
 
       this.setState({
         tempContactSections: tempSections,
