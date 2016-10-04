@@ -107,7 +107,7 @@ var AddressBook = React.createClass({
         personalSection: pSection,
         editing: false
       });
-      ContactParser.updateContact(tempContact);
+      ContactParser.updateContact(tempContact, this);
   },
   cancel: function() {
       var tSections = [];
@@ -150,7 +150,10 @@ var AddressBook = React.createClass({
       this.setState({tempContactSections: tSections});
   },
   updateProfileImage: function(image) {
-    // change stored imagee???
+    var imageFile = image.files[0];
+    var tempContact = this.state.tempContact;
+    tempContact.photo = imageFile;
+    this.setState({tempContact: tempContact});
   },
   setContactID: function(id) {
     ContactParser.getContactDetails(id, this);
