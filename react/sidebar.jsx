@@ -21,7 +21,7 @@ var ContactSidebar = React.createClass({
     }
 
     return (
-      <div onClick={this.displayContact.bind(null, contact)}>
+      <div id="contact-item" onClick={this.displayContact.bind(null, contact)}>
         <li className={className} key={this.props.contactNames}>{contact.name}</li>
       </div>
     );
@@ -34,16 +34,14 @@ var ContactSidebar = React.createClass({
                 <input id="search-bar" type="text" name ="search" placeholder="Search"></input>
               </div>
               <span id="sidebar-buttons">
-                <input type="button" value="Export" onClick={this.export}></input>
-                <input type="button" value="Import" onClick={this.import}></input>
-                <input type="button" value="+" onClick={this.add}></input>
+                <button id="buttons" onClick={this.export}>Export</button>
+                <button id="buttons" onClick={this.import}>Import</button>
+                <button id="buttons" onClick={this.add}>+</button>
               </span>
             </div>
             <br />
             <div id="contacts-list">
-              <ul>
                 {this.props.contactNames.map(this.renderName)}
-              </ul>
             </div>
           </div>
       );

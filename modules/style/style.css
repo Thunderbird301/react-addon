@@ -7,7 +7,6 @@
   min-width: 100px;
   overflow-x: hidden;
   overflow-y: hidden;
- /* background-color: #0f0;*/
   background-color: #f3f4f4;
   float: left;
 }
@@ -21,11 +20,9 @@
   border-radius: 4px;
   flex-wrap: wrap;
   justify-content: space-around;
-  /*margin-left:5%;*/
-  /*padding-top: 2%;*/
 }
 
-#sidebar-buttons input[type="button"]{
+/*#sidebar-buttons input[type="button"]{
   background-color: white;
   border-radius: 4px;
   width: 60px;
@@ -34,7 +31,7 @@
 
 #sidebar-buttons input[type="button"]:hover{
   background-color: #ccc;
-}
+}*/
 
 #buttons{
   border-radius: 4px;
@@ -43,7 +40,9 @@
 }
 
 #buttons:hover{
-  background-color: #ccc;
+  color: black;
+  background-color: #999;
+  cursor: pointer;
 }
 
 #contacts-list {
@@ -54,9 +53,9 @@
   overflow-y: auto;
 }
 
-#contacts-list ul {
+/*#contacts-list ul {
   padding-left: 0;
-}
+}*/
 
 #main {
 	background-color: white;
@@ -119,43 +118,32 @@
   border: 1px solid #ccc;
 }
 
-#contact-item {        /* //XX added gN */
-    display: flex;
-    width: 90%;
-    margin:auto;
-    white-space: nowrap;
-    text-overflow: ellipsis;
-    text-align: left;
-    border-radius: 4px;
-    border: 1px solid #ccc;
-    background-color: white;    
-    overflow: hidden;
-}
-
 .contact-detail {
     width: 90%;
+    margin:auto;
     overflow: hidden;
     text-overflow: ellipsis;
     text-align: left;
     white-space: nowrap;
-    background-color: white;
+    background-color: #ddd;
+    border-radius: 4px;
+    border: 1px solid #ccc;
 }
 
 .contact-detail-true {
     width: 90%;
+    margin:auto;
     overflow: hidden;
     text-overflow: ellipsis;
     text-align: left;
     white-space: nowrap;
-    background-color: rgb(204, 204, 204);
+    background-color: #999;
+    border-radius: 4px;
+    border: 1px solid #ccc;
 }
 
 .contact-detail:hover{
-  background-color: #ccc;
-}
-
-#contact-item:hover{
-  background-color: #ccc;
+  background-color: blue !important;     /* need !import or will not do if selected  */
 }
 
 body {
