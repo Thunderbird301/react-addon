@@ -10,7 +10,7 @@ modules/react:
 	mkdir -p $(@D)
 
 modules/react/%.js: react/%.jsx
-	ifeq (, $(shell which node ))
+ifeq (, $(shell which node ))
 	nodejs node_modules/.bin/babel $< -o $@ --presets react
 else
 	node node_modules/.bin/babel $< -o $@ --presets react
@@ -27,7 +27,7 @@ node_modules: package.json
 	npm install
 
 clean:
-	rm $(LIB)
-	rm $(NAME_XPI)
+	rm -f $(LIB)
+	rm -f $(NAME_XPI)
 
 rebuild: clean all
