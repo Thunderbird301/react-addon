@@ -141,6 +141,10 @@ ContactParser.addContactDetail = function(tempContact, name, content, type) {
   return property.setParameter("type", type);
 };
 
+ContactParser.updateOption = function(tempContact, property, jCardIndex, option) {
+  property.setParameter("type", option);
+}
+
 ContactParser.rename = function(id, name, contactsList) {
   for (var i = 0; i < contactsList.length; i++) {
     if (contactsList[i].id == id) {

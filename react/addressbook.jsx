@@ -173,10 +173,16 @@ var AddressBook = React.createClass({
   },
   updateOption: function(option, index, fieldID) {
       var tSection = this.state.tempContactSections[index];
-      tSection.fields[fieldID].currentOption = option;
+      var field = tSection.fields[fieldID];
+      field.currentOption = option;
       var tSections = this.state.tempContactSections;
+      var tempContact = this.state.tempContact;
       tSections[index] = tSection;
-      this.setState({tempContactSections: tSections});
+      ContactParser.updateOption(tempContact, field.property, field.jCardIndex, option);
+      this.setState({
+        tempContactSections: tSections,
+        tempContact: tempContact
+      });
   },
   setContactID: function(id, name) {
     ContactParser.getContactDetails(id, this);
