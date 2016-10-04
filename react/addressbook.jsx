@@ -88,12 +88,17 @@ var AddressBook = React.createClass({
   save: function() {
       var cSections = [];
       var tSections = this.state.tempContactSections;
+      var tempContact = this.state.tempContact;
+      var contact = new Contact(tempContact.toJSON());
       for (var i = 0; i < tSections.length; i++) {
           var fields = [];
           for (var j = 0; j < tSections[i].fields.length; j++) {
             fields.push({
               currentOption: tSections[i].fields[j].currentOption,
-              content: tSections[i].fields[j].content
+              content: tSections[i].fields[j].content,
+              fieldID: tSections[i].fields[j].fieldID,
+              jCardIndex: tSections[i].fields[j].jCardIndex,
+              property: ContactParser.findCloneProperty(tSections[i].fields[j].property, contact)
             });
           }
           cSections.push({
@@ -107,7 +112,7 @@ var AddressBook = React.createClass({
       var pSection = ContactParser.createEmptyPersonalSection(this.props.personalDetails);
       var conList = this.state.contactsList;
       var name = this.state.name;
-      var tempContact = this.state.tempContact;
+
       for (var key in tpSection) {
         if(key == "name" && (name != tpSection[key].content)) {
           name = tpSection[key].content;
@@ -119,8 +124,8 @@ var AddressBook = React.createClass({
       this.setState({
         name: name,
         contactsList: conList,
-        contact: new Contact(tempContact.toJSON()),
-        tempContact: new Contact(tempContact.toJSON()),
+        contact: contact,
+        tempContact: tempContact,
         contactSections: cSections,
         personalSection: pSection,
         editing: false
@@ -130,12 +135,17 @@ var AddressBook = React.createClass({
   cancel: function() {
       var tSections = [];
       var cSections = this.state.contactSections;
+      var contact = this.state.contact;
+      var tempContact = new Contact(contact.toJSON());
       for (var i = 0; i < cSections.length; i++) {
         var fields = [];
         for (var j = 0; j < cSections[i].fields.length; j++) {
           fields.push({
             currentOption: cSections[i].fields[j].currentOption,
-            content: cSections[i].fields[j].content
+            content: cSections[i].fields[j].content,
+            fieldID: cSections[i].fields[j].fieldID,
+            jCardIndex: cSections[i].fields[j].jCardIndex,
+            property: ContactParser.findCloneProperty(cSections[i].fields[j].property, tempContact)
           });
         }
           tSections.push({
@@ -145,8 +155,11 @@ var AddressBook = React.createClass({
             index: i
           });
       }
-      this.setState({tempContactSections: tSections});
-      this.setState({editing: false});
+      this.setState({
+        tempContactSections: tSections,
+        editing: false,
+        tempContact: tempContact
+      });
   },
   updateContent: function(newText, index, fieldID) {
     var tSection = this.state.tempContactSections[index];

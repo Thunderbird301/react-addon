@@ -31,11 +31,15 @@ ContactParser.getContactDetails = function(id, ab) {
 
   Addressbook.open(indexedDB).then(function(addrbook) {
     addrbook.getById(id).then(function(contact) {
+        var con = new Contact(contact.toJSON())
+        var tempContact = new Contact(contact.toJSON())
       // Gets contact details
       for (var j = 0; j <contact.jcards.length; j++) {
         var details = contact.jcards[j].getAllProperties();
+        var cProps = con.jcards[j].getAllProperties();
+        var tProps = tempContact.jcards[j].getAllProperties();
         for (var i = 0; i < details.length; i++) {
-          self._parseProperty(details[i], contactSections, tempContactSections, personalSection, tempPersonalSection, j);
+          self._parseProperty(details[i], cProps[i], tProps[i], contactSections, tempContactSections, personalSection, tempPersonalSection, j);
         }
       }
       // Gets contact profile image
@@ -45,8 +49,8 @@ ContactParser.getContactDetails = function(id, ab) {
       }
       // Stores contact information in UI
       ab.setState({
-        contact: new Contact(contact.toJSON()),
-        tempContact: new Contact(contact.toJSON()),
+        contact: con,
+        tempContact: tempContact,
         contactSections: contactSections,
         tempContactSections: tempContactSections,
         personalSection: personalSection,
@@ -63,7 +67,7 @@ ContactParser.updateContact = function(contact) {
     });
 }
 
-ContactParser._parseProperty = function(property, cFields, tFields, pField, tpField, jCardIndex) {
+ContactParser._parseProperty = function(property, cProperty, tProperty, cFields, tFields, pField, tpField, jCardIndex) {
   var name = property.name;
   var type = property.getParameter("type");
   var content = property.getFirstValue();
@@ -76,44 +80,44 @@ ContactParser._parseProperty = function(property, cFields, tFields, pField, tpFi
 
   switch (name) {
     case "email":
-      this._addFieldProperty(0, type, content, cFields, jCardIndex, property);
-      this._addFieldProperty(0, type, content, tFields, jCardIndex, property);
+      this._addFieldProperty(0, type, content, cFields, jCardIndex, cProperty);
+      this._addFieldProperty(0, type, content, tFields, jCardIndex, tProperty);
       break;
     case "tel":
-      this._addFieldProperty(1, type, content, cFields, jCardIndex, property);
-      this._addFieldProperty(1, type, content, tFields, jCardIndex, property);
+      this._addFieldProperty(1, type, content, cFields, jCardIndex, cProperty);
+      this._addFieldProperty(1, type, content, tFields, jCardIndex, tProperty);
       break;
     case "adr":
-      this._addFieldProperty(2, type, content, cFields, jCardIndex, property);
-      this._addFieldProperty(2, type, content, tFields, jCardIndex, property);
+      this._addFieldProperty(2, type, content, cFields, jCardIndex, cProperty);
+      this._addFieldProperty(2, type, content, tFields, jCardIndex, tProperty);
       break;
     case "url":
-      this._addFieldProperty(3, type, content, cFields, jCardIndex, property);
-      this._addFieldProperty(3, type, content, tFields, jCardIndex, property);
+      this._addFieldProperty(3, type, content, cFields, jCardIndex, cProperty);
+      this._addFieldProperty(3, type, content, tFields, jCardIndex, tProperty);
       break;
     case "fn":
-      this._addPersonalDetail(pField, tpField, "name", jCardIndex, property, content);
+      this._addPersonalDetail(pField, tpField, "name", jCardIndex, cProperty, tProperty, content);
       break;
     case "nn":
-      this._addPersonalDetail(pField, tpField, "nickName", jCardIndex, property, content);
+      this._addPersonalDetail(pField, tpField, "nickName", jCardIndex, cProperty, tProperty, content);
       break;
     case "dn":
-      this._addPersonalDetail(pField, tpField, "displayName", jCardIndex, property, content);
+      this._addPersonalDetail(pField, tpField, "displayName", jCardIndex, cProperty, tProperty, content);
       break;
     case "bday":
-      this._addPersonalDetail(pField, tpField, "birthday", jCardIndex, property, content.toString());
+      this._addPersonalDetail(pField, tpField, "birthday", jCardIndex, cProperty, tProperty, content.toString());
       break;
     default:
       break;
   }
 };
 
-ContactParser._addPersonalDetail = function(pField, tField, type, jCardIndex, property, content) {
+ContactParser._addPersonalDetail = function(pField, tField, type, jCardIndex, cProperty, tProperty, content) {
   pField[type].content = content;
-  pField[type].property = property;
+  pField[type].property = cProperty;
   pField[type].jCardIndex = jCardIndex;
   tField[type].content = content;
-  tField[type].property = property;
+  tField[type].property = tProperty;
   tField[type].jCardIndex = jCardIndex;
 }
 
@@ -150,6 +154,17 @@ ContactParser.rename = function(id, name, contactsList) {
     if (contactsList[i].id == id) {
       contactsList[i].name = name;
       return;
+    }
+  }
+};
+
+ContactParser.findCloneProperty = function(property, contact) {
+  for(var j = 0; j < contact.jcards.length; j++) {
+    var details = contact.jcards[j].getAllProperties(property.name);
+    for (var i = 0; i < details.length; i++) {
+      if (details[i].getValues() == property.getValues()) {
+        return details[i];
+      }
     }
   }
 };
