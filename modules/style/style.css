@@ -32,10 +32,18 @@
   border: 1px solid #ccc;
 }
 
+#sidebar-buttons input[type="button"]:hover{
+  background-color: #ccc;
+}
+
 #buttons{
   border-radius: 4px;
   width: 60px;
   border: 1px solid #ccc;
+}
+
+#buttons:hover{
+  background-color: #ccc;
 }
 
 #contacts-list {
@@ -122,6 +130,32 @@
     border: 1px solid #ccc;
     background-color: white;    
     overflow: hidden;
+}
+
+.contact-detail {
+    width: 90%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    text-align: left;
+    white-space: nowrap;
+    background-color: white;
+}
+
+.contact-detail-true {
+    width: 90%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    text-align: left;
+    white-space: nowrap;
+    background-color: rgb(204, 204, 204);
+}
+
+.contact-detail:hover{
+  background-color: #ccc;
+}
+
+#contact-item:hover{
+  background-color: #ccc;
 }
 
 body {
