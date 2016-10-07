@@ -9,7 +9,7 @@ var ContactSidebar = React.createClass({
   export: function(){
   },
   displayContact: function(contact) {
-    this.props.viewContact(contact.id);
+    this.props.viewContact(contact.id, contact.name);
   },
   renderName: function(contact){
     var className;
