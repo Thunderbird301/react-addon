@@ -40,6 +40,8 @@
   border-radius: 4px;
   width: 60px;
   border: 1px solid #ccc;
+  border-bottom: 1px solid black;
+  border-right: 1px solid black;
 }
 
 #buttons:hover{
@@ -155,6 +157,8 @@
     /*Added stuff*/
     border-radius: 4px;
     border: 1px solid #ccc;
+    border-bottom: 1px solid black;
+    border-right: 1px solid black;
 }
 
 .contact-detail-true {
@@ -168,6 +172,8 @@
     border-radius: 4px;
     border: 1px solid #ccc;
     background-color: #BCCFCF;
+    border-bottom: 1px solid black;
+    border-right: 1px solid black;
   }
 
 .contact-detail:hover{
