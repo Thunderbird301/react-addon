@@ -9,18 +9,21 @@ var ContactSidebar = React.createClass({
   export: function(){
   },
   displayContact: function(contact) {
-    this.props.viewContact(contact.id);
+    this.props.viewContact(contact.id, contact.name);
   },
   renderName: function(contact){
-    var style = {'background-color': ''};
+    var className;
 
-    if(contact.id==this.props.currentID){
-      style = {'background-color': '#ccc'};
+    if (contact.id == this.props.currentID) {
+      className = "true";
+    } else {
+      className = "";
     }
 
     return (
-      <div id="contact-item" style={style} >
-        <li key={this.props.contactNames} onClick={this.displayContact.bind(null, contact)}>{contact.name}</li>
+      <div id="contact-name" className={className} onClick={this.displayContact.bind(null, contact)}>
+        <ProfileImage type="sidebar" image={contact.photo}/>
+        <li className="contact-detail" key={this.props.contactNames}>{contact.name}</li>
       </div>
     );
   },

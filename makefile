@@ -1,30 +1,33 @@
 NAME:=react-test
 NAME_XPI:=$(NAME).xpi
-XPI_SRC:=$(wildcard content/*) $(wildcard modules/*) $(wildcard defaults/*)
+XPI_SRC:=$(shell find content -type f) $(shell find modules -type f) $(shell find defaults -type f)
 SRC = $(wildcard react/*.jsx)
 LIB = $(SRC:react/%.jsx=modules/react/%.js)
 
-all: npm react xpi 
+all: react xpi
+
+modules/react:
+	mkdir -p $(@D)
 
 modules/react/%.js: react/%.jsx
-	mkdir -p $(@D)
-ifeq (, $(shell which node )) 
-	nodejs node_modules/.bin/babel $< -o $@ --presets react 
+ifeq (, $(shell which node ))
+	nodejs node_modules/.bin/babel $< -o $@ --presets react
 else
-	node node_modules/.bin/babel $< -o $@ --presets react 
+	node node_modules/.bin/babel $< -o $@ --presets react
 endif
 
-react: $(LIB)
+react: npm modules/react $(LIB)
 xpi: $(NAME_XPI)
 
 $(NAME_XPI): $(XPI_SRC) chrome.manifest  install.rdf
 	zip -r $@ $^
 
-npm: package.json
+npm: node_modules
+node_modules: package.json
 	npm install
 
 clean:
-	rm $(LIB)
-	rm $(NAME_XPI)
+	rm -f $(LIB)
+	rm -f $(NAME_XPI)
 
 rebuild: clean all
