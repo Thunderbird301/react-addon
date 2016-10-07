@@ -11,9 +11,7 @@ class ProfileImage extends React.Component {
     }
 
     return (
-      <div>
-        <img className={className} onload={this.handleURLRevoke} src={this.props.image}/>
-      </div>
+      <img className={className} onload={this.handleURLRevoke} src={this.props.image}/>
     );
   }
 }
