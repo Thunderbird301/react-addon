@@ -163,9 +163,16 @@ ContactParser.findCloneProperty = function(property, contact) {
   for(var j = 0; j < contact.jcards.length; j++) {
     var details = contact.jcards[j].getAllProperties(property.name);
     for (var i = 0; i < details.length; i++) {
-      if (details[i].getValues() == property.getValues()) {
+      if (details[i].getValues().every(this.equals, property.getValues())) {
         return details[i];
       }
     }
   }
 };
+
+ContactParser.equals = function(element, index, array) {
+  if(Array.isArray(element)) {
+    return element.every(ContactParser.equals, this[index]);
+  }
+  return element == this[index];
+}
