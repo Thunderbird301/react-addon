@@ -124,16 +124,52 @@ var AddressbookUtil = {
           name = contact.getFirstPropertyValue("email");
         }
 
+        // get the photo
+        var photo = undefined;
+        var photoPropertry = contact.getFirstProperty("photo");
+
+        if (photoPropertry) {
+          if (photoPropertry.type === "binary") {
+            var imageType = photoPropertry.getParameter("type").toLowerCase();
+            photo = AddressbookUtil.b64toBlob(photoPropertry.getValues(), imageType);
+          }
+        }
+
         // TODO: check if it already exists and add it?
 
         // add the contact to the addressbook
         addressbook.add({
           name: name.trim(),
-          jcards: [vcard]
+          jcards: [vcard],
+          photo: photo
         });
       });
 
       return contactPromisess;
     }
+  },
+
+  b64toBlob: function(b64Data, contentType, sliceSize) {
+    contentType = contentType || '';
+    sliceSize = sliceSize || 512;
+
+    var byteCharacters = atob(b64Data);
+    var byteArrays = [];
+
+    for (var offset = 0; offset < byteCharacters.length; offset += sliceSize) {
+      var slice = byteCharacters.slice(offset, offset + sliceSize);
+
+      var byteNumbers = new Array(slice.length);
+      for (var i = 0; i < slice.length; i++) {
+        byteNumbers[i] = slice.charCodeAt(i);
+      }
+
+      var byteArray = new Uint8Array(byteNumbers);
+
+      byteArrays.push(byteArray);
+    }
+
+    var blob = new Blob(byteArrays, {type: contentType});
+    return blob;
   }
 }
