@@ -273,9 +273,13 @@ var AddressBook = React.createClass({
         <ContactSidebar contactNames={this.state.contactNames} viewContact={this.setContactID} currentID={this.state.currentPersonID}/>
       </div>
       <div id="main">
-        <Header personalDetails={this.state.personalSection} onUserInput={this.updatePersonalDetail} editing={this.state.editing} image={this.state.photoUrl}/>
-        {this.editingDisplay()}
-        {this.state.contactSections.map(this.renderContactSection)}
+        <div id="main-header">
+          <Header personalDetails={this.state.personalSection} onUserInput={this.updatePersonalDetail} editing={this.state.editing} image={this.state.photoUrl}/>
+          {this.editingDisplay()}
+        </div>
+        <div id="main-contact">
+          {this.state.contactSections.map(this.renderContactSection)}
+        </div>
       </div>
     </div>);
   },

@@ -43,7 +43,8 @@
 }
 
 #buttons:hover{
-  background-color: #ccc;
+  background-color: #999;
+  cursor: pointer;
 }
 
 #contacts-list {
@@ -65,10 +66,10 @@
 	height: 100vh;
   min-height: 100px;
   min-width: 100px;
-  overflow-y: scroll;
+  /*overflow-y: scroll;*/
   overflow-x: hidden;
-  padding-left: 3%;
-  padding-right: 3%;
+  padding-left: 2vw;
+  padding-right: 1vw;
 }
 
 #header {
@@ -139,6 +140,9 @@
     text-align: left;
     white-space: nowrap;
     background-color: white;
+    /*Added stuff*/
+    border-radius: 4px;
+    border: 1px solid #ccc;
 }
 
 .contact-detail-true {
@@ -147,11 +151,16 @@
     text-overflow: ellipsis;
     text-align: left;
     white-space: nowrap;
-    background-color: rgb(204, 204, 204);
-}
+    /*background-color: rgb(204, 204, 204);
+    */
+    border-radius: 4px;
+    border: 1px solid #ccc;
+    background-color: #BCCFCF;
+  }
 
 .contact-detail:hover{
-  background-color: #ccc;
+  background-color: #A3B9B9;
+  cursor: pointer;
 }
 
 #contact-item:hover{
