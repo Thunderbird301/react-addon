@@ -1,4 +1,4 @@
-@import url(resources/buttons.css);
+/*@import url(resources/buttons.css);*/
 
 #sidebar {
   width: 20vw;
@@ -17,23 +17,25 @@
 }
 
 #sidebar-buttons{
-  display: flex;
-  border-radius: 4px;
-  flex-wrap: wrap;
-  justify-content: space-around;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
   /*margin-left:5%;*/
   /*padding-top: 2%;*/
 }
 
 #sidebar-buttons input[type="button"]{
   background-color: white;
-  border-radius: 4px;
-  width: 60px;
+  border-radius: 2px;
   border: 1px solid #ccc;
+  padding-top:5px;
+  padding-bottom: 5px;
+  font-size: 0.8rem;
+  width: 70px;
 }
 
 #sidebar-buttons input[type="button"]:hover{
-  background-color: #ccc;
+  background-color: #e5e5e5;
 }
 
 img.side-profile-img {
@@ -144,11 +146,14 @@ img.profile-img{
 }
 
 #search-bar {
-  margin: 5%;
-  width: 90%;
-  border-radius: 4px;
+  margin: 4%;
+  width: 250px;
+  border-radius: 3px;
   border: 1px solid #ccc;
   color: #333;
+  padding-top: 5px;
+  padding-bottom: 5px;
+  font-size: 0.9em;
 }
 
 #search-bar:focus {
