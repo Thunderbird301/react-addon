@@ -52,91 +52,6 @@ var AddressBook = React.createClass({
       });
     });
   },
-  getContactDetails: function(id) {
-    var self = this;
-    var contactSections = this.createEmptyContactSections();
-    var tempContactSections = this.createEmptyContactSections();
-    var personalSection = this.createEmptyPersonalSection();
-    var tempPersonalSection = this.createEmptyPersonalSection();
-
-    Addressbook.open(indexedDB).then(function(addrbook) {
-      addrbook.getById(id).then(function(contact) {
-        var details = contact.jcards[0].getAllProperties();
-        for (var i = 0; i < details.length; i++) {
-          self.parseProperty(details[i], contactSections, tempContactSections, personalSection, tempPersonalSection);
-        }
-
-        var photoUrl = "images/1.jpg";
-        if (contact.photo) {
-          photoUrl = URL.createObjectURL(contact.photo);
-        }
-
-        self.setState({
-          contactSections: contactSections,
-          tempContactSections: tempContactSections,
-          personalSection: personalSection,
-          tempPersonalSection: tempPersonalSection,
-          photoUrl: photoUrl
-        });
-      });
-    });
-  },
-  parseProperty: function(property, cFields, tFields, pField, tpField) {
-    var name = property.name;
-    var type = property.getParameter("type");
-    var content = property.getFirstValue();
-    if (Array.isArray(type)) {
-      type = type[0];
-    }
-    if (type) {
-      type = type.charAt(0).toUpperCase() + type.slice(1);
-    }
-
-    switch (name) {
-      case "email":
-        this.addFieldProperty(0, type, content, cFields);
-        this.addFieldProperty(0, type, content, tFields);
-        break;
-      case "tel":
-        this.addFieldProperty(1, type, content, cFields);
-        this.addFieldProperty(1, type, content, tFields);
-        break;
-      case "adr":
-        this.addFieldProperty(2, type, content, cFields);
-        this.addFieldProperty(2, type, content, tFields);
-        break;
-      case "url":
-        this.addFieldProperty(3, type, content, cFields);
-        this.addFieldProperty(3, type, content, tFields);
-        break;
-      case "fn":
-        pField.name = content;
-        tpField.name = content;
-        break;
-      case "nn":
-        pField.nickName = content;
-        tpField.nickName = content;
-        break;
-      case "dn":
-        pField.displayName = content;
-        tpField.displayName = content;
-        break;
-      case "bday":
-        pField.birthday = content.toString();
-        tpField.birthday = content.toJSDate().toISOString();
-        break;
-      default:
-        break;
-    }
-  },
-  addFieldProperty: function(index, currentOption, content, fields) {
-    var fieldID = fields[index].fields.length;
-    fields[index].fields.push({
-      currentOption: currentOption,
-      content: content,
-      fieldID: fieldID
-    });
-  },
   edit: function() {
     this.setState({editing: true});
   },
@@ -238,12 +153,13 @@ var AddressBook = React.createClass({
   updateProfileImage: function(image) {
     var imageFile = image.files[0];
     var tempContact = this.state.tempContact;
+    tempContact.photo = imageFile;
     this.setState({tempContact: tempContact});
   },
   setContactID: function(id) {
-    this.getContactDetails(id);
+    ContactParser.getContactDetails(id, this);
     this.setState({
-      currentPersonID: id,
+      currentPersonID: id
     });
   },
   editingDisplay: function() {
