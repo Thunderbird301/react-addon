@@ -3,15 +3,17 @@ class ProfileImage extends React.Component {
     URL.revokeObjectURL(this.props.image);
   }
   render() {
-    const imageStyle = {
-      borderRadius: "50%"
-    };
+    var className;
+    if(this.props.type=="sidebar"){
+      className="side-profile-img";
+    } else if(this.props.type=="header"){
+      className="profile-img";
+    }
+
     return (
       <div>
-        <img onload={this.handleURLRevoke} src={this.props.image} style={imageStyle}/>
+        <img className={className} onload={this.handleURLRevoke} src={this.props.image}/>
       </div>
     );
   }
 }
-
-

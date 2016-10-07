@@ -15,14 +15,15 @@ var ContactSidebar = React.createClass({
     var className;
 
     if (contact.id == this.props.currentID) {
-      className = "contact-detail-true";
+      className = "true";
     } else {
-      className = "contact-detail";
+      className = "";
     }
 
     return (
-      <div onClick={this.displayContact.bind(null, contact)}>
-        <li className={className} key={this.props.contactNames}>{contact.name}</li>
+      <div id="contact-name" className={className} onClick={this.displayContact.bind(null, contact)}>
+        <ProfileImage type="sidebar" image={this.props.image}/>
+        <li className="contact-detail" key={this.props.contactNames}>{contact.name}</li>
       </div>
     );
   },

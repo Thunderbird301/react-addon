@@ -270,7 +270,7 @@ var AddressBook = React.createClass({
   renderContactDisplay: function() {
     return (<div>
       <div id="sidebar">
-        <ContactSidebar contactNames={this.state.contactNames} viewContact={this.setContactID} currentID={this.state.currentPersonID}/>
+        <ContactSidebar contactNames={this.state.contactNames} viewContact={this.setContactID} currentID={this.state.currentPersonID} image={this.state.photoUrl}/>
       </div>
       <div id="main">
         <div id="main-header">
