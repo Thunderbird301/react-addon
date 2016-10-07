@@ -9,10 +9,10 @@ var Header = React.createClass({
           <ProfileImage type="header" image={this.props.image}/>
         </div>
         <div id="header-text">
-          <h2>{this.props.personalDetails.name.content}</h2>
-          <h3>{this.props.personalDetails.nickName.content}</h3>
+          <h3>{this.props.personalDetails.name.content}</h3>
+          <h4>{this.props.personalDetails.nickName.content}</h4>
           <h4>{this.props.personalDetails.displayName.content}</h4>
-          <h4>{this.props.personalDetails.birthday.content}</h4>
+          <h5>{this.props.personalDetails.birthday.content}</h5>
         </div>
     </div>
     );
@@ -21,7 +21,7 @@ var Header = React.createClass({
     return (
       <div id="header">
         <div id="profile-img">
-          <ProfileImage image={this.props.image}/>
+          <ProfileImage type="header" image={this.props.image}/>
         </div>
         <div id="header-text">
           <table id="field">
