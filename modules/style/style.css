@@ -90,13 +90,15 @@
 }
 
 #profile-img {
-  width: 20vw;
+  /*width: 20vw;*/
+  width: 32vh;
   float: left;
 }
 
 .profile-img {
   border-radius: 50%;
   height: 29vh;
+  width: 29vh;
 }
 
 /*END*/
