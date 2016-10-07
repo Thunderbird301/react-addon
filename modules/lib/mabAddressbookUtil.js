@@ -62,10 +62,12 @@ var AddressbookUtil = {
   },
 
   /**
+   * Ask the user to point to a vCard and import the contacts into the database
    *
-   * @returns {Contact[]}
+   * @param {Addressbook} Addressbook to add the imported contacts to
+   * @returns {Promise[]} Array of promises for adding the new contacts
    */
-  importContacts: function() {
+  importContacts: function(addressbook) {
 
     var filePickerInterface = Components.interfaces.nsIFilePicker;
     var filePicker = Components.classes["@mozilla.org/filepicker;1"].createInstance(filePickerInterface);
@@ -94,6 +96,44 @@ var AddressbookUtil = {
 
       inputStream.close();
 
+      var contacts = ICAL.parse(fileContents);
+      // detect error from parsing
+      if (!contacts) {
+        throw "Invalid vCard";
+      }
+
+      // check if it is an array of vcards or a single vcard
+      if (contacts[0] == 'vcard') {
+        // make a single contact a list to work with the next section
+        contacts = [contacts];
+      }
+
+      // convert jcards into Contact objects
+      var contactPromises = contacts.map(function(vcard) {
+        var contact =  new ICAL.Component(vcard);
+
+        // try to get the name of the contact
+        var name = contact.getFirstPropertyValue("fn");
+        // fall back to the 'n' for a name
+        if (!name) {
+          name = contact.getFirstPropertyValue("n");
+          name = Array.isArray(name) ? name.join(" ").trim() : name;
+        }
+        // fall back to email for a name
+        if (!name) {
+          name = contact.getFirstPropertyValue("email");
+        }
+
+        // TODO: check if it already exists and add it?
+
+        // add the contact to the addressbook
+        addressbook.add({
+          name: name.trim(),
+          jcards: [vcard]
+        });
+      });
+
+      return contactPromisess;
     }
   }
 }
