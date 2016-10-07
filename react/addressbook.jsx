@@ -208,11 +208,11 @@ var AddressBook = React.createClass({
   },
   editingDisplay: function() {
     if (!this.state.editing) {
-      return (<div>
+      return (<div id="main-buttons">
         <button id="buttons" onClick={this.edit}>Edit</button>
       </div>);
     } else {
-      return (<div>
+      return (<div id="main-buttons">
         <button id="buttons" onClick={this.save}>Save</button>
         <button id="buttons" onClick={this.cancel}>Cancel</button>
       </div>);
@@ -235,12 +235,16 @@ var AddressBook = React.createClass({
   renderContactDisplay: function() {
     return (<div>
       <div id="sidebar">
-        <ContactSidebar contactNames={this.state.contactsList} viewContact={this.setContactID} currentID={this.state.currentPersonID}/>
+        <ContactSidebar contactNames={this.state.contactNames} viewContact={this.setContactID} currentID={this.state.currentPersonID} image={this.state.photoUrl}/>
       </div>
       <div id="main">
-        <Header personalDetails={this.state.personalSection} onUserInput={this.updatePersonalDetail} editing={this.state.editing} image={this.state.photoUrl}/>
-        {this.editingDisplay()}
-        {this.state.contactSections.map(this.renderContactSection)}
+        <div id="main-header">
+          <Header personalDetails={this.state.personalSection} onUserInput={this.updatePersonalDetail} editing={this.state.editing} image={this.state.photoUrl}/>
+          {this.editingDisplay()}
+        </div>
+        <div id="main-contact">
+          {this.state.contactSections.map(this.renderContactSection)}
+        </div>
       </div>
     </div>);
   },
