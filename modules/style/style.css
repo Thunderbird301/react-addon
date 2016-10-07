@@ -36,6 +36,11 @@
   background-color: #ccc;
 }
 
+#contact-name{
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+
 #buttons{
   border-radius: 4px;
   width: 60px;
@@ -120,29 +125,18 @@
   border: 1px solid #ccc;
 }
 
-#contact-item {        /* //XX added gN */
-    display: flex;
-    width: 90%;
-    margin:auto;
-    white-space: nowrap;
-    text-overflow: ellipsis;
-    text-align: left;
-    border-radius: 4px;
-    border: 1px solid #ccc;
-    background-color: white;    
-    overflow: hidden;
-}
-
 .contact-detail {
     width: 90%;
     overflow: hidden;
     text-overflow: ellipsis;
     text-align: left;
     white-space: nowrap;
-    background-color: white;
+    /*background-color: white;*/
     /*Added stuff*/
-    border-radius: 4px;
-    border: 1px solid #ccc;
+    /*border-radius: 4px;*/
+    /*border: 1px solid #ccc;*/
+    padding: 15px;
+
 }
 
 .contact-detail-true {
@@ -151,21 +145,21 @@
     text-overflow: ellipsis;
     text-align: left;
     white-space: nowrap;
+    padding: 15px;
     /*background-color: rgb(204, 204, 204);
-    */
     border-radius: 4px;
-    border: 1px solid #ccc;
-    background-color: #BCCFCF;
+    border: 1px solid #ccc;*/
+    /*background-color: #BCCFCF;*/
+    background: white;
   }
 
 .contact-detail:hover{
-  background-color: #A3B9B9;
+  /*background-color: #A3B9B9;*/
+  background-color: white;
   cursor: pointer;
 }
 
-#contact-item:hover{
-  background-color: #ccc;
-}
+
 
 body {
   background-color: white;
@@ -176,5 +170,3 @@ body {
 .circle{
   border-radius: 50%;
 }
-
-
