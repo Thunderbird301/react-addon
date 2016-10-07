@@ -142,7 +142,8 @@ ContactParser.removeContactDetail = function(tempContact, property, jCardIndex) 
 
 ContactParser.addContactDetail = function(tempContact, name, content, type) {
   var property = tempContact.jcards[0].addPropertyWithValue(name, content);
-  return property.setParameter("type", type);
+  property.setParameter("type", type);
+  return property;
 };
 
 ContactParser.updateOption = function(tempContact, property, jCardIndex, option) {
