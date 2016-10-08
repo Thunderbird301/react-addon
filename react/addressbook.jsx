@@ -44,6 +44,15 @@ var AddressBook = React.createClass({
   edit: function() {
     this.setState({editing: true});
   },
+  delete: function() {
+    var self = this;
+    Addressbook.open(indexedDB).then(function(addrbook) {
+      addrbook.deleteById(self.state.currentPersonID).then((contact) => {
+        // display notification banner
+        self.setState({currentPersonID: -1});
+      });
+    });
+  },
   addField: function(index) {
       var tempSection = this.state.tempContactSections[index];
       var content = "";
@@ -210,6 +219,7 @@ var AddressBook = React.createClass({
     if (!this.state.editing) {
       return (<div id="main-buttons">
         <button id="buttons" onClick={this.edit}>Edit</button>
+        <button id="buttons" onClick={this.delete}>Delete</button>
       </div>);
     } else {
       return (<div id="main-buttons">
