@@ -49,7 +49,11 @@ var AddressBook = React.createClass({
     Addressbook.open(indexedDB).then(function(addrbook) {
       addrbook.deleteById(self.state.currentPersonID).then((contact) => {
         // display notification banner
-        self.setState({currentPersonID: -1});
+        var conList = ContactParser.deleteContact(self.state.contactsList, self.state.currentPersonID);
+        self.setState({
+          currentPersonID: -1,
+          contactsList: conList
+        });
       });
     });
   },
