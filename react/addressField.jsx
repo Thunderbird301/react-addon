@@ -8,7 +8,7 @@ var AddressField = (props) => {
      <p>{props.currentOption} : {addressFields.map(function(addressLine) {
        return (
          <div id="field">
-           <p>{content}</p>
+           <p>{addressLine}</p>
          </div>);
        })
       }

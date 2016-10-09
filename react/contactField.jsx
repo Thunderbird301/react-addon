@@ -17,7 +17,10 @@ var ContactField = React.createClass({
     },
     renderDisplay : function() {
         if (this.props.type == "Address") {
-            <AddressField fieldContent={this.props.fieldContent} currentOption={this.props.currentOption}/>
+            <AddressField
+              fieldContent={this.props.fieldContent}
+              currentOption={this.props.currentOption}
+              />
         }
         return (
             <div id="field">
@@ -27,8 +30,16 @@ var ContactField = React.createClass({
         );
     }, renderForm : function() {
         if (this.props.type == "Address") {
-            return <AddressForm currentOption={this.props.currentOption} saveOption={this.saveOption} renderOption={this.renderOption}
-              options={this.props.options} remove={this.remove} saveContent={this.saveContent} fieldContent={this.props.fieldContent}/>
+            return <AddressForm
+              currentOption={this.props.currentOption}
+              saveOption={this.props.onUserSelect}
+              renderOption={this.renderOption}
+              options={this.props.options}
+              remove={this.remove}
+              saveContent={this.props.onUserInput}
+              fieldContent={this.props.fieldContent}
+              index={this.props.index}
+              />
         }
         return (
             <table id="field">
