@@ -1,3 +1,7 @@
+/**
+* @desc Provides a header to the contact sidebar. It allows importing and exporting
+* of contacts as well as creating new ones. It also provides a search bar for filtering contacts
+**/
 var SidebarHeader = (props) => (
   <div id="sidebar-header">
     <div>
