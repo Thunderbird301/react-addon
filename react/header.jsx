@@ -5,9 +5,7 @@ var Header = React.createClass({
   renderDisplay() {
     return (
       <div id="header">
-        <div id="profile-img">
           <ProfileImage type="header" className="profile-img" image={this.props.image}/>
-        </div>
         <div id="header-text">
           <h3>{this.props.personalDetails.name.content}</h3>
           <h4>{this.props.personalDetails.nickName.content}</h4>

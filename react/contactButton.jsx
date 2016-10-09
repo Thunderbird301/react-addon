@@ -1,3 +1,7 @@
+/**
+* @desc Provides a sidebar button for a contact.
+* It displays their profile image, name and displays their contact when clicked
+**/
 var ContactButton = (props) => {
   var className;
   if (props.selected) {
