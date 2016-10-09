@@ -166,6 +166,22 @@ Addressbook.prototype = {
   },
 
   /**
+  * Return all contacts in db.
+  * @returns {Promise} of an array of all contact objects in the db.
+  **/
+  getAllNameIdAndPhoto: function() {
+    return this._contactRequest("readonly",
+        function(transaction) {
+          return transaction.getAll();
+        })
+    .then(function(rawContacts) {
+      return rawContacts.map(function(rawContact) {
+        return {name: rawContact.name, id: rawContact.uuid, photo: ContactParser.getPhotoURL(rawContact.photo)};
+      });
+    });
+  },
+
+  /**
   * Return a contact.
   * @param id - id of contact required.
   * @return {Promise} of a contact
@@ -271,7 +287,7 @@ Addressbook.prototype = {
  * @constructor
  */
 function Contact(rawContact) {
-  this.uuid = rawContact.uuid; 
+  this.uuid = rawContact.uuid;
   this.name = rawContact.name;
   this.photo = rawContact.photo;
   this.jcards = this._convertFromRawJCard(rawContact.jcards);

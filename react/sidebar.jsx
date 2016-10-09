@@ -9,8 +9,14 @@ var ContactSidebar = (props) => (
     <div id="contacts-list">
       <ul>
         {props.contactNames.map(function(contact) {
-          return <ContactButton contact={contact} image={props.image} viewContact={props.viewContact} selected={contact.id == props.currentID}/>
-        })}
+          return <ContactButton
+            contact={contact}
+            image={contact.photo}
+            viewContact={props.viewContact}
+            selected={contact.id == props.currentID}
+            />
+          })
+        }
       </ul>
     </div>
   </div>
