@@ -6,7 +6,7 @@ var Header = React.createClass({
     return (
       <div id="header">
         <div id="profile-img">
-          <ProfileImage type="header" image={this.props.image}/>
+          <ProfileImage type="header" className="profile-img" image={this.props.image}/>
         </div>
         <div id="header-text">
           <h3>{this.props.personalDetails.name.content}</h3>
@@ -21,7 +21,7 @@ var Header = React.createClass({
     return (
       <div id="header">
         <div id="profile-img">
-          <ProfileImage type="header" image={this.props.image}/>
+          <ProfileImage type="header" className="profile-img" image={this.props.image}/>
         </div>
         <div id="header-text">
           <table id="field">

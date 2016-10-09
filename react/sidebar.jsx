@@ -2,8 +2,6 @@
 var ContactSidebar = React.createClass({
   add: function(){
   },
-  delete: function(){
-  },
   import: function(){
   },
   export: function(){
@@ -11,21 +9,8 @@ var ContactSidebar = React.createClass({
   displayContact: function(contact) {
     this.props.viewContact(contact.id, contact.name);
   },
-  renderName: function(contact){
-    var className;
-
-    if (contact.id == this.props.currentID) {
-      className = "true";
-    } else {
-      className = "";
-    }
-
-    return (
-      <div id="contact-name" className={className} onClick={this.displayContact.bind(null, contact)}>
-        <ProfileImage type="sidebar" image={this.props.image}/>
-        <li className="contact-detail" key={this.props.contactNames}>{contact.name}</li>
-      </div>
-    );
+  renderContact: function(contact) {
+    return <ContactButton contact={contact} image={this.props.image} viewContact={this.props.viewContact} selected={contact.id == this.props.currentID}/>
   },
   render: function() {
       return (
@@ -43,7 +28,7 @@ var ContactSidebar = React.createClass({
             <br />
             <div id="contacts-list">
               <ul>
-                {this.props.contactNames.map(this.renderName)}
+                {this.props.contactNames.map(this.renderContact)}
               </ul>
             </div>
           </div>
