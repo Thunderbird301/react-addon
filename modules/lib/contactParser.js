@@ -159,6 +159,14 @@ ContactParser.rename = function(id, name, contactsList) {
   }
 };
 
+ContactParser.deleteContact = function(contactsList, id) {
+  var index = contactsList.findIndex(function(contact) {
+    return contact.id == id;
+  });
+  contactsList.splice(index, 1);
+  return contactsList;
+};
+
 ContactParser.findCloneProperty = function(property, contact) {
   for(var j = 0; j < contact.jcards.length; j++) {
     var details = contact.jcards[j].getAllProperties(property.name);
