@@ -1,13 +1,8 @@
 /** -------------- CONTACT FIELDS -------------------------*/
 
 var ContactField = React.createClass({
-    saveContent: function() {
-      if(this.props.type != "Address") {
-        this.props.onUserInput(this.refs.newText.value, this.props.index);
-      } else {
-        var address = [this.refs.street.value, this.refs.city.value, this.refs.postalCode.value, this.refs.region.value, this.refs.country.value];
-        this.props.onUserInput(address, this.props.index);
-      }
+    saveContent: function(content) {
+      this.props.onUserInput(content, this.props.index);
     },
     saveOption: function(event) {
         this.props.onUserSelect(event.target.value, this.props.index);
@@ -15,62 +10,17 @@ var ContactField = React.createClass({
     remove: function() {
         this.props.onUserDelete(this.props.index);
     },
-    renderAddressForm: function() {
-        return (
-            <table id="field">
-                <tr>
-                    <td><select onChange={this.saveOption} value={this.props.currentOption}>
-                        {this.props.options.map(this.renderOption)}
-                        </select>
-                    </td>
-                    <td>
-                        <input type="text" ref="street" placeholder="Street" defaultValue={this.props.fieldContent[0]} onChange={this.saveContent} className="form-control"></input>
-                    </td>
-                    <td>
-                        <button id="buttons" onClick={this.remove}>-</button>
-                    </td>
-                </tr>
-                <tr>
-                    <td></td>
-                    <td><input type="text" ref="city" placeholder="City" defaultValue={this.props.fieldContent[1]} onChange={this.saveContent} className="form-control"></input></td>
-                </tr>
-                <tr>
-                    <td></td>
-                    <td><input type="text" ref="postalCode" placeholder="Postal Code" defaultValue={this.props.fieldContent[2]} onChange={this.saveContent} className="form-control"></input></td>
-                </tr>
-                <tr>
-                    <td></td>
-                    <td><input type="text" ref="region" placeholder="Region" defaultValue={this.props.fieldContent[3]} onChange={this.saveContent} className="form-control"></input></td>
-                </tr>
-                <tr>
-                    <td></td>
-                    <td><input type="text" ref="country" placeholder="Country" defaultValue={this.props.fieldContent[4]} onChange={this.saveContent} className="form-control"></input></td>
-                </tr>
-            </table>
-        );
-    },
-    renderAddressField: function(content) {
-        return (
-            <div id="field">
-                <p>{content}</p>
-            </div>
-        );
-    },
-    renderAddressDisplay: function() {
-      return (
-        <div id = "field">
-           <p>{this.props.currentOption} : {this.props.fieldContent.map(this.renderAddressField)} </p>
-        </div>
-      );
-    },
     renderOption: function(option) {
         return (
-            <option value={option}>{option}</option >
+            <option value={option}>{option}</option>
         );
     },
     renderDisplay : function() {
         if (this.props.type == "Address") {
-            return this.renderAddressDisplay();
+            <AddressField
+              fieldContent={this.props.fieldContent}
+              currentOption={this.props.currentOption}
+              />
         }
         return (
             <div id="field">
@@ -80,7 +30,16 @@ var ContactField = React.createClass({
         );
     }, renderForm : function() {
         if (this.props.type == "Address") {
-            return this.renderAddressForm();
+            return <AddressForm
+              currentOption={this.props.currentOption}
+              saveOption={this.props.onUserSelect}
+              renderOption={this.renderOption}
+              options={this.props.options}
+              remove={this.remove}
+              saveContent={this.props.onUserInput}
+              fieldContent={this.props.fieldContent}
+              index={this.props.index}
+              />
         }
         return (
             <table id="field">
@@ -101,18 +60,3 @@ var ContactField = React.createClass({
         }
     }
 });
-
-
-
-// ReactDOM.render(
-//     <ContactSidebar/>, document.getElementById('sidebar'));
-// ReactDOM.render(
-//     <ContactSection type={"Email"} options={Email}/>, document.getElementById('personal'));
-// ReactDOM.render(
-//     <ContactSection type={"Phone"} options={Phone}/>, document.getElementById('work'));
-// ReactDOM.render(
-//     <ContactSection type={"Address"} options={Address}/>, document.getElementById('address'));
-// ReactDOM.render(
-//     <ContactSection type={"Webpage"} options={Webpage}/>, document.getElementById('web-pages'));
-// ReactDOM.render(
-//     <ContactSection type={"Chat"} options={Chat}/>, document.getElementById('chat'));

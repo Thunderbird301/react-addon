@@ -57,6 +57,15 @@ var AddressBook = React.createClass({
       });
     });
   },
+  addContact: function() {
+    
+  },
+  import: function() {
+    
+  },
+  export: function() {
+    
+  },
   edit: function() {
     this.setState({editing: true});
   },
@@ -277,13 +286,15 @@ var AddressBook = React.createClass({
   },
   renderNoContact: function() {
     return (<div id="sidebar">
-      <ContactSidebar contactNames={this.state.contactsList} viewContact={this.setContactID}/>
+      <ContactSidebar contactNames={this.state.contactsList} viewContact={this.setContactID} add={this.addContact} image={this.state.photoUrl}
+        import={this.import} export={this.export}/>
     </div>);
   },
   renderContactDisplay: function() {
     return (<div>
       <div id="sidebar">
-        <ContactSidebar contactNames={this.state.contactsList} viewContact={this.setContactID} currentID={this.state.currentPersonID}/>
+        <ContactSidebar contactNames={this.state.contactsList} viewContact={this.setContactID} currentID={this.state.currentPersonID} image={this.state.photoUrl}
+          add={this.addContact} import={this.import} export={this.export}/>
       </div>
       <div id="main">
         <div id="main-header">
