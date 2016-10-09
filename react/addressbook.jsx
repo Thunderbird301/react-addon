@@ -238,7 +238,7 @@ var AddressBook = React.createClass({
   },
   renderNoContact: function() {
     return (<div id="sidebar">
-      <ContactSidebar contactNames={this.state.contactsList} viewContact={this.setContactID} add={this.addContact}
+      <ContactSidebar contactNames={this.state.contactsList} viewContact={this.setContactID} add={this.addContact} image={this.state.photoUrl}
         import={this.import} export={this.export}/>
     </div>);
   },
