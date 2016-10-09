@@ -22,7 +22,7 @@ var ContactSidebar = React.createClass({
 
     return (
       <div id="contact-name" className={className} onClick={this.displayContact.bind(null, contact)}>
-        <ProfileImage type="sidebar" image={this.props.image}/>
+        <ProfileImage type="sidebar" image={contact.photo}/>
         <li className="contact-detail" key={this.props.contactNames}>{contact.name}</li>
       </div>
     );

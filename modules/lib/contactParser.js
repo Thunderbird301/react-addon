@@ -22,6 +22,13 @@ ContactParser.createEmptyPersonalSection = function(details) {
   return pDetails;
 };
 
+ContactParser.getPhotoURL = function(photo) {
+  if (photo) {
+      return URL.createObjectURL(photo)
+  }
+  return "images/1.jpg";
+}
+
 ContactParser.getContactDetails = function(id, ab) {
   var self = this;
   var contactSections = this.createEmptyContactSections(ab.props.contactSections);
@@ -43,10 +50,7 @@ ContactParser.getContactDetails = function(id, ab) {
         }
       }
       // Gets contact profile image
-      var photoUrl = "images/1.jpg";
-      if (contact.photo) {
-        photoUrl = URL.createObjectURL(contact.photo);
-      }
+      var photoUrl = self.getPhotoURL(contact.photo);
       // Stores contact information in UI
       ab.setState({
         contact: con,
@@ -61,9 +65,12 @@ ContactParser.getContactDetails = function(id, ab) {
   });
 };
 
-ContactParser.updateContact = function(contact) {
+ContactParser.updateContact = function(contact, ab) {
+  var self = this;
     Addressbook.open(indexedDB).then(function(addrbook) {
-      addrbook.update(contact); // maybe check success here?
+      addrbook.update(contact).then(function(id) {
+        ab.setState({photoUrl: self.getPhotoURL(contact.photo)});
+      }); // maybe check success here?
     });
 }
 
@@ -127,6 +134,7 @@ ContactParser._addFieldProperty = function(index, currentOption, content, fields
     currentOption: currentOption,
     content: content,
     fieldID: fieldID,
+    property: property,
     jCardIndex: jCardIndex,
     property: property
   });
