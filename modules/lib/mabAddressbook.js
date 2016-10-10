@@ -38,10 +38,10 @@ Addressbook.prototype = {
   classID:          Components.ID(UUID),
   contractID:       contractID,
 
-/**	
+/**
 * Open connection with db.
 * @returns {Promise} - promise of open connection to db.
-**/	
+**/
   open: function() {
     let addrbook = this;
     let indexedDB = this.indexedDB;
@@ -188,11 +188,11 @@ Addressbook.prototype = {
   **/
   getById: function(id) {
     return this._contactRequest("readonly",
-        function(transaction) { 
-          return  transaction.get(id); 
+        function(transaction) {
+          return  transaction.get(id);
         })
-    .then(function(rawContact) { 
-      return new Contact(rawContact);  
+    .then(function(rawContact) {
+      return new Contact(rawContact);
     });
   },
   /**
@@ -208,7 +208,30 @@ Addressbook.prototype = {
   * @returns {Promise} - of all names and IDs in db.
   **/
   getNameAndId: function() {
+    return this._contactNameCursor(function(cursor) {
+      return { uuid: cursor.primaryKey, name: cursor.key };
+    });
+  },
 
+  searchByName: function(name) {
+    return this._contactNameCursor(function(cursor) {
+      // all lower case so case does not matter in search
+      if (cursor.key.toLowerCase().indexOf(name.toLowerCase()) !== -1) {
+        return { uuid: cursor.primaryKey, name: cursor.key };
+      }
+    });
+  },
+
+  /**
+   * A general cursor function that takes a filter function with a single argument of the current
+   * cursor element. Any value returned from the filter function is returned in the promise.
+   *
+   * This is a cursor over the 'name' index
+   *
+   * @param {function} a filter function to choose which items are returned
+   * @returns {Promise} with the value of an array filled with the filtered values
+  **/
+  _contactNameCursor: function(filter) {
     let db = this._db;
 
     return new Promise(function(resolve, reject) {
@@ -233,8 +256,12 @@ Addressbook.prototype = {
       // setup response functions
       request.onsuccess = function(event) {
         var cursor = event.target.result;
+
         if (cursor) {
-          results.push({ uuid: cursor.primaryKey, name: cursor.key });
+          var result = filter(cursor);
+          if (result) {
+            results.push(result);
+          }
           cursor.continue();
         } else {
           resolve(results);
