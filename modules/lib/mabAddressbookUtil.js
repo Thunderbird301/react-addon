@@ -126,12 +126,12 @@ var AddressbookUtil = {
 
         // get the photo
         var photo = undefined;
-        var photoPropertry = contact.getFirstProperty("photo");
+        var photoProperty = contact.getFirstProperty("photo");
 
-        if (photoPropertry) {
-          if (photoPropertry.type === "binary") {
-            var imageType = photoPropertry.getParameter("type").toLowerCase();
-            photo = AddressbookUtil.b64toBlob(photoPropertry.getValues(), imageType);
+        if (photoProperty) {
+          if (photoProperty.type === "binary") {
+            var imageType = "image/" + photoProperty.getParameter("type").toLowerCase();
+            photo = AddressbookUtil.b64toBlob(photoProperty.getValues(), imageType);
           }
         }
 
@@ -145,7 +145,7 @@ var AddressbookUtil = {
         });
       });
 
-      return contactPromisess;
+      return contactPromises;
     }
   },
 
@@ -165,7 +165,7 @@ var AddressbookUtil = {
       }
 
       var byteArray = new Uint8Array(byteNumbers);
-
+      
       byteArrays.push(byteArray);
     }
 
