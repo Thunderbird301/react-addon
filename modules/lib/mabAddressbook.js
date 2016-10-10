@@ -203,6 +203,7 @@ Addressbook.prototype = {
   deleteById: function(id) {
     return this._contactRequest("readwrite",function(transaction) { return  transaction.delete(id); } );
   },
+
   /**
   * Returns all names and IDs in the db.
   * @returns {Promise} - of all names and IDs in db.
@@ -213,10 +214,15 @@ Addressbook.prototype = {
     });
   },
 
-  searchByName: function(name) {
+  /**
+  * Returns all names and IDs in the db that match the search term
+  * @param {String} string to match against
+  * @returns {Promise} - of all names and IDs in db.
+  **/
+  searchByName: function(search) {
     return this._contactNameCursor(function(cursor) {
       // all lower case so case does not matter in search
-      if (cursor.key.toLowerCase().indexOf(name.toLowerCase()) !== -1) {
+      if (cursor.key.toLowerCase().indexOf(search.toLowerCase()) !== -1) {
         return { uuid: cursor.primaryKey, name: cursor.key };
       }
     });
