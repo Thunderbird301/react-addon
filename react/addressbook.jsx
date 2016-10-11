@@ -247,11 +247,14 @@ var AddressBook = React.createClass({
     });
   },
   setContactID: function(id, name) {
-    ContactParser.getContactDetails(id, this);
-    this.setState({
-      currentPersonID: id,
-      name: name
-    });
+    if (id != this.state.currentPersonID) {
+      ContactParser.getContactDetails(id, this);
+      this.setState({
+        currentPersonID: id,
+        name: name,
+        editing: false
+      });
+    }
   },
   editingDisplay: function() {
     if (!this.state.editing) {
