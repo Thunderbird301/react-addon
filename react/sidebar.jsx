@@ -35,9 +35,9 @@ var ContactSidebar = React.createClass({
                 <input id="search-bar" type="text" name ="search" placeholder="Search"></input>
               </div>
               <span id="sidebar-buttons">
-                <input className="buttons" value="Export" onClick={this.export}></input>
-                <input className="buttons" value="Import" onClick={this.import}></input>
-                <input className="buttons" value="+" onClick={this.add}></input>
+                <button className="buttons" onClick={this.export}>Export</button>
+                <button className="buttons" onClick={this.import}>Import</button>
+                <button className="buttons" onClick={this.add}>+</button>
               </span>
             </div>
             <br />

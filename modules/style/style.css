@@ -114,7 +114,7 @@
 }
 
 
-#buttons:hover{
+.buttons:hover{
   /*background-color: #999;
   cursor: pointer;*/
   background-color: #e5e5e5;
