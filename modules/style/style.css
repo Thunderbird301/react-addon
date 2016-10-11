@@ -1,4 +1,4 @@
-@import url(resources/buttons.css);
+/*@import url(resources/buttons.css);*/
 
 /*Sidebar Styling*/
 
@@ -18,23 +18,26 @@
 }
 
 #sidebar-buttons{
-  display: flex;
-  border-radius: 4px;
-  flex-wrap: wrap;
-  justify-content: space-around;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
   /*margin-left:5%;*/
   /*padding-top: 2%;*/
 }
 
 #sidebar-buttons input[type="button"]{
   background-color: white;
-  border-radius: 4px;
-  width: 60px;
+  border-radius: 2px;
   border: 1px solid #ccc;
+  padding-top:5px;
+  padding-bottom: 5px;
+  font-size: 0.8rem;
+  width: 70px;
 }
 
 #sidebar-buttons input[type="button"]:hover{
-  background-color: #ccc;
+  background-color: #e5e5e5;
+  cursor: pointer;
 }
 
 #search-bar {
@@ -101,16 +104,21 @@
 /*General Styling*/
 
 .buttons{
-  border-radius: 4px;
-  width: 60px;
+  background-color: white;
+  border-radius: 2px;
   border: 1px solid #ccc;
-  border-bottom: 1px solid black;
-  border-right: 1px solid black;
+  padding-top:5px;
+  padding-bottom: 5px;
+  font-size: 0.8rem;
+  width: 70px;
 }
 
-.buttons:hover{
-  background-color: #999;
-  cursor: pointer;
+
+#buttons:hover{
+  /*background-color: #999;
+  cursor: pointer;*/
+  background-color: #e5e5e5;
+  cursor:pointer;
 }
 
 .buttons.tag{
@@ -203,6 +211,22 @@ description.headerstyle {
   margin-right:2px;
 }
 
+#search-bar {
+  margin: 4%;
+  width: 250px;
+  border-radius: 3px;
+  border: 1px solid #ccc;
+  color: #333;
+  padding-top: 5px;
+  padding-bottom: 5px;
+  font-size: 0.9em;
+}
+
+#search-bar:focus {
+  border-color: #ddd;
+  box-shadow: inset 0 1px 1px rgba(0,0,0,.075), 0 0 8px rgba(102, 175, 233, 0.6);
+}
+
 #field {
   display: flex;
   flex-direction: row;
@@ -211,13 +235,34 @@ description.headerstyle {
 }
 
 #field input[type="text"]{
-  border-radius: 4px;
+  margin: 2%;
+  width: 250px;
+  border-radius: 3px;
   border: 1px solid #ccc;
+  color: #333;
+  padding-top: 5px;
+  padding-bottom: 5px;
+  font-size: 0.9em;
+  padding-left: 5px;
 }
 
 #field select{
-  border-radius: 4px;
+  border-radius: 3px;
   border: 1px solid #ccc;
+  color: #333;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  font-size: 0.9em;
+}
+
+.contact-detail {
+    width: 90%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    text-align: left;
+    white-space: nowrap;
+    margin: auto;
+    padding-left: 5px;
 }
 
 body {
