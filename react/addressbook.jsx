@@ -75,7 +75,12 @@ var AddressBook = React.createClass({
     });
   },
   export: function() {
-    AddressbookUtil.exportContact(this.state.contact);
+    var selectedIds = this.state.selectedIds;
+    Addressbook.open(indexedDB).then(function(addrbook) {
+      Promise.all(selectedIds.map((id) => addrbook.getById(id))).then(function(contacts) {
+        AddressbookUtil.exportContact(contacts);
+      })
+    });
   },
   addField: function(index) {
       var tempSection = this.state.tempContactSections[index];
