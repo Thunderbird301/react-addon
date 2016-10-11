@@ -73,6 +73,9 @@ var AddressBook = React.createClass({
       });
     });
   },
+  export: function() {
+    AddressbookUtil.exportContact(this.state.contact);
+  },
   addField: function(index) {
       var tempSection = this.state.tempContactSections[index];
       var content = "";
@@ -277,13 +280,13 @@ var AddressBook = React.createClass({
   },
   renderNoContact: function() {
     return (<div id="sidebar">
-      <ContactSidebar contactNames={this.state.contactsList} viewContact={this.setContactID}/>
+      <ContactSidebar contactNames={this.state.contactsList} viewContact={this.setContactID} export={this.export}/>
     </div>);
   },
   renderContactDisplay: function() {
     return (<div>
       <div id="sidebar">
-        <ContactSidebar contactNames={this.state.contactsList} viewContact={this.setContactID} currentID={this.state.currentPersonID}/>
+        <ContactSidebar contactNames={this.state.contactsList} viewContact={this.setContactID} export={this.export} currentID={this.state.currentPersonID}/>
       </div>
       <div id="main">
         <div id="main-header">

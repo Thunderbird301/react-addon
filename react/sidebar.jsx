@@ -1,12 +1,15 @@
 /** -------------- SIDEBAR -------------------------*/
 var ContactSidebar = React.createClass({
-  add: function(){
+  add: function() {
   },
-  delete: function(){
+  delete: function() {
   },
-  import: function(){
+  import: function() {
   },
-  export: function(){
+  export: function() {
+    if (this.props.currentID) {
+      this.props.export();
+    }
   },
   displayContact: function(contact) {
     this.props.viewContact(contact.id, contact.name);
