@@ -27,7 +27,7 @@ var ContactField = React.createClass({
                         <input type="text" ref="street" placeholder="Street" defaultValue={this.props.fieldContent[0]} onChange={this.saveContent} className="form-control"></input>
                     </td>
                     <td>
-                        <button id="buttons" onClick={this.remove}>-</button>
+                        <button className="buttons remove" onClick={this.remove}>-</button>
                     </td>
                 </tr>
                 <tr>
@@ -89,7 +89,7 @@ var ContactField = React.createClass({
                         {this.props.options.map(this.renderOption)}
                     </select></td>
                     <td><input type="text" ref="newText" defaultValue={this.props.fieldContent} className="form-control" onChange={this.saveContent}></input></td>
-                    <td><button id="buttons" onClick={this.remove}>-</button></td>
+                    <td><button className="buttons remove" onClick={this.remove}>-</button></td>
                 </tr>
             </table>
         )

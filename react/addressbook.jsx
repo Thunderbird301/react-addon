@@ -256,13 +256,13 @@ var AddressBook = React.createClass({
   editingDisplay: function() {
     if (!this.state.editing) {
       return (<div id="main-buttons">
-        <button id="buttons" onClick={this.edit}>Edit</button>
-        <button id="buttons" onClick={this.delete}>Delete</button>
+        <button className="buttons" onClick={this.edit}>Edit</button>
+        <button className="buttons" onClick={this.delete}>Delete</button>
       </div>);
     } else {
       return (<div id="main-buttons">
-        <button id="buttons" onClick={this.save}>Save</button>
-        <button id="buttons" onClick={this.cancel}>Cancel</button>
+        <button className="buttons" onClick={this.save}>Save</button>
+        <button className="buttons" onClick={this.cancel}>Cancel</button>
       </div>);
     }
   },
