@@ -14,6 +14,10 @@ var Header = React.createClass({
           <h4>{this.props.personalDetails.nickName.content}</h4>
           <h4>{this.props.personalDetails.displayName.content}</h4>
           <h5>{this.props.personalDetails.birthday.content}</h5>
+        
+          <description className="headerstyle">Tags</description>
+          <button className="buttons tag" >Private</button>
+          <button className="buttons tag" >Friends</button>
         </div>
     </div>
     );
@@ -23,7 +27,7 @@ var Header = React.createClass({
       <div id="header">
         <div id="profile-img">
           <ProfileImage type="header" id="profile-img" className="profile-img" image={this.props.image}/>
-          <input id="buttons" type="file" name="profile-picture" accept="image/*" ref={(ref) => this.imageFile = ref} onChange={(evt) => this.saveImage(evt)}/>
+          <input className="buttons" type="file" name="profile-picture" accept="image/*" ref={(ref) => this.imageFile = ref} onChange={(evt) => this.saveImage(evt)}/>
         </div>
         <div id="header-text">
           <table id="field">
@@ -41,6 +45,16 @@ var Header = React.createClass({
             </tr>
             <tr>
               <td><input type="text" ref="birthday" defaultValue={this.props.personalDetails.birthday.content} placeholder="Birthday" className="form-control" onChange={this.saveContent.bind(null, "birthday")}></input>
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <description className="headerstyle">Tag</description>
+                 <button className="buttons tag" onClick={this.save}>Private</button>
+                 <button className="buttons remove" >-</button>
+                 <button className="buttons tag" onClick={this.save}>Friends</button>
+                 <button className="buttons remove" >-</button>
+                 <button className="buttons add" > + </button>
               </td>
             </tr>
           </table>

@@ -21,4 +21,3 @@ var ContactSidebar = (props) => (
     </div>
   </div>
 );
-

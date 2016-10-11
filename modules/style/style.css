@@ -1,4 +1,6 @@
-@import url(resources/buttons.css);
+/*@import url(resources/buttons.css);*/
+
+/*Sidebar Styling*/
 
 #sidebar {
   width: 20vw;
@@ -7,7 +9,6 @@
   min-width: 100px;
   overflow-x: hidden;
   overflow-y: hidden;
- /* background-color: #0f0;*/
   background-color: #f3f4f4;
   float: left;
 }
@@ -17,62 +18,39 @@
 }
 
 #sidebar-buttons{
-  display: flex;
-  border-radius: 4px;
-  flex-wrap: wrap;
-  justify-content: space-around;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
   /*margin-left:5%;*/
   /*padding-top: 2%;*/
 }
 
 #sidebar-buttons input[type="button"]{
   background-color: white;
-  border-radius: 4px;
-  width: 60px;
+  border-radius: 2px;
   border: 1px solid #ccc;
+  padding-top:5px;
+  padding-bottom: 5px;
+  font-size: 0.8rem;
+  width: 70px;
 }
 
 #sidebar-buttons input[type="button"]:hover{
-  background-color: #ccc;
-}
-
-img.side-profile-img {
-  border-radius: 50%;
-  width: 5vh;
-  height: 5vh;
-  float: left;
-}
-
-img.profile-img{
-  border-radius: 50%;
-}
-
-#contact-name{
-  display: flex;
-  padding: 15px;
-  margin: auto;
-}
-
-#contact-name.true{
-  background-color: white;
-}
-
-#contact-name:hover{
-  background-color: white;
+  background-color: #e5e5e5;
   cursor: pointer;
 }
 
-#buttons{
+#search-bar {
+  margin: 5%;
+  width: 90%;
   border-radius: 4px;
-  width: 60px;
   border: 1px solid #ccc;
-  border-bottom: 1px solid black;
-  border-right: 1px solid black;
+  color: #333;
 }
 
-#buttons:hover{
-  background-color: #999;
-  cursor: pointer;
+#search-bar:focus {
+  border-color: #ddd;
+  box-shadow: inset 0 1px 1px rgba(0,0,0,.075), 0 0 8px rgba(102, 175, 233, 0.6);
 }
 
 #contacts-list {
@@ -86,6 +64,80 @@ img.profile-img{
 #contacts-list ul {
   padding-left: 0;
 }
+
+.contact-detail {
+  width: 90%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  text-align: left;
+  white-space: nowrap;
+  margin: auto;
+  padding-left: 5px;
+}
+
+.contact-group {
+   background-color: rgba(243, 235, 235, 0.47);
+   color: gray;
+   border-bottom: 1px solid gray;
+   font-family: sans serif;
+   font-size: 1.2em;
+   font-weight: 600;
+   margin-top: 16px;
+   padding-left: 20px;
+}
+
+#contact-name{
+  display: flex;
+  padding: 15px;
+  margin: auto;
+}
+
+#contact-name.true{
+  background-color: white;
+}
+
+#contact-name:hover{
+  background-color: white !important;
+  cursor: pointer;
+}
+
+/*General Styling*/
+
+.buttons{
+  background-color: white;
+  border-radius: 2px;
+  border: 1px solid #ccc;
+  padding-top:5px;
+  padding-bottom: 5px;
+  font-size: 0.8rem;
+  width: 70px;
+}
+
+
+.buttons:hover{
+  /*background-color: #999;
+  cursor: pointer;*/
+  background-color: #e5e5e5;
+  cursor:pointer;
+}
+
+.buttons.tag{
+   background-color: #ccc;
+   cursor:default;
+}
+
+.buttons.add{
+   background-color: RGBA(191, 246, 183, 0.3);
+   width: auto;
+}
+
+.buttons.remove{
+   background-color: RGBA(252, 176, 176, 0.3);
+   width: auto;
+   margin-left: 0;
+}
+
+/*===============Main page Styling===============*/
 
 #main {
 	background-color: white;
@@ -117,6 +169,17 @@ img.profile-img{
   clear: both;
 }
 
+img.side-profile-img {
+  border-radius: 50%;
+  width: 5vh;
+  height: 5vh;
+  float: left;
+}
+
+img.profile-img{
+  border-radius: 50%;
+}
+
 #profile-img {
   /*width: 20vw;*/
   width: 32vh;
@@ -143,12 +206,20 @@ img.profile-img{
   height: 100%;
 }
 
+description.headerstyle {
+  font-size: .8em;
+  margin-right:2px;
+}
+
 #search-bar {
-  margin: 5%;
-  width: 90%;
-  border-radius: 4px;
+  margin: 4%;
+  width: 250px;
+  border-radius: 3px;
   border: 1px solid #ccc;
   color: #333;
+  padding-top: 5px;
+  padding-bottom: 5px;
+  font-size: 0.9em;
 }
 
 #search-bar:focus {
@@ -164,13 +235,24 @@ img.profile-img{
 }
 
 #field input[type="text"]{
-  border-radius: 4px;
+  margin: 2%;
+  width: 250px;
+  border-radius: 3px;
   border: 1px solid #ccc;
+  color: #333;
+  padding-top: 5px;
+  padding-bottom: 5px;
+  font-size: 0.9em;
+  padding-left: 5px;
 }
 
 #field select{
-  border-radius: 4px;
+  border-radius: 3px;
   border: 1px solid #ccc;
+  color: #333;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  font-size: 0.9em;
 }
 
 .contact-detail {
