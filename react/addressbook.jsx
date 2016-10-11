@@ -17,7 +17,7 @@ var AddressBook = React.createClass({
     var tempPersonalSection = ContactParser.createEmptyPersonalSection(this.props.personalDetails);
     return {
       contactsList: [],
-      currentPersonID: -1,
+      selectedIds: [],
       contact: null,
       name: null,
       tempContact: null,
@@ -63,11 +63,12 @@ var AddressBook = React.createClass({
   delete: function() {
     var self = this;
     Addressbook.open(indexedDB).then(function(addrbook) {
-      addrbook.deleteById(self.state.currentPersonID).then((contact) => {
+      var idToDelete = self.state.selectedIds[0];
+      addrbook.deleteById(idToDelete).then((contact) => {
         // display notification banner
-        var conList = ContactParser.deleteContact(self.state.contactsList, self.state.currentPersonID);
+        var conList = ContactParser.deleteContact(self.state.contactsList, idToDelete);
         self.setState({
-          currentPersonID: -1,
+          selectedIds: [],
           contactsList: conList
         });
       });
@@ -125,13 +126,13 @@ var AddressBook = React.createClass({
       var pSection = ContactParser.createEmptyPersonalSection(this.props.personalDetails);
       var conList = this.state.contactsList;
       var name = this.state.name;
-      var id = this.state.currentPersonID;
+      var id = this.state.selectedIds[0];
 
       for (var key in tpSection) {
         if(key == "name" && (name != tpSection[key].content)) {
           name = tpSection[key].content;
           tempContact.name = name;
-          ContactParser.rename(this.state.currentPersonID, name, conList);
+          ContactParser.rename(id, name, conList);
         }
         pSection[key] = tpSection[key];
       }
@@ -251,12 +252,20 @@ var AddressBook = React.createClass({
   },
   setContactID: function(event, id, name) {
     if (event.ctrlKey) {
-      console.log("CTRL");
-      console.trace();
+      var selected = this.state.selectedIds;
+      var index = selected.indexOf(id);
+      if (index == -1) { // selects contact
+        selected.push(id);
+      } else { // deselects contact
+        selected.splice(index, 1);
+      }
+      this.setState({
+        selectedIds: selected
+      });
     } else {
       ContactParser.getContactDetails(id, this);
       this.setState({
-        currentPersonID: id,
+        selectedIds: [id],
         name: name
       });
     }
@@ -291,7 +300,7 @@ var AddressBook = React.createClass({
   renderContactDisplay: function() {
     return (<div>
       <div id="sidebar">
-        <ContactSidebar contactNames={this.state.contactsList} viewContact={this.setContactID} export={this.export} currentID={this.state.currentPersonID}/>
+        <ContactSidebar contactNames={this.state.contactsList} viewContact={this.setContactID} selected={this.state.selectedIds} export={this.export} />
       </div>
       <div id="main">
         <div id="main-header">
@@ -305,7 +314,7 @@ var AddressBook = React.createClass({
     </div>);
   },
   render: function() {
-    if (this.state.currentPersonID == -1) {
+    if (this.state.selectedIds.length == 0) {
       console.log("NO CONTACT VIEW");
       console.trace();
       return this.renderNoContact();

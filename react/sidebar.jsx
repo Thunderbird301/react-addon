@@ -7,7 +7,7 @@ var ContactSidebar = React.createClass({
   import: function() {
   },
   export: function() {
-    if (this.props.currentID) {
+    if (this.props.selected) {
       this.props.export();
     }
   },
@@ -17,7 +17,7 @@ var ContactSidebar = React.createClass({
   renderName: function(contact){
     var className;
 
-    if (contact.id == this.props.currentID) {
+    if (this.props.selected && this.props.selected.indexOf(contact.id) > -1) {
       className = "true";
     } else {
       className = "";
