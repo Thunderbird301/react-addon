@@ -249,12 +249,17 @@ var AddressBook = React.createClass({
       contactsList: contactsList
     });
   },
-  setContactID: function(id, name) {
-    ContactParser.getContactDetails(id, this);
-    this.setState({
-      currentPersonID: id,
-      name: name
-    });
+  setContactID: function(event, id, name) {
+    if (event.ctrlKey) {
+      console.log("CTRL");
+      console.trace();
+    } else {
+      ContactParser.getContactDetails(id, this);
+      this.setState({
+        currentPersonID: id,
+        name: name
+      });
+    }
   },
   editingDisplay: function() {
     if (!this.state.editing) {

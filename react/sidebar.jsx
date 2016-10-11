@@ -11,8 +11,8 @@ var ContactSidebar = React.createClass({
       this.props.export();
     }
   },
-  displayContact: function(contact) {
-    this.props.viewContact(contact.id, contact.name);
+  selectContact: function(event, contact) {
+    this.props.viewContact(event, contact.id, contact.name);
   },
   renderName: function(contact){
     var className;
@@ -24,7 +24,7 @@ var ContactSidebar = React.createClass({
     }
 
     return (
-      <div id="contact-name" className={className} onClick={this.displayContact.bind(null, contact)}>
+      <div id="contact-name" className={className} onClick={(event)=>this.selectContact(event, contact)}>
         <ProfileImage type="sidebar" image={contact.photo}/>
         <li className="contact-detail" key={this.props.contactNames}>{contact.name}</li>
       </div>
