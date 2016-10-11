@@ -38,10 +38,10 @@ Addressbook.prototype = {
   classID:          Components.ID(UUID),
   contractID:       contractID,
 
-/**	
+/**
 * Open connection with db.
 * @returns {Promise} - promise of open connection to db.
-**/	
+**/
   open: function() {
     let addrbook = this;
     let indexedDB = this.indexedDB;
@@ -166,17 +166,33 @@ Addressbook.prototype = {
   },
 
   /**
+  * Return all contacts in db.
+  * @returns {Promise} of an array of all contact objects in the db.
+  **/
+  getAllNameIdAndPhoto: function() {
+    return this._contactRequest("readonly",
+        function(transaction) {
+          return transaction.getAll();
+        })
+    .then(function(rawContacts) {
+      return rawContacts.map(function(rawContact) {
+        return {name: rawContact.name, id: rawContact.uuid, photo: ContactParser.getPhotoURL(rawContact.photo)};
+      });
+    });
+  },
+
+  /**
   * Return a contact.
   * @param id - id of contact required.
   * @return {Promise} of a contact
   **/
   getById: function(id) {
     return this._contactRequest("readonly",
-        function(transaction) { 
-          return  transaction.get(id); 
+        function(transaction) {
+          return  transaction.get(id);
         })
-    .then(function(rawContact) { 
-      return new Contact(rawContact);  
+    .then(function(rawContact) {
+      return new Contact(rawContact);
     });
   },
   /**
@@ -187,12 +203,41 @@ Addressbook.prototype = {
   deleteById: function(id) {
     return this._contactRequest("readwrite",function(transaction) { return  transaction.delete(id); } );
   },
+
   /**
   * Returns all names and IDs in the db.
   * @returns {Promise} - of all names and IDs in db.
   **/
   getNameAndId: function() {
+    return this._contactNameCursor(function(cursor) {
+      return { uuid: cursor.primaryKey, name: cursor.key };
+    });
+  },
 
+  /**
+  * Returns all names and IDs in the db that match the search term
+  * @param {String} string to match against
+  * @returns {Promise} - of all names and IDs in db.
+  **/
+  searchByName: function(search) {
+    return this._contactNameCursor(function(cursor) {
+      // all lower case so case does not matter in search
+      if (cursor.key.toLowerCase().indexOf(search.toLowerCase()) !== -1) {
+        return { uuid: cursor.primaryKey, name: cursor.key };
+      }
+    });
+  },
+
+  /**
+   * A general cursor function that takes a filter function with a single argument of the current
+   * cursor element. Any value returned from the filter function is returned in the promise.
+   *
+   * This is a cursor over the 'name' index
+   *
+   * @param {function} a filter function to choose which items are returned
+   * @returns {Promise} with the value of an array filled with the filtered values
+  **/
+  _contactNameCursor: function(filter) {
     let db = this._db;
 
     return new Promise(function(resolve, reject) {
@@ -217,8 +262,12 @@ Addressbook.prototype = {
       // setup response functions
       request.onsuccess = function(event) {
         var cursor = event.target.result;
+
         if (cursor) {
-          results.push({ uuid: cursor.primaryKey, name: cursor.key });
+          var result = filter(cursor);
+          if (result) {
+            results.push(result);
+          }
           cursor.continue();
         } else {
           resolve(results);
@@ -271,7 +320,7 @@ Addressbook.prototype = {
  * @constructor
  */
 function Contact(rawContact) {
-  this.uuid = rawContact.uuid; 
+  this.uuid = rawContact.uuid;
   this.name = rawContact.name;
   this.photo = rawContact.photo;
   this.jcards = this._convertFromRawJCard(rawContact.jcards);

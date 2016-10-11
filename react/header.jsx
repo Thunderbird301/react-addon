@@ -2,6 +2,9 @@ var Header = React.createClass({
   saveContent(detail) {
     this.props.onUserInput(detail, this.refs[detail].value);
   },
+  saveImage() {
+    this.props.onNewImage(this.imageFile);
+  },
   renderDisplay() {
     return (
       <div id="header">
@@ -22,6 +25,7 @@ var Header = React.createClass({
       <div id="header">
         <div id="profile-img">
           <ProfileImage type="header" image={this.props.image}/>
+          <input id="buttons" type="file" name="profile-picture" accept="image/*" ref={(ref) => this.imageFile = ref} onChange={(evt) => this.saveImage(evt)}/>
         </div>
         <div id="header-text">
           <table id="field">
