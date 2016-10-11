@@ -1,27 +1,30 @@
 /** -------------- SIDEBAR -------------------------*/
 var ContactSidebar = React.createClass({
-  add: function(){
+  add: function() {
   },
-  delete: function(){
+  delete: function() {
   },
-  import: function(){
+  import: function() {
   },
-  export: function(){
+  export: function() {
+    if (this.props.selected) {
+      this.props.export();
+    }
   },
-  displayContact: function(contact) {
-    this.props.viewContact(contact.id, contact.name);
+  selectContact: function(event, contact) {
+    this.props.viewContact(event, contact.id, contact.name);
   },
   renderName: function(contact){
     var className;
 
-    if (contact.id == this.props.currentID) {
+    if (this.props.selected && this.props.selected.indexOf(contact.id) > -1) {
       className = "true";
     } else {
       className = "";
     }
 
     return (
-      <div id="contact-name" className={className} onClick={this.displayContact.bind(null, contact)}>
+      <div id="contact-name" className={className} onClick={(event)=>this.selectContact(event, contact)}>
         <ProfileImage type="sidebar" image={contact.photo}/>
         <li className="contact-detail" key={this.props.contactNames}>{contact.name}</li>
       </div>
