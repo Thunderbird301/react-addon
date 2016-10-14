@@ -8,9 +8,7 @@ var Header = React.createClass({
   renderDisplay() {
     return (
       <div id="header">
-        <div id="profile-img">
-          <ProfileImage type="header" image={this.props.image}/>
-        </div>
+          <ProfileImage type="header" id="profile-img" className="profile-img" image={this.props.image}/>
         <div id="header-text">
           <h3>{this.props.personalDetails.name.content}</h3>
           <h4>{this.props.personalDetails.nickName.content}</h4>
@@ -28,7 +26,7 @@ var Header = React.createClass({
     return (
       <div id="header">
         <div id="profile-img">
-          <ProfileImage type="header" image={this.props.image}/>
+          <ProfileImage type="header" id="profile-img" className="profile-img" image={this.props.image}/>
           <input className="buttons" type="file" name="profile-picture" accept="image/*" ref={(ref) => this.imageFile = ref} onChange={(evt) => this.saveImage(evt)}/>
         </div>
         <div id="header-text">

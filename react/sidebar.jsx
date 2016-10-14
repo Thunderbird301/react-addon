@@ -1,52 +1,23 @@
-/** -------------- SIDEBAR -------------------------*/
-var ContactSidebar = React.createClass({
-  add: function(){
-  },
-  delete: function(){
-  },
-  import: function(){
-  },
-  export: function(){
-  },
-  displayContact: function(contact) {
-    this.props.viewContact(contact.id, contact.name);
-  },
-  renderName: function(contact){
-    var className;
-
-    if (contact.id == this.props.currentID) {
-      className = "true";
-    } else {
-      className = "";
-    }
-
-    return (
-      <div id="contact-name" className={className} onClick={this.displayContact.bind(null, contact)}>
-        <ProfileImage type="sidebar" image={contact.photo}/>
-        <li className="contact-detail" key={this.props.contactNames}>{contact.name}</li>
-      </div>
-    );
-  },
-  render: function() {
-      return (
-          <div>
-            <div id="sidebar-header">
-              <div>
-                <input id="search-bar" type="text" name ="search" placeholder="Search"></input>
-              </div>
-              <span id="sidebar-buttons">
-                <button className="buttons" onClick={this.export}>Export</button>
-                <button className="buttons" onClick={this.import}>Import</button>
-                <button className="buttons" onClick={this.add}>+</button>
-              </span>
-            </div>
-            <br />
-            <div id="contacts-list">
-              <ul>
-                {this.props.contactNames.map(this.renderName)}
-              </ul>
-            </div>
-          </div>
-      );
-  },
-});
+/**
+* @desc Provides a scrollable sidebar of all contacts as well as a locked header
+* to support actions on contacts
+*/
+var ContactSidebar = (props) => (
+  <div>
+    <SidebarHeader add={props.add} export={props.export} import={props.import}/>
+    <br />
+    <div id="contacts-list">
+      <ul>
+        {props.contactNames.map(function(contact) {
+          return <ContactButton
+            contact={contact}
+            image={contact.photo}
+            viewContact={props.viewContact}
+            selected={contact.id == props.currentID}
+            />
+          })
+        }
+      </ul>
+    </div>
+  </div>
+);
