@@ -13,7 +13,7 @@ var ContactSidebar = (props) => (
             contact={contact}
             image={contact.photo}
             viewContact={props.viewContact}
-            selected={contact.id == props.currentID}
+            selected={props.selected && props.selected.indexOf(contact.id) > -1}
             />
           })
         }
