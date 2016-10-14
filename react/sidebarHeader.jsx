@@ -8,9 +8,9 @@ var SidebarHeader = (props) => (
       <input id="search-bar" type="text" name ="search" placeholder="Search"></input>
     </div>
     <span id="sidebar-buttons">
-      <button className="buttons" onClick={this.export}>Export</button>
-      <button className="buttons" onClick={this.import}>Import</button>
-      <button className="buttons" onClick={this.add}>+</button>
+      <button className="buttons" onClick={props.export}>Export</button>
+      <button className="buttons" onClick={props.import}>Import</button>
+      <button className="buttons" onClick={props.add}>+</button>
     </span>
   </div>
 );
