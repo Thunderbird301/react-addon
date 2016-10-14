@@ -135,14 +135,20 @@ var AddressbookUtil = {
           }
         }
 
-        // TODO: check if it already exists and add it?
-
-        // add the contact to the addressbook
-        addressbook.add({
+        return {
           name: name.trim(),
           jcards: [vcard],
           photo: photo
-        });
+        };
+
+      // do another map of the contacts in a sperate loop so
+      // if a single contact fails none of the contacts will be
+      // be inserted into the database
+      }).map(function(contact) {
+        // TODO: check if it already exists and add it?
+
+        // add the contact to the addressbook
+        addressbook.add(contact);
       });
 
       return contactPromises;
