@@ -17,10 +17,12 @@ var ContactField = React.createClass({
     },
     renderDisplay : function() {
         if (this.props.type == "Address") {
+          return (
             <AddressField
               fieldContent={this.props.fieldContent}
               currentOption={this.props.currentOption}
-              />
+            />
+          );
         }
         return (
             <div id="field">

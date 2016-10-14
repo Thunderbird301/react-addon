@@ -38,7 +38,7 @@ var AddressForm = React.createClass({
                     <input type="text" ref={addressFields[0]} placeholder={addressFields[0]} defaultValue={this.props.fieldContent[0]} onChange={this.saveContent} className="form-control"></input>
                 </td>
                 <td>
-                    <button id="buttons" onClick={this.props.remove}>-</button>
+                    <button className="buttons remove" onClick={this.props.remove}>-</button>
                 </td>
             </tr>
             <tr>
