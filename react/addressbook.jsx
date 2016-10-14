@@ -269,7 +269,7 @@ var AddressBook = React.createClass({
   },
   setContactID: function(event, id, name) {
     var selected = this.state.selectedIds;
-    if (event.ctrlKey && selected.length > 0) {
+    if ((event.ctrlKey || event.metaKey) && selected.length > 0) {
       var index = selected.indexOf(id);
       if (index == -1) { // selects contact
         selected.push(id);
