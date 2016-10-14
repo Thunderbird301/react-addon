@@ -9,7 +9,7 @@
 var SidebarHeader = (props) => (
   <div id="sidebar-header">
     <div>
-      <input id="search-bar" type="text" name ="search" placeholder="Search"></input>
+      <input id="search-bar" type="text" name="search" value={props.searchText} placeholder="Search" onChange={(event)=>props.search(event.target.value)}></input>
     </div>
     <span id="sidebar-buttons">
       <button className="buttons" onClick={props.export}>Export</button>
