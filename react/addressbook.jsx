@@ -45,6 +45,9 @@ var AddressBook = React.createClass({
     return {name: "", nickname: "", displayName: "", birthday: ""};
   },
   componentDidMount: function() {
+    this.loadInContacts();
+  },
+  loadInContacts: function() {
     var cSide = this;
     Addressbook.open(indexedDB).then(function(addrbook) {
       addrbook.getAllNameIdAndPhoto().then((contacts) => {
@@ -60,8 +63,9 @@ var AddressBook = React.createClass({
   addContact: function() {
     
   },
-  import: function() {
-    
+  import: function(file) {
+    var self = this;
+    Addressbook.open(indexedDB).then(AddressbookUtil.importContacts).then(self.loadInContacts);
   },
   export: function() {
       var selectedIds = this.state.selectedIds;
