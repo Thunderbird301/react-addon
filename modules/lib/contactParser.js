@@ -71,7 +71,7 @@ ContactParser.getContactDetails = function(uuid, ab) {
 
 ContactParser.updateContact = function(contact, ab) {
   var self = this;
-    Addressbook.open(indexedDB).then(function(addrbook) {
+    return Addressbook.open(indexedDB).then(function(addrbook) {
       addrbook.update(contact).then(function(uuid) {
         ab.setState({photoUrl: self.getPhotoURL(contact.photo)});
       }); // maybe check success here?

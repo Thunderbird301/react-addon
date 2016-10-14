@@ -212,7 +212,10 @@ var AddressBook = React.createClass({
         personalSection: pSection,
         editing: false
       });
-      ContactParser.updateContact(tempContact, this);
+      var self = this;
+      ContactParser.updateContact(tempContact, this).then(function() {
+        self.search(self.state.searchText);
+      });
   },
   cancel: function() {
       var tSections = [];
