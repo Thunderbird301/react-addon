@@ -29,7 +29,7 @@ ContactParser.getPhotoURL = function(photo) {
   return "images/1.jpg";
 }
 
-ContactParser.getContactDetails = function(id, ab) {
+ContactParser.getContactDetails = function(uuid, ab) {
   var self = this;
   var contactSections = this.createEmptyContactSections(ab.props.contactSections);
   var tempContactSections = this.createEmptyContactSections(ab.props.contactSections);
@@ -37,7 +37,7 @@ ContactParser.getContactDetails = function(id, ab) {
   var tempPersonalSection = this.createEmptyPersonalSection(ab.props.personalDetails);
 
   Addressbook.open(indexedDB).then(function(addrbook) {
-    addrbook.getById(id).then(function(contact) {
+    addrbook.getById(uuid).then(function(contact) {
         var con = new Contact(contact.toJSON())
         var tempContact = new Contact(contact.toJSON())
       // Gets contact details
@@ -68,7 +68,7 @@ ContactParser.getContactDetails = function(id, ab) {
 ContactParser.updateContact = function(contact, ab) {
   var self = this;
     Addressbook.open(indexedDB).then(function(addrbook) {
-      addrbook.update(contact).then(function(id) {
+      addrbook.update(contact).then(function(uuid) {
         ab.setState({photoUrl: self.getPhotoURL(contact.photo)});
       }); // maybe check success here?
     });
@@ -158,18 +158,18 @@ ContactParser.updateOption = function(tempContact, property, jCardIndex, option)
   property.setParameter("type", option);
 }
 
-ContactParser.rename = function(id, name, contactsList) {
+ContactParser.rename = function(uuid, name, contactsList) {
   for (var i = 0; i < contactsList.length; i++) {
-    if (contactsList[i].id == id) {
+    if (contactsList[i].uuid == uuid) {
       contactsList[i].name = name;
       return;
     }
   }
 };
 
-ContactParser.deleteContact = function(contactsList, id) {
+ContactParser.deleteContact = function(contactsList, uuid) {
   var index = contactsList.findIndex(function(contact) {
-    return contact.id == id;
+    return contact.uuid == uuid;
   });
   contactsList.splice(index, 1);
   return contactsList;

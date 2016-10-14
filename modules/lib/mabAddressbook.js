@@ -176,7 +176,7 @@ Addressbook.prototype = {
         })
     .then(function(rawContacts) {
       return rawContacts.map(function(rawContact) {
-        return {name: rawContact.name, id: rawContact.uuid, photo: ContactParser.getPhotoURL(rawContact.photo)};
+        return {name: rawContact.name, uuid: rawContact.uuid, photo: ContactParser.getPhotoURL(rawContact.photo)};
       });
     });
   },
@@ -195,6 +195,18 @@ Addressbook.prototype = {
       return new Contact(rawContact);
     });
   },
+
+  /**
+  * Get a photo for a contact
+  * @param id - id of contact required.
+  * @return {Promise} of a contact photo
+  **/
+  getPhotoById: function(id) {
+    return this.getById(id).then(function(rawContact) {
+      return rawContact.photo;
+    });
+  },
+
   /**
   * Delete contact by id
   * @param {Integer} id - id of contact to be deleted.

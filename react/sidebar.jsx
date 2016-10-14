@@ -4,7 +4,7 @@
 */
 var ContactSidebar = (props) => (
   <div>
-    <SidebarHeader add={props.add} export={props.export} import={props.import}/>
+    <SidebarHeader add={props.add} export={props.export} import={props.import} search={props.search} searchText={props.searchText}/>
     <br />
     <div id="contacts-list">
       <ul>
@@ -13,7 +13,7 @@ var ContactSidebar = (props) => (
             contact={contact}
             image={contact.photo}
             viewContact={props.viewContact}
-            selected={props.selected && props.selected.indexOf(contact.id) > -1}
+            selected={props.selected && props.selected.indexOf(contact.uuid) > -1}
             />
           })
         }
