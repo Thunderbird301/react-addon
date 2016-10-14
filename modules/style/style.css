@@ -1,9 +1,15 @@
 /*@import url(resources/buttons.css);*/
 
+body {
+  background-color: white;
+  color: #0f0f0f;
+  margin: 0;
+}
+
 /*Sidebar Styling*/
 
 #sidebar {
-  width: 20vw;
+  width: 25vw;
   height: 100vh;
   min-height: 100px;
   min-width: 100px;
@@ -46,6 +52,9 @@
   border-radius: 4px;
   border: 1px solid #ccc;
   color: #333;
+  padding-top: 5px;
+  padding-bottom: 5px;
+  font-size: 0.9em;
 }
 
 #search-bar:focus {
@@ -152,8 +161,6 @@
   padding-right: 1vw;
 }
 
-/*Added Stuff*/
-
 #main-header {
   height: 35vh;
 }
@@ -192,8 +199,6 @@ img.profile-img{
   width: 29vh;
 }
 
-/*END*/
-
 #header {
   display: flex;
 }
@@ -211,21 +216,7 @@ description.headerstyle {
   margin-right:2px;
 }
 
-#search-bar {
-  margin: 4%;
-  width: 250px;
-  border-radius: 3px;
-  border: 1px solid #ccc;
-  color: #333;
-  padding-top: 5px;
-  padding-bottom: 5px;
-  font-size: 0.9em;
-}
-
-#search-bar:focus {
-  border-color: #ddd;
-  box-shadow: inset 0 1px 1px rgba(0,0,0,.075), 0 0 8px rgba(102, 175, 233, 0.6);
-}
+/*====================Main Fields Page Styling======================*/
 
 #field {
   display: flex;
@@ -256,21 +247,11 @@ description.headerstyle {
 }
 
 .contact-detail {
-    width: 90%;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    text-align: left;
-    white-space: nowrap;
-    margin: auto;
-    padding-left: 5px;
-}
-
-body {
-  background-color: white;
-  color: #0f0f0f;
-  margin: 0;
-}
-
-.circle{
-  border-radius: 50%;
+  width: 90%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  text-align: left;
+  white-space: nowrap;
+  margin: auto;
+  padding-left: 5px;
 }
