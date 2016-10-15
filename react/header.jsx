@@ -7,7 +7,14 @@ var Header = React.createClass({
     this.props.onUserInput(detail, this.refs[detail].value);
   },
   saveImage() {
-    this.props.onNewImage(this.imageFile);
+    console.log(this.imageFile);
+    console.trace();
+    //this.props.onNewImage(this.imageFile);
+  },
+  clickedImage(){
+    console.log("clickedImage");
+    console.trace();
+    this.refs.upload.click();
   },
   renderDisplay() {
     return (
@@ -18,7 +25,7 @@ var Header = React.createClass({
           <h4>{this.props.personalDetails.nickName.content}</h4>
           <h4>{this.props.personalDetails.displayName.content}</h4>
           <h5>{this.props.personalDetails.birthday.content}</h5>
-        
+
           <description className="headerstyle">Tags</description>
           <button className="buttons tag" >Private</button>
           <button className="buttons tag" >Friends</button>
@@ -27,11 +34,14 @@ var Header = React.createClass({
     );
   },
   renderForm() {
+    var click = this.clickedImage.bind(this);
+    //ref={(ref) => this.imageFile = ref}
+     //ref="upload"
     return (
       <div id="header">
         <div id="profile-img">
-          <ProfileImage type="header" id="profile-img" className="profile-img" image={this.props.image}/>
-          <input className="buttons" type="file" name="profile-picture" accept="image/*" ref={(ref) => this.imageFile = ref} onChange={(evt) => this.saveImage(evt)}/>
+          <ProfileImage imageClick={click} type="header" id="profile-img" className="profile-img" image={this.props.image}/>
+          <input className="buttons" type="file" name="profile-picture" accept="image/*" ref="upload" onChange={(evt) => this.saveImage(evt)}/>
         </div>
         <div id="header-text">
           <table id="field">
