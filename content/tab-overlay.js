@@ -52,7 +52,7 @@ reactTabType = {
     }
 
     // TODO: l10n
-    aTab.title = "react";
+    aTab.title = "New Thunderbird Addressbook";
     aTab.browser.loadURI("chrome://react/content/reactTab.xhtml");
 
     this.lastBrowserId++;
