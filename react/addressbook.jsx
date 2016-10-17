@@ -27,7 +27,6 @@ var AddressBook = React.createClass({
       tempContact: null,
       editing: false,
       photoUrl: "images/1.jpg",
-      searchText: "",
       contactSections: contactSections,
       tempContactSections: tempContactSections,
       personalSection: personalSection,
@@ -58,7 +57,7 @@ var AddressBook = React.createClass({
       addrbook.getAllNameIdAndPhoto().then((contacts) => {
         var contactsList = [];
         for(var i = 0; i < contacts.length; i++) {
-          contactsList.push({name: contacts[i].name, uuid: contacts[i].uuid, photo: contacts[i].photo});
+          contactsList.push({name: contacts[i].name, id: contacts[i].id, photo: contacts[i].photo});
         }
         contactsList.sort((a,b) => a.name.toLowerCase() > b.name.toLowerCase());
         cSide.setState({contactsList: contactsList});
@@ -76,7 +75,7 @@ var AddressBook = React.createClass({
       var selectedIds = this.state.selectedIds;
       if (selectedIds.length > 0) {
       Addressbook.open(indexedDB).then(function(addrbook) {
-        Promise.all(selectedIds.map((uuid) => addrbook.getById(uuid))).then(function(contacts) {
+        Promise.all(selectedIds.map((id) => addrbook.getById(id))).then(function(contacts) {
           AddressbookUtil.exportContact(contacts);
         })
       });
@@ -88,33 +87,15 @@ var AddressBook = React.createClass({
   delete: function() {
     var self = this;
     Addressbook.open(indexedDB).then(function(addrbook) {
-      var uuidToDelete = self.state.selectedIds[0];
-      addrbook.deleteById(uuidToDelete).then((contact) => {
+      var idToDelete = self.state.selectedIds[0];
+      addrbook.deleteById(idToDelete).then((contact) => {
         // display notification banner
-        var conList = ContactParser.deleteContact(self.state.contactsList, uuidToDelete);
+        var conList = ContactParser.deleteContact(self.state.contactsList, idToDelete);
         self.setState({
           selectedIds: [],
           contactsList: conList
         });
       });
-    });
-  },
-  search: function(phrase) {
-    var self = this;
-    Addressbook.open(indexedDB).then(function(addrbook) {
-      addrbook.searchByName(phrase).then(function(contacts) {
-        var promises = [];
-        for (var i = 0; i < contacts.length; i++) {
-          var contact = contacts[i];
-          promises.push(Images.getImageForContact(addrbook, contact, contact.uuid));
-        }
-        return Promise.all(promises).then(function() {
-          self.setState({
-            contactsList: contacts,
-            searchText: phrase
-          });
-        });
-      })
     });
   },
   addField: function(index) {
@@ -166,19 +147,19 @@ var AddressBook = React.createClass({
       var pSection = ContactParser.createEmptyPersonalSection(this.props.personalDetails);
       var conList = this.state.contactsList;
       var name = this.state.name;
-      var uuid = this.state.selectedIds[0];
+      var id = this.state.selectedIds[0];
 
       for (var key in tpSection) {
         if(key == "name" && (name != tpSection[key].content)) {
           name = tpSection[key].content;
           tempContact.name = name;
-          ContactParser.rename(uuid, name, conList);
+          ContactParser.rename(id, name, conList);
         }
         pSection[key] = tpSection[key];
       }
 
       var contact = conList.find(function(contact) {
-        return contact.uuid == uuid;
+        return contact.id == id;
       });
       contact.photo = ContactParser.getPhotoURL(tempContact.photo);
 
@@ -212,10 +193,7 @@ var AddressBook = React.createClass({
         personalSection: pSection,
         editing: false
       });
-      var self = this;
-      ContactParser.updateContact(tempContact, this).then(function() {
-        self.search(self.state.searchText);
-      });
+      ContactParser.updateContact(tempContact, this);
   },
   cancel: function() {
       var tSections = [];
@@ -293,12 +271,12 @@ var AddressBook = React.createClass({
       contactsList: contactsList
     });
   },
-  setContactID: function(event, uuid, name) {
+  setContactID: function(event, id, name) {
     var selected = this.state.selectedIds;
     if ((event.ctrlKey || event.metaKey) && selected.length > 0) {
-      var index = selected.indexOf(uuid);
+      var index = selected.indexOf(id);
       if (index == -1) { // selects contact
-        selected.push(uuid);
+        selected.push(id);
       } else { // deselects contact
         selected.splice(index, 1);
       }
@@ -306,9 +284,9 @@ var AddressBook = React.createClass({
         selectedIds: selected
       });
     } else {
-      ContactParser.getContactDetails(uuid, this);
+      ContactParser.getContactDetails(id, this);
       this.setState({
-        selectedIds: [uuid],
+        selectedIds: [id],
         name: name
       });
     }
@@ -338,14 +316,14 @@ var AddressBook = React.createClass({
   renderNoContact: function() {
     return (<div id="sidebar">
       <ContactSidebar contactNames={this.state.contactsList} viewContact={this.setContactID} add={this.addContact} image={this.state.photoUrl}
-        import={this.import} export={this.export} search={this.search} searchText={this.state.searchText}/>
+        import={this.import} export={this.export}/>
     </div>);
   },
   renderContactDisplay: function() {
     return (<div>
       <div id="sidebar">
         <ContactSidebar contactNames={this.state.contactsList} viewContact={this.setContactID} selected={this.state.selectedIds} image={this.state.photoUrl}
-          add={this.addContact} import={this.import} export={this.export} search={this.search} searchText={this.state.searchText}/>
+          add={this.addContact} import={this.import} export={this.export}/>
       </div>
       <div id="main">
         <div id="main-header">
