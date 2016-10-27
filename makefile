@@ -19,7 +19,7 @@ endif
 react: npm modules/react $(LIB)
 xpi: $(NAME_XPI)
 
-$(NAME_XPI): $(XPI_SRC) chrome.manifest  install.rdf
+$(NAME_XPI): $(XPI_SRC) $(LIB) chrome.manifest  install.rdf
 	zip -r $@ $^
 
 npm: node_modules
