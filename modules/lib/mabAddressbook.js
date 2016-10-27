@@ -326,6 +326,18 @@ function Contact(rawContact) {
   this.jcards = this._convertFromRawJCard(rawContact.jcards);
 };
 
+/**
+ * Generates a blank contact
+ *
+ * @returns Contact blank contact with a default name and a single empty jCard
+ */
+Contact.blank = function() {
+  return new Contact({
+    name: "[New Contact]",
+    photo: undefined,
+    jcards: [new ICAL.Component("vcard").toJSON()]
+  });
+};
 
 Contact.prototype = {
 
