@@ -5,8 +5,8 @@
 /** -------------- CONTACT FIELDS -------------------------*/
 
 var ContactField = React.createClass({
-    saveContent: function(content) {
-      this.props.onUserInput(content, this.props.index);
+    saveContent: function(event) {
+      this.props.onUserInput(event.target.value, this.props.index);
     },
     saveOption: function(event) {
         this.props.onUserSelect(event.target.value, this.props.index);
