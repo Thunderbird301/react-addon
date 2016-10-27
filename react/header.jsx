@@ -7,14 +7,11 @@ var Header = React.createClass({
     this.props.onUserInput(detail, this.refs[detail].value);
   },
   saveImage() {
-    console.log(this.imageFile);
-    console.trace();
-    //this.props.onNewImage(this.imageFile);
+    this.props.onNewImage(this.imageFile);
   },
   clickedImage(){
-    console.log("clickedImage");
-    console.trace();
-    this.refs.upload.click();
+    //clicks the input file upload button.
+    this.imageFile.click();
   },
   renderDisplay() {
     return (
@@ -35,13 +32,11 @@ var Header = React.createClass({
   },
   renderForm() {
     var click = this.clickedImage.bind(this);
-    //ref={(ref) => this.imageFile = ref}
-     //ref="upload"
     return (
       <div id="header">
         <div id="profile-img">
-          <ProfileImage imageClick={click} type="header" id="profile-img" className="profile-img" image={this.props.image}/>
-          <input className="buttons" type="file" name="profile-picture" accept="image/*" ref="upload" onChange={(evt) => this.saveImage(evt)}/>
+          <ProfileImage imageClick={click} type="header" id="profile-img" className="profile-img editing" image={this.props.image}/>
+          <input className="buttons upload" type="file" ref={(ref) => this.imageFile = ref} name="profile-picture" accept="image/*" onChange={(evt) => this.saveImage(evt)}/>
         </div>
         <div id="header-text">
           <table id="field">

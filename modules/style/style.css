@@ -126,6 +126,9 @@ body {
   width: 70px;
 }
 
+.buttons.upload{
+  display: none;
+}
 
 .buttons:hover{
   /*background-color: #999;
@@ -201,6 +204,10 @@ img.profile-img{
   border-radius: 50%;
   height: 29vh;
   width: 29vh;
+}
+
+.profile-img.editing:hover{
+  cursor: pointer;
 }
 
 #header {
