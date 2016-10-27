@@ -30,7 +30,8 @@ var AddressBook = React.createClass({
       contactSections: contactSections,
       tempContactSections: tempContactSections,
       personalSection: personalSection,
-      tempPersonalSection: tempPersonalSection
+      tempPersonalSection: tempPersonalSection,
+      modals: {delete: true}
     }
   },
   createEmptyContactSections: function() {
@@ -304,6 +305,11 @@ var AddressBook = React.createClass({
       </div>);
     }
   },
+  renderModals: function() {
+    if(this.state.modals.delete) {
+      return <DeleteModal />;
+    }
+  },
   renderContactSection: function(contactSection) {
     if (this.state.editing) {
     return(<ContactSection type={contactSection.name} options={contactSection.options} editing={this.state.editing} index={contactSection.index} fields={this.state.tempContactSections[contactSection.index].fields}
@@ -331,6 +337,7 @@ var AddressBook = React.createClass({
           {this.editingDisplay()}
         </div>
         <div id="main-contact">
+          {this.renderModals()}
           {this.state.contactSections.map(this.renderContactSection)}
         </div>
       </div>
