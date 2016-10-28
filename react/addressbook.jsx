@@ -30,7 +30,8 @@ var AddressBook = React.createClass({
       contactSections: contactSections,
       tempContactSections: tempContactSections,
       personalSection: personalSection,
-      tempPersonalSection: tempPersonalSection
+      tempPersonalSection: tempPersonalSection,
+      modals: {delete: false}
     }
   },
   createEmptyContactSections: function() {
@@ -50,6 +51,9 @@ var AddressBook = React.createClass({
   },
   componentDidMount: function() {
     this.loadInContacts();
+  },
+  componentWillMount: function() {
+    ReactModal.setAppElement('body');
   },
   loadInContacts: function() {
     var cSide = this;
@@ -83,8 +87,9 @@ var AddressBook = React.createClass({
   },
   edit: function() {
     this.setState({editing: true});
-  },
-  delete: function() {
+  },  
+  deleteContact: function() {
+    this.closeModal('delete');
     var self = this;
     Addressbook.open(indexedDB).then(function(addrbook) {
       var idToDelete = self.state.selectedIds[0];
@@ -291,17 +296,32 @@ var AddressBook = React.createClass({
       });
     }
   },
+  openModal: function(type) {
+    var modals = this.state.modals;
+    modals[type] = true;
+    this.setState({modals: modals});
+  },
+  closeModal: function(type) {
+    var modals = this.state.modals;
+    modals[type] = false;
+    this.setState({modals: modals});
+  },
   editingDisplay: function() {
     if (!this.state.editing) {
       return (<div id="main-buttons">
         <button className="buttons" onClick={this.edit}>Edit</button>
-        <button className="buttons" onClick={this.delete}>Delete</button>
+        <button className="buttons" onClick={this.openModal.bind(null, 'delete')}>Delete</button>
       </div>);
     } else {
       return (<div id="main-buttons">
         <button className="buttons" onClick={this.save}>Save</button>
         <button className="buttons" onClick={this.cancel}>Cancel</button>
       </div>);
+    }
+  },
+  renderModals: function() {
+    if(this.state.modals.delete) {
+      return <DeleteModal name={this.state.name} noDelete={this.closeModal.bind(null, 'delete')} confirmDelete={this.deleteContact} />;
     }
   },
   renderContactSection: function(contactSection) {
@@ -331,6 +351,7 @@ var AddressBook = React.createClass({
           {this.editingDisplay()}
         </div>
         <div id="main-contact">
+          {this.renderModals()}
           {this.state.contactSections.map(this.renderContactSection)}
         </div>
       </div>
