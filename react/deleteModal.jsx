@@ -2,11 +2,12 @@ var DeleteModal = (props) => (
   <ReactModal
   isOpen={true}
   contentLabel="Modal"
+  className="modal"
   >
-    <h1>Are you sure you want to delete {props.name}?</h1>
+    <h2>Are you sure you want to delete <b>{props.name}</b>?</h2>
     <div>
-      <button onClick={props.confirmDelete}>Yes</button>
-      <button onClick={props.noDelete}>No</button>
+      <button className="buttons" onClick={props.confirmDelete}>Yes</button>
+      <button className="buttons" onClick={props.noDelete}>No</button>
     </div>
   </ReactModal>
 );
