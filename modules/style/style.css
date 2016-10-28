@@ -162,9 +162,10 @@ body {
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  border:2px solid #ccc;
-  background-color: RGBA(245, 183, 177,1);
+  border:2px solid #443b3b;
+  background-color: RGBA(255, 191, 191,1);
   text-align:center;
+  color: RGBA(165, 44, 44,1);
   padding:20px;
 }
 
