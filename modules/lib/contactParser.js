@@ -26,58 +26,6 @@ ContactParser.createEmptyPersonalSection = function(details) {
   return pDetails;
 };
 
-ContactParser.getPhotoURL = function(photo) {
-  if (photo) {
-      return URL.createObjectURL(photo)
-  }
-  return "images/1.jpg";
-}
-
-ContactParser.getContactDetails = function(id, ab) {
-  var self = this;
-  var contactSections = this.createEmptyContactSections(ab.props.contactSections);
-  var tempContactSections = this.createEmptyContactSections(ab.props.contactSections);
-  var personalSection = this.createEmptyPersonalSection(ab.props.personalDetails);
-  var tempPersonalSection = this.createEmptyPersonalSection(ab.props.personalDetails);
-
-  Addressbook.open(indexedDB).then(function(addrbook) {
-    addrbook.getById(id).then(function(contact) {
-        var con = new Contact(contact.toJSON())
-        var tempContact = new Contact(contact.toJSON())
-      // Gets contact details
-      for (var j = 0; j <contact.jcards.length; j++) {
-        var details = contact.jcards[j].getAllProperties();
-        var cProps = con.jcards[j].getAllProperties();
-        var tProps = tempContact.jcards[j].getAllProperties();
-        for (var i = 0; i < details.length; i++) {
-          self._parseProperty(details[i], cProps[i], tProps[i], contactSections, tempContactSections, personalSection, tempPersonalSection, j);
-        }
-      }
-      // Gets contact profile image
-      var photoUrl = self.getPhotoURL(contact.photo);
-      // Stores contact information in UI
-      ab.setState({
-        contact: con,
-        tempContact: tempContact,
-        contactSections: contactSections,
-        tempContactSections: tempContactSections,
-        personalSection: personalSection,
-        tempPersonalSection: tempPersonalSection,
-        photoUrl: photoUrl
-      });
-    });
-  });
-};
-
-ContactParser.updateContact = function(contact, ab) {
-  var self = this;
-    Addressbook.open(indexedDB).then(function(addrbook) {
-      addrbook.update(contact).then(function(id) {
-        ab.setState({photoUrl: self.getPhotoURL(contact.photo)});
-      }); // maybe check success here?
-    });
-}
-
 ContactParser._parseProperty = function(property, cProperty, tProperty, cFields, tFields, pField, tpField, jCardIndex) {
   var name = property.name;
   var type = property.getParameter("type");

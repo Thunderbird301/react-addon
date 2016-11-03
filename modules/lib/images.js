@@ -7,3 +7,10 @@ function Images() { };
 Images.handleURLRevoke = function() {
   URL.revokeObjectURL(this.props.image);
 };
+
+Images.getPhotoURL = function(photo) {
+  if (photo) {
+      return URL.createObjectURL(photo)
+  }
+  return "images/1.jpg";
+}
