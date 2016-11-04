@@ -49,11 +49,32 @@ DatabaseConnection.getContactDetails = function(id, ab) {
 };
 
 /**
- * @desc Updates a contact in the database with changed information
+ * @desc Updates a contact in the database with changed information and updates the UI
  * @param {Contact} contact The contact to update
  * @param {AddressBook} ab The addressbook UI component
  */
 DatabaseConnection.updateContact = function(contact, ab) {
+  var pSection = ContactParser.createEmptyPersonalSection(ab.props.personalDetails);
+  var cSections = [];
+  var conList = ab.state.contactsList;
+  var name = ab.state.name;
+  var id = ab.state.selectedIds[0];
+
+  ContactParser.saveContactPersonalDetails(ab.state.tempPersonalSection, pSection,
+    ab.state.tempContact, ab.state.contactsList, name, id);
+  ContactParser.saveContactPhotoToContactsList(conList, ab.state.tempContact, id);
+  var contact = new Contact(ab.state.tempContact.toJSON());
+  ContactParser.saveContactSections(ab.state.tempContactSections, cSections, contact);
+
+  ab.setState({
+    name: name,
+    contactsList: conList,
+    contact: contact,
+    contactSections: cSections,
+    personalSection: pSection,
+    editing: false
+  });
+
   Addressbook.open(indexedDB).then(function(addrbook) {
     addrbook.update(contact).then(function(id) {
       // Updates image in the UI

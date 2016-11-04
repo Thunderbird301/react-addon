@@ -249,7 +249,7 @@ ContactParser.rename = function(id, name, contactsList) {
  * @desc Deletes a contact from the sidebar
  * @param {Array} contactsList The list of contacts displayed on the sidebar
  * @param {Integer} id The id of the contact to be deleted
- * @returns {Array} contactsList - the list of contacts with the desired contact removed
+ * @returns {Array} contactsList The list of contacts with the desired contact removed
  */
 ContactParser.deleteContact = function(contactsList, id) {
   var index = contactsList.findIndex(function(contact) {
@@ -260,6 +260,67 @@ ContactParser.deleteContact = function(contactsList, id) {
 };
 
 // METHODS FOR HELPING WITH SAVING A CONTACT
+
+/**
+ * @desc Saves the contact details from the temporary details for the UI
+ * @param {Array} tpSection The temporary details to save
+ * @param {Array} pSection The permanent details to save to
+ * @param {Contact} tempContact The temporary contact to save
+ * @param {Array} contactsList The list of all contacts
+ * @param {string} name The name of the contact before editing
+ * @param {Integer} id The id of the contact being saved
+ */
+ ContactParser.saveContactPersonalDetails = function(tpSection, pSection, tempContact, contactsList, name, id) {
+   for (var key in tpSection) {
+     if(key == "name" && (name != tpSection[key].content)) {
+       name = tpSection[key].content;
+       tempContact.name = name;
+       this.rename(id, name, contactsList);
+     }
+     pSection[key] = tpSection[key];
+   }
+ };
+
+ /**
+ * @desc Saves the image of a contact to the sidebar/contacts list
+ * @param {Array} contactsList The list of all contacts
+ * @param {Contact} tempContact The temporary contact to save
+ * @param {Integer} id The id of the contact being saved
+ */
+ ContactParser.saveContactPhotoToContactsList = function(contactsList, tempContact, id) {
+   var contact = contactsList.find(function(contact) {
+     return contact.id == id;
+   });
+   contact.photo = Images.getPhotoURL(tempContact.photo);
+ };
+
+/**
+ * @desc Saves the contact sections from the temporary sections for the UI
+ * @param {Array} tSections The temporary sections of the contact to save
+ * @param {Array} cSections The permanent sections of the contact to save to
+ * @param {Array} contact The contact to save
+ */
+ ContactParser.saveContactSections = function(tSections, cSections, contact) {
+   for (var i = 0; i < tSections.length; i++) {
+     var fields = [];
+     for (var j = 0; j < tSections[i].fields.length; j++) {
+       fields.push({
+         currentOption: tSections[i].fields[j].currentOption,
+         content: tSections[i].fields[j].content,
+         fieldID: tSections[i].fields[j].fieldID,
+         jCardIndex: tSections[i].fields[j].jCardIndex,
+         property: this.findCloneProperty(tSections[i].fields[j].property, contact)
+       });
+     }
+     cSections.push({
+       name: tSections[i].name,
+       options: tSections[i].options,
+       fields: fields,
+       index: i,
+       key: tSections[i].key
+     });
+   }
+ };
 
 /**
  * @desc Finds a property within a contact

@@ -68,60 +68,7 @@ var AddressBook = React.createClass({
     ContactParser.removeContactDetail(this.state.tempContact, index, this.state.tempContactSections, fieldID, this)
   },
   save: function() {
-      var tSections = this.state.tempContactSections;
-      var tempContact = this.state.tempContact;
-      var tpSection = this.state.tempPersonalSection;
-      var pSection = ContactParser.createEmptyPersonalSection(this.props.personalDetails);
-      var cSections = [];
-      var conList = this.state.contactsList;
-      var name = this.state.name;
-      var id = this.state.selectedIds[0];
-
-      for (var key in tpSection) {
-        if(key == "name" && (name != tpSection[key].content)) {
-          name = tpSection[key].content;
-          tempContact.name = name;
-          ContactParser.rename(id, name, conList);
-        }
-        pSection[key] = tpSection[key];
-      }
-
-      var contact = conList.find(function(contact) {
-        return contact.id == id;
-      });
-      contact.photo = Images.getPhotoURL(tempContact.photo);
-
-      var contact = new Contact(tempContact.toJSON());
-      for (var i = 0; i < tSections.length; i++) {
-          var fields = [];
-          for (var j = 0; j < tSections[i].fields.length; j++) {
-            fields.push({
-              currentOption: tSections[i].fields[j].currentOption,
-              content: tSections[i].fields[j].content,
-              fieldID: tSections[i].fields[j].fieldID,
-              jCardIndex: tSections[i].fields[j].jCardIndex,
-              property: ContactParser.findCloneProperty(tSections[i].fields[j].property, contact)
-            });
-          }
-          cSections.push({
-            name: tSections[i].name,
-            options: tSections[i].options,
-            fields: fields,
-            index: i,
-            key: tSections[i].key
-          });
-      }
-
-      this.setState({
-        name: name,
-        contactsList: conList,
-        contact: contact,
-        tempContact: tempContact,
-        contactSections: cSections,
-        personalSection: pSection,
-        editing: false
-      });
-      DatabaseConnection.updateContact(tempContact, this);
+    DatabaseConnection.updateContact(this.state.tempContact, this);
   },
   cancel: function() {
       var tSections = [];
