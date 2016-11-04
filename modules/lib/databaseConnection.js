@@ -2,8 +2,17 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
 
+/**
+ * @desc Deals with connecting to the database to retrieve or update information
+ * relating to contacts and providing this information to the UI
+ */
 function DatabaseConnection() { };
 
+/**
+ * @desc Gets a contact from the database by id and provides details to the UI
+ * @param id The id of the contact to retrieve
+ * @param ab The addressbook UI component
+ */
 DatabaseConnection.getContactDetails = function(id, ab) {
   var contactSections = ContactParser.createEmptyContactSections(ab.props.contactSections);
   var tempContactSections = ContactParser.createEmptyContactSections(ab.props.contactSections);
@@ -39,27 +48,44 @@ DatabaseConnection.getContactDetails = function(id, ab) {
   });
 };
 
+/**
+ * @desc Updates a contact in the database with changed information
+ * @param contact The contact to update
+ * @param ab The addressbook UI component
+ */
 DatabaseConnection.updateContact = function(contact, ab) {
   Addressbook.open(indexedDB).then(function(addrbook) {
     addrbook.update(contact).then(function(id) {
+      // Updates image in the UI
       ab.setState({photoUrl: Images.getPhotoURL(contact.photo)});
     }); // maybe check success here?
   });
 }
 
+/**
+ * @desc Loads in the name, id and photo of all contacts in the database and
+ * provides this to the UI
+ * @param ab The addressbook UI component
+ */
 DatabaseConnection.loadInContacts = function(ab) {
   Addressbook.open(indexedDB).then(function(addrbook) {
     addrbook.getAllNameIdAndPhoto().then((contacts) => {
       var contactsList = [];
       for(var i = 0; i < contacts.length; i++) {
+        // Gets name, id and photo per contact
         contactsList.push({name: contacts[i].name, id: contacts[i].id, photo: contacts[i].photo});
       }
+      // Sorts contacts alphabetically
       contactsList.sort((a,b) => a.name.toLowerCase() > b.name.toLowerCase());
       ab.setState({contactsList: contactsList});
     });
   });
 }
 
+/**
+ * @desc Exports contacts with the given ids
+ * @param selectedIds The ids of the contacts to be exported
+ */
 DatabaseConnection.export = function(selectedIds) {
   if (selectedIds.length > 0) {
     Addressbook.open(indexedDB).then(function(addrbook) {
@@ -70,14 +96,18 @@ DatabaseConnection.export = function(selectedIds) {
   }
 }
 
-DatabaseConnection.deleteContact = function(selectedIds, ab) {
+/**
+ * @desc Deletes a contact from the database and the UI
+ * @param selectedIds The ids of the contacts to be exported
+ * @param ab The addressbook UI component
+ */
+DatabaseConnection.deleteContact = function(contact, ab) {
   Addressbook.open(indexedDB).then(function(addrbook) {
-    var idToDelete = selectedIds[0];
-    addrbook.deleteById(idToDelete).then((contact) => {
+    addrbook.deleteById(contact).then(() => {
       // deletes from sidebar
-      var conList = ContactParser.deleteContact(ab.state.contactsList, idToDelete);
+      var conList = ContactParser.deleteContact(ab.state.contactsList, contact);
       ab.setState({
-        selectedIds: [],
+        selectedIds: [], // unselects any selected contacts
         contactsList: conList
       });
     });

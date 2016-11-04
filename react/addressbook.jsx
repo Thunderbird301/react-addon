@@ -15,10 +15,10 @@ var PersonalDetails = ["name", "nickName", "displayName", "birthday"];
 
 var AddressBook = React.createClass({
   getInitialState: function() {
-    var contactSections = ContactParser.createEmptyContactSections(ab.props.contactSections);
-    var tempContactSections = ContactParser.createEmptyContactSections(ab.props.contactSections);
-    var personalSection = ContactParser.createEmptyPersonalSection(ab.props.personalDetails);
-    var tempPersonalSection = ContactParser.createEmptyPersonalSection(ab.props.personalDetails);
+    var contactSections = ContactParser.createEmptyContactSections(this.props.contactSections);
+    var tempContactSections = ContactParser.createEmptyContactSections(this.props.contactSections);
+    var personalSection = ContactParser.createEmptyPersonalSection(this.props.personalDetails);
+    var tempPersonalSection = ContactParser.createEmptyPersonalSection(this.props.personalDetails);
 
     return {
       contactsList: [],
@@ -59,7 +59,7 @@ var AddressBook = React.createClass({
   },
   deleteContact: function() {
     this.closeModal('delete');
-    DatabaseConnection.deleteContact(this.state.selectedIds, this);
+    DatabaseConnection.deleteContact(this.state.selectedIds[0], this);
   },
   addField: function(index) {
       var tempSection = this.state.tempContactSections[index];
@@ -103,11 +103,11 @@ var AddressBook = React.createClass({
       });
   },
   save: function() {
-      var cSections = [];
       var tSections = this.state.tempContactSections;
       var tempContact = this.state.tempContact;
       var tpSection = this.state.tempPersonalSection;
       var pSection = ContactParser.createEmptyPersonalSection(this.props.personalDetails);
+      var cSections = [];
       var conList = this.state.contactsList;
       var name = this.state.name;
       var id = this.state.selectedIds[0];
@@ -195,7 +195,7 @@ var AddressBook = React.createClass({
     var tSections = this.state.tempContactSections;
     tSections[index] = tSection;
     var tempContact = this.state.tempContact;
-    ContactParser.updateValue(tempContact, field.property, field.jCardIndex, newText);
+    ContactParser.updateValue(field.property, newText);
     this.setState({
       tempContactSections: tSections,
       tempContact: tempContact
@@ -205,7 +205,7 @@ var AddressBook = React.createClass({
     var tDetails = this.state.tempPersonalSection;
     tDetails[detail].content = newText;
     var tempContact = this.state.tempContact;
-    ContactParser.updateValue(tempContact, tDetails[detail].property, tDetails[detail].jCardIndex, newText);
+    ContactParser.updateValue(tDetails[detail].property, newText);
     this.setState({
       tempPersonalSection: tDetails,
       tempContact: tempContact
@@ -218,7 +218,7 @@ var AddressBook = React.createClass({
       var tSections = this.state.tempContactSections;
       var tempContact = this.state.tempContact;
       tSections[index] = tSection;
-      ContactParser.updateOption(tempContact, field.property, field.jCardIndex, option);
+      ContactParser.updateOption(field.property, option);
       this.setState({
         tempContactSections: tSections,
         tempContact: tempContact
