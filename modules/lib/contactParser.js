@@ -186,6 +186,43 @@ ContactParser.updatePersonalDetail = function(ab, detail, content) {
 };
 
 /**
+ * @desc Updates the option associated with a property
+ * @param {AddressBook} ab The addressbook UI component
+ * @param {string} option The option to update to
+ * @param {Integer} index The index of the temporary contact section to update
+ * @param {Integer} fieldID The index of the field in the temporary contact section to update
+ */
+ContactParser.updateOption = function(ab, option, index, fieldID) {
+    var tSection = ab.state.tempContactSections[index];
+    var field = tSection.fields[fieldID];
+    field.currentOption = option;
+    var tSections = ab.state.tempContactSections;
+    var tempContact = ab.state.tempContact;
+    tSections[index] = tSection;
+    field.property.setParameter("type", option);
+    ab.setState({
+      tempContactSections: tSections,
+      tempContact: tempContact
+    });
+};
+
+/**
+ * @desc Updates the profile image of a contact
+ * @param {AddressBook} ab The addressbook UI component
+ * @param {Blob} image The new image for the contact
+ */
+ContactParser.updateProfileImage = function(ab, image) {
+  var imageFile = image.files[0];
+  var tempContact = ab.state.tempContact;
+  tempContact.photo = imageFile;
+  var contactsList = ab.state.contactsList;
+  ab.setState({
+    tempContact: tempContact,
+    contactsList: contactsList
+  });
+};
+
+/**
  * @desc Removes a property from a contact
  * @param {Contact} tempContact The temporary contact (for editing purposes) to be modified
  * @param {Integer} tempSectionIndex The index of the temporary section of a contact to add to
@@ -248,15 +285,6 @@ ContactParser.addContactDetail = function(tempContact, tempSectionIndex, tempSec
     tempContact: tempContact
   });
 };
-
-/**
- * @desc Updates the option type of an existing property
- * @param {Property} property The property to be updated
- * @param {string} option The new option type of the property
- */
-ContactParser.updateOption = function(property, option) {
-  property.setParameter("type", option);
-}
 
 // UPDATING UI TO REFLECT CHANGE
 

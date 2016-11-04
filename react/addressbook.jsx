@@ -80,27 +80,10 @@ var AddressBook = React.createClass({
     ContactParser.updatePersonalDetail(this, detail, newText);
   },
   updateOption: function(option, index, fieldID) {
-      var tSection = this.state.tempContactSections[index];
-      var field = tSection.fields[fieldID];
-      field.currentOption = option;
-      var tSections = this.state.tempContactSections;
-      var tempContact = this.state.tempContact;
-      tSections[index] = tSection;
-      ContactParser.updateOption(field.property, option);
-      this.setState({
-        tempContactSections: tSections,
-        tempContact: tempContact
-      });
+    ContactParser.updateOption(this, option, index, fieldID);
   },
   updateProfileImage: function(image) {
-    var imageFile = image.files[0];
-    var tempContact = this.state.tempContact;
-    tempContact.photo = imageFile;
-    var contactsList = this.state.contactsList;
-    this.setState({
-      tempContact: tempContact,
-      contactsList: contactsList
-    });
+    ContactParser.updateProfileImage(this, image);
   },
   setContactID: function(event, id, name) {
     var selected = this.state.selectedIds;
