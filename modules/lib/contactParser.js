@@ -147,12 +147,42 @@ ContactParser._addFieldProperty = function(index, currentOption, content, sectio
 // MODYFING A CONTACT
 
 /**
- * @desc Updates the value of an existing property
- * @param {Property} property The property to be updated
- * @param {string} content The new content of the property
+ * @desc Updates the value of an existing property that is from a contact section
+ * @param {AddressBook} ab The addressbook UI component
+ * @param {Integer} index The index of the temporary contact section to update
+ * @param {Integer} fieldID The index of the field in the temporary contact section to update
+ * @param {string} content The content to update the property with
  */
-ContactParser.updateValue = function(property, content) {
-  property.setValue(content);
+ContactParser.updateContent = function(ab, index, fieldID, content) {
+  var tSection = ab.state.tempContactSections[index];
+  var field = tSection.fields[fieldID];
+  field.content = content;
+  var tSections = ab.state.tempContactSections;
+  tSections[index] = tSection;
+  var tempContact = ab.state.tempContact;
+
+  field.property.setValue(content);
+  ab.setState({
+    tempContactSections: tSections,
+    tempContact: tempContact
+  });
+};
+
+/**
+ * @desc Updates the value of an existing property that is a personal detail
+ * @param {AddressBook} ab The addressbook UI component
+ * @param {string} detail The detail to update
+ * @param {string} content The content to update the property with
+ */
+ContactParser.updatePersonalDetail = function(ab, detail, content) {
+  var tDetails = ab.state.tempPersonalSection;
+  tDetails[detail].content = content;
+  var tempContact = ab.state.tempContact;
+  tDetails[detail].property.setValue(content);
+  ab.setState({
+    tempPersonalSection: tDetails,
+    tempContact: tempContact
+  });
 };
 
 /**

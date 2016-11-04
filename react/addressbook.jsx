@@ -71,30 +71,13 @@ var AddressBook = React.createClass({
     DatabaseConnection.updateContact(this.state.tempContact, this);
   },
   cancel: function() {
-    ContactParser.cancelContactEdit(this);   
+    ContactParser.cancelContactEdit(this);
   },
   updateContent: function(newText, index, fieldID) {
-    var tSection = this.state.tempContactSections[index];
-    var field = tSection.fields[fieldID];
-    field.content = newText;
-    var tSections = this.state.tempContactSections;
-    tSections[index] = tSection;
-    var tempContact = this.state.tempContact;
-    ContactParser.updateValue(field.property, newText);
-    this.setState({
-      tempContactSections: tSections,
-      tempContact: tempContact
-    });
+    ContactParser.updateContent(this, index, fieldID, newText);
   },
   updatePersonalDetail: function(detail, newText) {
-    var tDetails = this.state.tempPersonalSection;
-    tDetails[detail].content = newText;
-    var tempContact = this.state.tempContact;
-    ContactParser.updateValue(tDetails[detail].property, newText);
-    this.setState({
-      tempPersonalSection: tDetails,
-      tempContact: tempContact
-    });
+    ContactParser.updatePersonalDetail(this, detail, newText);
   },
   updateOption: function(option, index, fieldID) {
       var tSection = this.state.tempContactSections[index];
