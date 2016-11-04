@@ -176,7 +176,7 @@ Addressbook.prototype = {
         })
     .then(function(rawContacts) {
       return rawContacts.map(function(rawContact) {
-        return {name: rawContact.name, id: rawContact.uuid, photo: ContactParser.getPhotoURL(rawContact.photo)};
+        return {name: rawContact.name, id: rawContact.uuid, photo: Images.getPhotoURL(rawContact.photo)};
       });
     });
   },
