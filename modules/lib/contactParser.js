@@ -13,7 +13,7 @@ function ContactParser() { };
 
 /**
  * @desc Clears all information about a contact held in the main panel
- * @param contactSections Infomation to clear
+ * @param {Array} contactSections Infomation to clear
  */
 ContactParser.createEmptyContactSections = function(contactSections) {
   var sections = [];
@@ -31,7 +31,7 @@ ContactParser.createEmptyContactSections = function(contactSections) {
 
 /**
  * @desc Clears all information about a contact held in the header
- * @param details Infomation to clear
+ * @param {Array} details Infomation to clear
  */
 ContactParser.createEmptyPersonalSection = function(details) {
   var pDetails = {};
@@ -45,14 +45,14 @@ ContactParser.createEmptyPersonalSection = function(details) {
 
 /**
  * @desc Parses a single property of a contact vCard for the UI
- * @param property The property to parse
- * @param cProperty Contact property in UI
- * @param tProperty Temporary contact property in UI (for editing purposes)
- * @param cSections Contact sections in UI
- * @param tSections Temporary contact sections in UI (for editing purposes)
- * @param pField Personal details of contact fields in UI header
- * @param tpField Temporary personal details of contact fields in UI header (for editing purposes)
- * @param jCardIndex Index of the jCard which the property belongs to
+ * @param {Property} property The property to parse
+ * @param {Array} cProperty Contact property in UI
+ * @param {Array} tProperty Temporary contact property in UI (for editing purposes)
+ * @param {Array} cSections Contact sections in UI
+ * @param {Array} tSections Temporary contact sections in UI (for editing purposes)
+ * @param {Array} pField Personal details of contact fields in UI header
+ * @param {Array} tpField Temporary personal details of contact fields in UI header (for editing purposes)
+ * @param {Integer} jCardIndex Index of the jCard which the property belongs to
  */
 ContactParser._parseProperty = function(property, cProperty, tProperty, cSections, tSections, pField, tpField, jCardIndex) {
   var name = property.name;
@@ -105,13 +105,13 @@ ContactParser._parseProperty = function(property, cProperty, tProperty, cSection
 /**
  * @desc Adds a personal property to the personal and temporary contact fields for
  * the UI header of a contact
- * @param pField Personal details of contact fields in UI header
- * @param tpField Temporary personal details of contact fields in UI header (for editing purposes)
- * @param type The type of personal detail
- * @param jCardIndex Index of the jCard which the detail belongs to
- * @param cProperty Contact property in UI header
- * @param tProperty Temporary contact property in UI header (for editing purposes)
- * @param content The content of the property
+ * @param {Array} pField Personal details of contact fields in UI header
+ * @param {Array} tpField Temporary personal details of contact fields in UI header (for editing purposes)
+ * @param {string} type The type of personal detail
+ * @param {Intger} jCardIndex Index of the jCard which the detail belongs to
+ * @param {Property} cProperty Contact property in UI header
+ * @param {Property} tProperty Temporary contact property in UI header (for editing purposes)
+ * @param {string} content The content of the property
  */
 ContactParser._addPersonalDetail = function(pField, tpField, type, jCardIndex, cProperty, tProperty, content) {
   pField[type].content = content;
@@ -125,12 +125,12 @@ ContactParser._addPersonalDetail = function(pField, tpField, type, jCardIndex, c
 /**
  * @desc Adds a property to the appropriate contact section for
  * displaying the contact in the UI
- * @param index The index of the contact section to add to
- * @param currentOption The option type associated with the property
- * @param content The content of the property
- * @param sections The sections of the contact
- * @param jCardIndex Index of the jCard which the detail belongs to
- * @param property Property to add
+ * @param {Integer} index The index of the contact section to add to
+ * @param {string} currentOption The option type associated with the property
+ * @param {string} content The content of the property
+ * @param {Array} sections The sections of the contact
+ * @param {Integer} jCardIndex Index of the jCard which the detail belongs to
+ * @param {Property} property Property to add
  */
 ContactParser._addFieldProperty = function(index, currentOption, content, sections, jCardIndex, property) {
   var fieldID = sections[index].fields.length;
@@ -148,8 +148,8 @@ ContactParser._addFieldProperty = function(index, currentOption, content, sectio
 
 /**
  * @desc Updates the value of an existing property
- * @param property The property to be updated
- * @param content The new content of the property
+ * @param {Property} property The property to be updated
+ * @param {string} content The new content of the property
  */
 ContactParser.updateValue = function(property, content) {
   property.setValue(content);
@@ -157,9 +157,9 @@ ContactParser.updateValue = function(property, content) {
 
 /**
  * @desc Removes a property from a contact
- * @param tempContact The temporary contact (for editing purposes) to be modified
- * @param property The property to be removed
- * @param jCardIndex The index of the jCard which contains the property to be removed
+ * @param {Contact} tempContact The temporary contact (for editing purposes) to be modified
+ * @param {Property} property The property to be removed
+ * @param {Integer} jCardIndex The index of the jCard which contains the property to be removed
  */
 ContactParser.removeContactDetail = function(tempContact, property, jCardIndex) {
   tempContact.jcards[jCardIndex].removeProperty(property);
@@ -167,10 +167,10 @@ ContactParser.removeContactDetail = function(tempContact, property, jCardIndex) 
 
 /**
  * @desc Adds a new property to a contact
- * @param tempContact The temporary contact (for editing purposes) to be modified
- * @param name The name of the new property
- * @param content The content of the property
- * @param type The option type associated with the property
+ * @param {Contact} tempContact The temporary contact (for editing purposes) to be modified
+ * @param {string} name The name of the new property
+ * @param {string} content The content of the property
+ * @param {string} type The option type associated with the property
  * @returns {Property} property - newly added property
  */
 ContactParser.addContactDetail = function(tempContact, name, content, type) {
@@ -181,8 +181,8 @@ ContactParser.addContactDetail = function(tempContact, name, content, type) {
 
 /**
  * @desc Updates the option type of an existing property
- * @param property The property to be updated
- * @param option The new option type of the property
+ * @param {Property} property The property to be updated
+ * @param {string} option The new option type of the property
  */
 ContactParser.updateOption = function(property, option) {
   property.setParameter("type", option);
@@ -192,9 +192,9 @@ ContactParser.updateOption = function(property, option) {
 
 /**
  * @desc Renames a contact on the sidebar
- * @param id The id of the contact to be renamed
- * @param name The new name of the contact
- * @param contactsList The list of contacts displayed on the sidebar
+ * @param {Integer} id The id of the contact to be renamed
+ * @param {string} name The new name of the contact
+ * @param {Array} contactsList The list of contacts displayed on the sidebar
  */
 ContactParser.rename = function(id, name, contactsList) {
   for (var i = 0; i < contactsList.length; i++) {
@@ -207,8 +207,8 @@ ContactParser.rename = function(id, name, contactsList) {
 
 /**
  * @desc Deletes a contact from the sidebar
- * @param contactsList The list of contacts displayed on the sidebar
- * @param id The id of the contact to be deleted
+ * @param {Array} contactsList The list of contacts displayed on the sidebar
+ * @param {Integer} id The id of the contact to be deleted
  * @returns {Array} contactsList - the list of contacts with the desired contact removed
  */
 ContactParser.deleteContact = function(contactsList, id) {
@@ -223,8 +223,8 @@ ContactParser.deleteContact = function(contactsList, id) {
 
 /**
  * @desc Finds a property within a contact
- * @param property The property to find
- * @param contact The contact to search through
+ * @param {Property} property The property to find
+ * @param {Contact} contact The contact to search through
  * @returns {Property} property - the identical found property
  */
 ContactParser.findCloneProperty = function(property, contact) {
@@ -240,8 +240,9 @@ ContactParser.findCloneProperty = function(property, contact) {
 
 /**
  * @desc Checks if two properties are identical
- * @param element The property to check
- * @param index The index of the other property
+ * @this Array of properties
+ * @param {Property} element The property to check
+ * @param {Integer} index The index of the other property
  */
 ContactParser.equals = function(element, index) {
   if(Array.isArray(element)) {

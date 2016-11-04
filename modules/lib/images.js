@@ -9,7 +9,7 @@ function Images() { };
 
 /**
 * @desc Revokes a URL given for an image
-* @param photo The image to revoke a URL for
+* @param {Blob} photo The image to revoke a URL for
 **/
 Images.handleURLRevoke = function(photo) {
   URL.revokeObjectURL(photo);
@@ -17,7 +17,7 @@ Images.handleURLRevoke = function(photo) {
 
 /**
 * @desc Gets a URL to a photo if it exists, or provides a default contact image
-* @param photo The image to get a URL for
+* @param {Blob} photo The image to get a URL for
 **/
 Images.getPhotoURL = function(photo) {
   if (photo) {

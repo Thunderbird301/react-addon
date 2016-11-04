@@ -10,8 +10,8 @@ function DatabaseConnection() { };
 
 /**
  * @desc Gets a contact from the database by id and provides details to the UI
- * @param id The id of the contact to retrieve
- * @param ab The addressbook UI component
+ * @param {Integer} id The id of the contact to retrieve
+ * @param {AddressBook} ab The addressbook UI component
  */
 DatabaseConnection.getContactDetails = function(id, ab) {
   var contactSections = ContactParser.createEmptyContactSections(ab.props.contactSections);
@@ -50,8 +50,8 @@ DatabaseConnection.getContactDetails = function(id, ab) {
 
 /**
  * @desc Updates a contact in the database with changed information
- * @param contact The contact to update
- * @param ab The addressbook UI component
+ * @param {Contact} contact The contact to update
+ * @param {AddressBook} ab The addressbook UI component
  */
 DatabaseConnection.updateContact = function(contact, ab) {
   Addressbook.open(indexedDB).then(function(addrbook) {
@@ -65,7 +65,7 @@ DatabaseConnection.updateContact = function(contact, ab) {
 /**
  * @desc Loads in the name, id and photo of all contacts in the database and
  * provides this to the UI
- * @param ab The addressbook UI component
+ * @param {AddressBook} ab The addressbook UI component
  */
 DatabaseConnection.loadInContacts = function(ab) {
   Addressbook.open(indexedDB).then(function(addrbook) {
@@ -84,7 +84,7 @@ DatabaseConnection.loadInContacts = function(ab) {
 
 /**
  * @desc Exports contacts with the given ids
- * @param selectedIds The ids of the contacts to be exported
+ * @param {Integer[]} selectedIds The ids of the contacts to be exported
  */
 DatabaseConnection.export = function(selectedIds) {
   if (selectedIds.length > 0) {
@@ -98,8 +98,8 @@ DatabaseConnection.export = function(selectedIds) {
 
 /**
  * @desc Deletes a contact from the database and the UI
- * @param selectedIds The ids of the contacts to be exported
- * @param ab The addressbook UI component
+ * @param {Integer[]} selectedIds The ids of the contacts to be exported
+ * @param {AddressBook} ab The addressbook UI component
  */
 DatabaseConnection.deleteContact = function(contact, ab) {
   Addressbook.open(indexedDB).then(function(addrbook) {
