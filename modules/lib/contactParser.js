@@ -323,6 +323,29 @@ ContactParser.deleteContact = function(contactsList, id) {
  };
 
 /**
+ * @desc Cancels the editing of a contact and resets the temporary fields to
+ * the original set of fields.
+ * @param {AddressBook} ab The addressbook UI component
+ */
+ ContactParser.cancelContactEdit = function(ab) {
+   var tSections = [];
+   var cSections = ab.state.contactSections;
+   var tpSection = this.createEmptyPersonalSection(ab.props.personalDetails);
+   var pSection = ab.state.personalSection;
+   var contact = ab.state.contact;
+   var tempContact = new Contact(contact.toJSON());
+   this.saveContactSections(cSections, tSections, tempContact);
+   this.saveContactPersonalDetails(pSection, tpSection, contact, ab.state.contactsList, ab.state.name, ab.state.selectedIds[0]);
+
+   ab.setState({
+     tempContactSections: tSections,
+     tempPersonalSection: tpSection,
+     editing: false,
+     tempContact: tempContact
+   });
+ }
+
+/**
  * @desc Finds a property within a contact
  * @param {Property} property The property to find
  * @param {Contact} contact The contact to search through

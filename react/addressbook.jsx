@@ -71,34 +71,7 @@ var AddressBook = React.createClass({
     DatabaseConnection.updateContact(this.state.tempContact, this);
   },
   cancel: function() {
-      var tSections = [];
-      var cSections = this.state.contactSections;
-      var contact = this.state.contact;
-      var tempContact = new Contact(contact.toJSON());
-      for (var i = 0; i < cSections.length; i++) {
-        var fields = [];
-        for (var j = 0; j < cSections[i].fields.length; j++) {
-          fields.push({
-            currentOption: cSections[i].fields[j].currentOption,
-            content: cSections[i].fields[j].content,
-            fieldID: cSections[i].fields[j].fieldID,
-            jCardIndex: cSections[i].fields[j].jCardIndex,
-            property: ContactParser.findCloneProperty(cSections[i].fields[j].property, tempContact)
-          });
-        }
-          tSections.push({
-            name: cSections[i].name,
-            options: cSections[i].options,
-            fields: fields,
-            index: i,
-            key: cSections[i].key
-          });
-      }
-      this.setState({
-        tempContactSections: tSections,
-        editing: false,
-        tempContact: tempContact
-      });
+    ContactParser.cancelContactEdit(this);   
   },
   updateContent: function(newText, index, fieldID) {
     var tSection = this.state.tempContactSections[index];
