@@ -62,45 +62,10 @@ var AddressBook = React.createClass({
     DatabaseConnection.deleteContact(this.state.selectedIds[0], this);
   },
   addField: function(index) {
-      var tempSection = this.state.tempContactSections[index];
-      var content = "";
-      if(tempSection.name == "Address"){
-        content = [];
-        for(var i = 0; i < 5; i++) {
-            content.push("");
-        }
-      }
-      var fieldID = tempSection.fields.length;
-      var tempContact = this.state.tempContact;
-      var property = ContactParser.addContactDetail(tempContact, tempSection.key, content, tempSection.options[0]);
-      tempSection.fields.push({
-          currentOption: tempSection.options[0],
-          content: content,
-          fieldID: fieldID,
-          jCardIndex: 0,
-          property: property
-      });
-      var tempSections = this.state.tempContactSections;
-      tempSections[index] = tempSection;
-
-      this.setState({
-        tempContactSections: tempSections,
-        tempContact: tempContact
-      });
+    ContactParser.addContactDetail(this.state.tempContact, index, this.state.tempContactSections, this);
   },
   removeField: function(index, fieldID) {
-      var tSection = this.state.tempContactSections[index];
-      var field = tSection.fields.splice(fieldID, 1)[0];
-      var tempSections = this.state.tempContactSections;
-      tempSections[index] = tSection;
-
-      var tempContact = this.state.tempContact;
-      ContactParser.removeContactDetail(tempContact, field.property, field.jCardIndex);
-
-      this.setState({
-        tempContactSections: tempSections,
-        tempContact: tempContact
-      });
+    ContactParser.removeContactDetail(this.state.tempContact, index, this.state.tempContactSections, fieldID, this)
   },
   save: function() {
       var tSections = this.state.tempContactSections;

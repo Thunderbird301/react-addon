@@ -158,25 +158,65 @@ ContactParser.updateValue = function(property, content) {
 /**
  * @desc Removes a property from a contact
  * @param {Contact} tempContact The temporary contact (for editing purposes) to be modified
- * @param {Property} property The property to be removed
- * @param {Integer} jCardIndex The index of the jCard which contains the property to be removed
+ * @param {Integer} tempSectionIndex The index of the temporary section of a contact to add to
+ * @param {Array} tempSections All sections of the contact
+ * @param {Integer} propertyID The id of the property to be removed
+ * @param {AddressBook} ab The addressbook UI component
  */
-ContactParser.removeContactDetail = function(tempContact, property, jCardIndex) {
-  tempContact.jcards[jCardIndex].removeProperty(property);
+ContactParser.removeContactDetail = function(tempContact, tempSectionIndex, tempSections, propertyID, ab) {
+  // Removes property from UI
+  var tempSection = tempSections[tempSectionIndex];
+  var field = tempSection.fields.splice(propertyID, 1)[0];
+  tempSections[tempSectionIndex] = tempSection;
+
+  // Removes property from contact
+  tempContact.jcards[field.jCardIndex].removeProperty(field.property);
+
+  ab.setState({
+    tempContactSections: tempSections,
+    tempContact: tempContact
+  });
 };
 
 /**
  * @desc Adds a new property to a contact
  * @param {Contact} tempContact The temporary contact (for editing purposes) to be modified
- * @param {string} name The name of the new property
- * @param {string} content The content of the property
- * @param {string} type The option type associated with the property
- * @returns {Property} property - newly added property
+ * @param {Integer} tempSectionIndex The index of the temporary section of a contact to add to
+ * @param {Array} tempSections All sections of the contact
+ * @param {AddressBook} ab The addressbook UI component
  */
-ContactParser.addContactDetail = function(tempContact, name, content, type) {
+ContactParser.addContactDetail = function(tempContact, tempSectionIndex, tempSections, ab) {
+  // Sets content
+  var tempSection = tempSections[tempSectionIndex];
+  var content = "";
+  if(tempSection.name == "Address"){
+    content = [];
+    for(var i = 0; i < 5; i++) {
+        content.push("");
+    }
+  }
+
+  // Adds property to contact
+  var name = tempSection.key;
+  var type = tempSection.options[0];
   var property = tempContact.jcards[0].addPropertyWithValue(name, content);
   property.setParameter("type", type);
-  return property;
+
+  // Adds property to contact in UI
+  var fieldID = tempSection.fields.length;
+  tempSection.fields.push({
+      currentOption: type,
+      content: content,
+      fieldID: fieldID,
+      jCardIndex: 0,
+      property: property
+  });
+  tempSections[tempSectionIndex] = tempSection;
+
+  ab.setState({
+    tempContactSections: tempSections,
+    tempContact: tempContact
+  });
 };
 
 /**
