@@ -7,7 +7,7 @@ LIB = $(SRC:react/%.jsx=modules/react/%.js)
 all: react xpi
 
 modules/react:
-	mkdir -p $(@D)
+	mkdir -p $@
 
 modules/react/%.js: react/%.jsx
 ifeq (, $(shell which node ))
